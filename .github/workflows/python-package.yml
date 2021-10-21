@@ -31,6 +31,9 @@ jobs:
     - name: venv
       run: |
         mk PYTHON_VERSION=${{matrix.python-version}} venv
+    - name: fixup-mk
+      run: |
+        pip${{matrix.python-version}} install vmklib --force-reinstall
     - name: lint
       run: |
         mk PYTHON_VERSION=${{matrix.python-version}} python-lint
