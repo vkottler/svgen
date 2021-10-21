@@ -1,0 +1,36 @@
+default_target: "groups-all"
+
+params:
+  project: "svgen"
+  python_version: "3.8"
+  entry: "svgen"
+
+includes:
+- "config/includes/python.yaml"
+- "config/includes/help.yaml"
+
+configs:
+- "local/configs"
+
+variables:
+- "local/variables"
+
+templates:
+- "local/templates"
+
+compiles:
+- name: "local"
+
+renders:
+- name: "README.md"
+  output_dir: "."
+  dependencies:
+  - "compiles-local"
+  - "commands-help"
+  - "renders-python_readme_header.md"
+
+groups:
+- name: "all"
+  dependencies:
+  - "groups-python"
+  - "renders-README.md"

@@ -1,0 +1,15 @@
+.*_cache
+build
+venv*
+*.egg-info
+dist
+__pycache__
+datazen-out
+*.pyc
+.coverage
+htmlcov
+.*.env
+*.pyi
+*-stubs
+coverage*.xml
+tags
