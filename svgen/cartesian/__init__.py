@@ -75,8 +75,14 @@ class Point(NamedTuple):
         return sqrt(run * run + rise * rise)
 
 
+def to_center(point: Point) -> Point:
+    """Convert an existing point to one that is definitely a 'center' type."""
+
+    return Point(point.x, point.y, True)
+
+
 DEFAULT = Point()
-DEFAULT_CENTER = Point(center=True)
+DEFAULT_CENTER = to_center(DEFAULT)
 
 
 def distance(point_a: Point, point_b: Point = DEFAULT) -> float:
