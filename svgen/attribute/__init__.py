@@ -9,6 +9,13 @@ from abc import ABC, abstractmethod
 class Attribute(ABC):
     """An interface for an XML-style attribute."""
 
+    def __eq__(self, other: object) -> bool:
+        """Determine if two attributes are the same."""
+
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return self.key == other.key and self.value == other.value
+
     @property
     @abstractmethod
     def key(self) -> str:
@@ -28,3 +35,36 @@ class Attribute(ABC):
     @abstractmethod
     def decode(key: str, value: str) -> "Attribute":
         """Create this attribute from a string."""
+
+
+class SimpleAttribute(Attribute):
+    """A simple, concrete implementation for attribute."""
+
+    def __init__(self, name: str, value: str) -> None:
+        """
+        Construct a simple attribute, one with just a key (name) and value.
+        """
+
+        self.name = name
+        self._value = value
+
+    @property
+    def key(self) -> str:
+        """Get the string key for this attribute."""
+
+        return self.name
+
+    @property
+    def value(self) -> str:
+        """Get the string value for this attribute."""
+
+        return self._value
+
+    @staticmethod
+    def decode(key: str, value: str) -> Attribute:
+        """Create this attribute from a string."""
+
+        return SimpleAttribute(key, value)
+
+
+XMLNS = SimpleAttribute("xmlns", "http://www.w3.org/2000/svg")

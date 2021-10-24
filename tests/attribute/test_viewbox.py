@@ -19,6 +19,8 @@ def test_viewbox_basic():
     key = "viewBox"
     val = "0 0 100 100"
     box = ViewBox.decode(key, val)
+    assert box == ViewBox.decode(key, val)
+    assert box.__eq__(5) is NotImplemented
 
     assert box.center == Point(50, 50)
     assert box.key == key

@@ -60,7 +60,7 @@ class ViewBox(Attribute):
         return self.data.center
 
     @staticmethod
-    def decode(key: str, value: str) -> "Attribute":
+    def decode(key: str, value: str) -> Attribute:
         """Create this attribute from a string."""
 
         assert key == "viewBox"

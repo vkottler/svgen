@@ -5,7 +5,7 @@ svgen - Common interfaces and assets for SVG elements.
 # built-in
 from io import StringIO
 import os
-from typing import List
+from typing import Dict, List
 
 # internal
 from svgen.attribute import Attribute
@@ -21,16 +21,23 @@ class Element:
         name: str,
         content: str = "",
         attributes: List[Attribute] = None,
+        children: List["Element"] = None,
     ) -> None:
         """Construct a new SVG element."""
 
         if attributes is None:
             attributes = []
+        if children is None:
+            children = []
 
         self.name = name
         self.content = content
-        self.attributes = attributes
-        self.children: List[Element] = []
+
+        self.attributes: Dict[str, Attribute] = {}
+        for attr in attributes:
+            self.attributes[attr.key] = attr
+
+        self.children: List[Element] = children
 
     def closing(self, indent: int = 0) -> str:
         """Create a string to close this element."""
@@ -55,7 +62,7 @@ class Element:
         if newlines:
             output.write(indent_str)
 
-        attrs = " ".join(x.encode(quote) for x in self.attributes)
+        attrs = " ".join(x.encode(quote) for x in self.attributes.values())
         output.write(f"<{self.name}")
         if attrs:
             output.write(f" {attrs}")
