@@ -17,9 +17,14 @@ class Attribute(ABC):
         return self.key == other.key and self.value == other.value
 
     @property
-    @abstractmethod
     def key(self) -> str:
         """Get the string key for this attribute."""
+
+        if hasattr(self, "name"):
+            return getattr(self, "name")
+
+        key = type(self).__name__
+        return key[0].lower() + key[1:]
 
     @property
     @abstractmethod
@@ -47,12 +52,6 @@ class SimpleAttribute(Attribute):
 
         self.name = name
         self._value = value
-
-    @property
-    def key(self) -> str:
-        """Get the string key for this attribute."""
-
-        return self.name
 
     @property
     def value(self) -> str:
