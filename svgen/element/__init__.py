@@ -18,13 +18,16 @@ class Element:
 
     def __init__(
         self,
-        name: str,
+        name: str = None,
         content: str = "",
         attributes: List[Attribute] = None,
         children: List["Element"] = None,
     ) -> None:
         """Construct a new SVG element."""
 
+        if name is None:
+            name = type(self).__name__
+            name = name[0].lower() + name[1:]
         if attributes is None:
             attributes = []
         if children is None:

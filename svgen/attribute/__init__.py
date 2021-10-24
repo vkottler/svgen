@@ -12,7 +12,7 @@ class Attribute(ABC):
     def __eq__(self, other: object) -> bool:
         """Determine if two attributes are the same."""
 
-        if not isinstance(other, self.__class__):
+        if not isinstance(other, type(self)):
             return NotImplemented
         return self.key == other.key and self.value == other.value
 

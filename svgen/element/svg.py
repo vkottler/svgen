@@ -1,5 +1,5 @@
 """
-svgen - A module for the svg element.
+svgen - A module for the 'svg' element.
 """
 
 # built-in
@@ -20,4 +20,4 @@ class Svg(Element):
         attrs: List[Attribute] = [viewbox]
         if document:
             attrs.append(XMLNS)
-        super().__init__("svg", "", attrs)
+        super().__init__(attributes=attrs)

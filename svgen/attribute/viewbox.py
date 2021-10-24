@@ -1,5 +1,5 @@
 """
-svgen - A module for the viewBox attribute.
+svgen - A module for the 'viewBox' attribute.
 """
 
 # built-in
