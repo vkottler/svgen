@@ -29,12 +29,24 @@ class PointAttrs(NamedTuple):
         return float(self.y.value)
 
 
+class Translation(NamedTuple):
+    """A definition of a translation in a Cartesian coordinate system."""
+
+    dx: float = float()
+    dy: float = float()
+
+
 class Point(NamedTuple):
     """A definition of a point in a Cartesian coordinate system."""
 
-    x: float = 0.0
-    y: float = 0.0
+    x: float = float()
+    y: float = float()
     center: bool = False
+
+    def translate(self, move: Translation) -> "Point":
+        """Move a point by a given translation."""
+
+        return Point(self.x + move.dx, self.y + move.dy, self.center)
 
     @property
     def x_attr(self) -> SimpleAttribute:
@@ -83,6 +95,7 @@ def to_center(point: Point) -> Point:
 
 DEFAULT = Point()
 DEFAULT_CENTER = to_center(DEFAULT)
+UNITY: float = 1.0
 
 
 def distance(point_a: Point, point_b: Point = DEFAULT) -> float:

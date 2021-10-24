@@ -3,11 +3,18 @@ svgen - A module for interacting with circular entities.
 """
 
 # built-in
+from math import isclose
 from typing import NamedTuple
 
 # internal
 from svgen.attribute import SimpleAttribute
-from svgen.cartesian import DEFAULT_CENTER, Point, PointAttrs
+from svgen.cartesian import (
+    DEFAULT_CENTER,
+    Point,
+    Translation,
+    PointAttrs,
+    UNITY,
+)
 
 
 class CircleAttrs(NamedTuple):
@@ -47,3 +54,22 @@ class Circle(NamedTuple):
         """Get the 'radius' and 'center' attributes for this circle."""
 
         return CircleAttrs(self.radius_attr, self.center_attrs)
+
+    def translate(self, move: Translation) -> "Circle":
+        """Move this circle by a given translation."""
+
+        return Circle(self.radius, self.center.translate(move))
+
+    def scale(self, scale: float = UNITY) -> "Circle":
+        """Scale this circle's radius."""
+
+        return Circle(self.radius * scale, self.center)
+
+    def __eq__(self, other: object) -> bool:
+        """Determine if this circle is equivalent to another."""
+
+        if not isinstance(other, Circle):
+            return NotImplemented
+        return (
+            isclose(self.radius, other.radius) and self.center == other.center
+        )

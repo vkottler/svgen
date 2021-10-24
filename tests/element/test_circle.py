@@ -7,7 +7,7 @@ from pytest import approx
 
 # module under test
 from svgen.attribute.viewbox import ViewBox
-from svgen.cartesian import Point
+from svgen.cartesian import Point, DEFAULT_CENTER, Translation, to_center
 from svgen.cartesian.circle import Circle as CartCircle
 from svgen.element.circle import Circle, centered
 
@@ -38,3 +38,22 @@ def test_circle_centered():
     circle = centered(box)
     assert approx(circle.raw.radius, 25)
     assert circle.raw.center == Point(50, 25)
+
+
+def test_circle_mutate():
+    """Test the correctness of various circle mutations."""
+
+    circle = Circle(CartCircle(5.0))
+    assert circle.center == DEFAULT_CENTER
+    assert approx(circle.radius, 5)
+
+    # Scale the circle.
+    assert circle.scale(0.5) == Circle(CartCircle(2.5))
+
+    # Move the circle.
+    assert circle.translate(Translation(1.0, 1.0)) == Circle(
+        CartCircle(5.0, to_center(Point(1.0, 1.0)))
+    )
+
+    assert circle.raw.__eq__(5) is NotImplemented
+    assert circle.__eq__(5) is NotImplemented
