@@ -8,6 +8,7 @@ from typing import List
 
 # internal
 from svgen.attribute import Attribute, SimpleAttribute
+from svgen.attribute.viewbox import ViewBox
 from svgen.cartesian import UNITY, Translation
 from svgen.cartesian.rectangle import Rectangle
 from svgen.element import Element
@@ -83,3 +84,19 @@ class Rect(Element):
             and isclose(self.radius_x, other.radius_x)
             and isclose(self.radius_y, other.radius_y)
         )
+
+
+def centered(
+    box: ViewBox, width_scale: float = UNITY, height_scale: float = UNITY
+) -> Rect:
+    """From a viewBox, created a centered-and-scaled rectangle."""
+
+    dimensions = box.dimensions.scale(width_scale, height_scale)
+    delta_x = (box.dimensions.width - dimensions.width) / 2.0
+    delta_y = (box.dimensions.height - dimensions.height) / 2.0
+    Translation(delta_x, delta_y)
+    return Rect(
+        Rectangle(
+            dimensions, box.origin.translate(Translation(delta_x, delta_y))
+        )
+    )

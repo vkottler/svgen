@@ -8,6 +8,7 @@ from typing import NamedTuple
 # internal
 from svgen.attribute import Attribute
 from svgen.cartesian import Point
+from svgen.cartesian.rectangle import Dimensions
 
 
 class ViewBoxData(NamedTuple):
@@ -37,6 +38,18 @@ class ViewBox(Attribute):
         """Construct a new viewBox."""
 
         self.data = ViewBoxData(min_x, min_y, width, height)
+
+    @property
+    def dimensions(self) -> Dimensions:
+        """Get this viewBox's dimensions."""
+
+        return Dimensions(float(self.data.width), float(self.data.height))
+
+    @property
+    def origin(self) -> Point:
+        """Get this viewBox's origin."""
+
+        return Point(float(self.data.min_x), float(self.data.min_y))
 
     @property
     def key(self) -> str:

@@ -65,5 +65,6 @@ def centered(box: ViewBox, radius_scale: float = UNITY) -> Circle:
     """
 
     radius = float(min(box.data.width, box.data.width))
-    radius *= radius_scale
-    return Circle(CartCircle(radius, to_center(box.center)))
+    return Circle(
+        CartCircle(radius, to_center(box.center)).scale(radius_scale)
+    )

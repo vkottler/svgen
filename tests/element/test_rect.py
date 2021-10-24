@@ -6,7 +6,8 @@ svgen - Test the 'element.rect' module.
 from pytest import approx
 
 # module under test
-from svgen.element.rect import Rect
+from svgen.attribute.viewbox import ViewBox
+from svgen.element.rect import Rect, centered
 from svgen.cartesian import Translation, Point
 from svgen.cartesian.rectangle import Rectangle, Dimensions
 
@@ -44,3 +45,13 @@ def test_rect_mutate():
     )
 
     assert full_rect.rect.scale_whole(0.5) == half_rect.rect
+
+
+def test_rect_centered():
+    """Test that a rectangle centered in a viewBox is created correctly."""
+
+    box = ViewBox(0, 0, 100, 100)
+    rect = centered(box, 0.5, 0.5)
+    assert approx(rect.dimensions.width, 50)
+    assert approx(rect.dimensions.height, 50)
+    assert rect.location == Point(25, 25)
