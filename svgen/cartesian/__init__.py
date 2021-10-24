@@ -34,18 +34,25 @@ class Point(NamedTuple):
 
     x: float = 0.0
     y: float = 0.0
+    center: bool = False
 
     @property
     def x_attr(self) -> SimpleAttribute:
         """Get the 'x' attribute for this point."""
 
-        return SimpleAttribute("x", str(self.x))
+        attr = "x"
+        if self.center:
+            attr = "c" + attr
+        return SimpleAttribute(attr, str(self.x))
 
     @property
     def y_attr(self) -> SimpleAttribute:
         """Get the 'y' attribute for this point."""
 
-        return SimpleAttribute("y", str(self.y))
+        attr = "y"
+        if self.center:
+            attr = "c" + attr
+        return SimpleAttribute(attr, str(self.y))
 
     @property
     def attrs(self) -> PointAttrs:
@@ -69,6 +76,7 @@ class Point(NamedTuple):
 
 
 DEFAULT = Point()
+DEFAULT_CENTER = Point(center=True)
 
 
 def distance(point_a: Point, point_b: Point = DEFAULT) -> float:
