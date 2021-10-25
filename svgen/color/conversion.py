@@ -2,8 +2,11 @@
 svgen - A module for converting colors from some form to some other.
 """
 
+# built-in
+from math import isclose
+
 # internal
-from svgen.color.hsl import Hsl
+from svgen.color.hsl import Hsl, hsl
 from svgen.color.rgb import Rgb, rgb
 
 
@@ -47,3 +50,32 @@ def hsl_to_rgb(color: Hsl) -> Rgb:
         round((green + common) * 255.0),
         round((blue + common) * 255.0),
     )
+
+
+def rgb_to_hsl(color: Rgb) -> Hsl:
+    """Convert an rgb color to an hsl color."""
+
+    red = color.red.ratio
+    green = color.green.ratio
+    blue = color.blue.ratio
+
+    cmax = max(red, green, blue)
+    cmin = min(red, green, blue)
+    delta = cmax - cmin
+
+    hue = 0.0
+    if not isclose(delta, 0.0):
+        if cmax == red:
+            hue = 60.0 * (((green - blue) / delta) % 6.0)
+        elif cmax == green:
+            hue = 60.0 * ((blue - red) / delta + 2.0)
+        else:
+            hue = 60.0 * ((red - green) / delta + 4.0)
+
+    light = (cmax + cmin) / 2.0
+
+    saturation = 0.0
+    if not isclose(delta, 0.0):
+        saturation = delta / (1.0 - abs(2.0 * light - 1.0))
+
+    return hsl(round(hue), saturation, light)

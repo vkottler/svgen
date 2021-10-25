@@ -23,6 +23,12 @@ class RgbPrimitive(int):
 
         return f"{int(self):X}"
 
+    @property
+    def ratio(self) -> float:
+        """Get this color as a ratio between 0 and 1."""
+
+        return float(self) / 255.0
+
 
 class Rgb(NamedTuple):
     """A definition of an rgb color."""

@@ -38,7 +38,7 @@ class PercentPrimitive(int):
     def ratio(self) -> float:
         """Get this percentage as a ratio between 0 and 1."""
 
-        return float(int(self)) / 100.0
+        return float(self) / 100.0
 
 
 class Hsl(NamedTuple):
