@@ -34,6 +34,12 @@ class PercentPrimitive(int):
 
         return f"{int(self)}%"
 
+    @property
+    def ratio(self) -> float:
+        """Get this percentage as a ratio between 0 and 1."""
+
+        return float(int(self)) / 100.0
+
 
 class Hsl(NamedTuple):
     """A definition of an hsl color."""
@@ -52,10 +58,10 @@ class Hsl(NamedTuple):
         """Get an hsl color from a constructor string."""
 
         value = value.strip()
-        assert value.startswith("hsl(")
-        assert value.endswith(")")
-        value = value.replace("hsl(", "")
-        value = value.replace(")", "")
+        if value.startswith("hsl("):
+            value = value.replace("hsl(", "")
+        if value.endswith(")"):
+            value = value.replace(")", "")
         colors = [x.strip() for x in value.split(",")]
         assert len(colors) == 3
         colors[1] = colors[1].replace("%", "")
@@ -72,6 +78,6 @@ def hsl(hue: int, saturation: float, lightness: float) -> Hsl:
 
     return Hsl(
         DegreePrimitive(hue),
-        PercentPrimitive(int(saturation * 100.0)),
-        PercentPrimitive(int(lightness * 100.0)),
+        PercentPrimitive(round(saturation * 100.0)),
+        PercentPrimitive(round(lightness * 100.0)),
     )

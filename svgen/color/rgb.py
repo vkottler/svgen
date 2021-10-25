@@ -60,10 +60,10 @@ class Rgb(NamedTuple):
         """Get an rgb color from a constructor string."""
 
         value = value.strip()
-        assert value.startswith("rgb(")
-        assert value.endswith(")")
-        value = value.replace("rgb(", "")
-        value = value.replace(")", "")
+        if value.startswith("rgb("):
+            value = value.replace("rgb(", "")
+        if value.endswith(")"):
+            value = value.replace(")", "")
         colors = [x.strip() for x in value.split(",")]
         assert len(colors) == 3
         return Rgb(
