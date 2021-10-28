@@ -202,8 +202,10 @@ class Color(NamedTuple):
     def from_ctor(cls, value: str) -> "Color":
         """Create a color from an hsl or rgb constructor string."""
 
-        if value.lower() in CSS_COLORS:
-            return cls.from_hex(CSS_COLORS[value])
+        # Check if this is a canonical color.
+        lower = value.lower()
+        if lower in CSS_COLORS:
+            return cls.from_hex(CSS_COLORS[lower])
 
         assert "rgb" in value or "hsl" in value
         if "rgb" in value:
