@@ -1,3 +1,4 @@
+---
 default_target: "groups-all"
 
 params:
@@ -6,31 +7,31 @@ params:
   entry: "svgen"
 
 includes:
-- "config/includes/python.yaml"
-- "config/includes/help.yaml"
+  - "config/includes/python.yaml"
+  - "config/includes/help.yaml"
 
 configs:
-- "local/configs"
+  - "local/configs"
 
 variables:
-- "local/variables"
+  - "local/variables"
 
 templates:
-- "local/templates"
+  - "local/templates"
 
 compiles:
-- name: "local"
+  - name: "local"
 
 renders:
-- name: "README.md"
-  output_dir: "."
-  dependencies:
-  - "compiles-local"
-  - "commands-help"
-  - "renders-python_readme_header.md"
+  - name: "README.md"
+    output_dir: "."
+    dependencies:
+      - "compiles-local"
+      - "commands-help"
+      - "renders-python_readme_header.md"
 
 groups:
-- name: "all"
-  dependencies:
-  - "groups-python"
-  - "renders-README.md"
+  - name: "all"
+    dependencies:
+      - "groups-python"
+      - "renders-README.md"

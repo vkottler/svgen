@@ -8,7 +8,7 @@ $(error target this Makefile with 'mk', not '$(MAKE)' ($(MK_INFO)))
 endif
 ###############################################################################
 
-.PHONY: all edit clean
+.PHONY: all edit clean yaml
 
 .DEFAULT_GOAL := all
 
@@ -17,3 +17,5 @@ all: $(DZ_PREFIX)sync
 edit: $(PY_PREFIX)edit
 
 clean: $(PY_PREFIX)clean $(DZ_PREFIX)clean
+
+yaml: $(YAML_PREFIX)lint-local $(YAML_PREFIX)lint-manifest.yaml
