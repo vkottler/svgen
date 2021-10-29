@@ -7,6 +7,7 @@ from typing import NamedTuple, List
 
 # internal
 from svgen.attribute import Attribute
+from svgen.color import Color
 
 
 class CssProperty(NamedTuple):
@@ -80,6 +81,11 @@ class Style(Attribute):
                 result = result and prop == other_props[idx]
 
         return result
+
+    def add_color(self, color: Color, prop: str = "fill") -> None:
+        """Set a style property to a color."""
+
+        self.properties.append(CssProperty(prop, str(color)))
 
     @property
     def value(self) -> str:

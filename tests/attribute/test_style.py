@@ -4,6 +4,7 @@ svgen - Test the 'attribute.style' module.
 
 # module under test
 from svgen.attribute.style import Style, CssProperty
+from svgen.color import Color
 
 
 def test_style_basic():
@@ -28,3 +29,4 @@ def test_style_basic():
     assert style.__eq__(5) is NotImplemented
 
     assert Style.decode("style", style.value) == style
+    style.add_color(Color.from_ctor("purple"))
