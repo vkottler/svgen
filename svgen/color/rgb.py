@@ -93,7 +93,6 @@ class Rgb(NamedTuple):
         """Get an rgb color from a constructor string."""
 
         value = value.strip()
-
         if value.startswith("rgb"):
             value = value[3:]
             if value.startswith("a"):

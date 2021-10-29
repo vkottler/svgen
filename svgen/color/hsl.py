@@ -7,6 +7,9 @@ svgen - Common interfaces for hsl colors. See also:
 # built-in
 from typing import NamedTuple
 
+# internal
+from svgen.color.alpha import Alpha, DEFAULT
+
 
 class DegreePrimitive(int):
     """
@@ -47,29 +50,48 @@ class Hsl(NamedTuple):
     hue: DegreePrimitive
     saturation: PercentPrimitive
     lightness: PercentPrimitive
+    alpha: Alpha = DEFAULT
 
     def __str__(self) -> str:
         """Convert this hsl color to a string."""
 
-        return f"hsl({self.hue}, {self.saturation}, {self.lightness})"
+        if self.alpha == DEFAULT:
+            return f"hsl({self.hue}, {self.saturation}, {self.lightness})"
+        return (
+            f"hsla({self.hue}, {self.saturation}, "
+            f"{self.lightness}, {self.alpha})"
+        )
 
     @staticmethod
     def from_ctor(value: str) -> "Hsl":
         """Get an hsl color from a constructor string."""
 
         value = value.strip()
-        if value.startswith("hsl("):
-            value = value.replace("hsl(", "")
+        if value.startswith("hsl"):
+            value = value[3:]
+            if value.startswith("a"):
+                value = value[1:]
+
+        if value.startswith("("):
+            value = value[1:]
         if value.endswith(")"):
-            value = value.replace(")", "")
+            value = value[:-1]
+
         colors = [x.strip() for x in value.split(",")]
-        assert len(colors) == 3
+        assert len(colors) == 3 or len(colors) == 4
+
+        # Parse the alpha value if present.
+        alpha = DEFAULT
+        if len(colors) == 4:
+            alpha = Alpha(float(colors[3]))
+
         colors[1] = colors[1].replace("%", "")
         colors[2] = colors[2].replace("%", "")
         return Hsl(
             DegreePrimitive(int(colors[0])),
             PercentPrimitive(int(colors[1])),
             PercentPrimitive(int(colors[2])),
+            alpha,
         )
 
 
@@ -80,4 +102,15 @@ def hsl(hue: int, saturation: float, lightness: float) -> Hsl:
         DegreePrimitive(hue),
         PercentPrimitive(round(saturation * 100.0)),
         PercentPrimitive(round(lightness * 100.0)),
+    )
+
+
+def hsla(hue: int, saturation: float, lightness: float, alpha: float) -> Hsl:
+    """Create a new hsl color with a transparency value."""
+
+    return Hsl(
+        DegreePrimitive(hue),
+        PercentPrimitive(round(saturation * 100.0)),
+        PercentPrimitive(round(lightness * 100.0)),
+        Alpha(alpha),
     )
