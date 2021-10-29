@@ -1,0 +1,40 @@
+"""
+svgen - A module for working with number primitives.
+"""
+
+# built-in
+from typing import Union
+
+
+def css_number_to_ratio(val: Union[float, int, str]) -> float:
+    """
+    Given a few possible types of input, return a ratio between 0.0 and 1.0.
+    """
+
+    float_val = float()
+
+    # Expect: a ratio between 0.0 and 1.0.
+    if isinstance(val, float):
+        float_val = val
+
+    # Expect: a string ending with '%' and starting with a number between 0
+    # and 100.
+    elif isinstance(val, str):
+        val = val.strip()
+
+        # Assume the value is a percentage.
+        if val.endswith("%"):
+            val = val.replace("%", "")
+            float_val = float(int(val)) / 100.0
+
+        # Assume the value is a hex String.
+        elif len(val) <= 2:
+            float_val = float(int(val, 16)) / 255.0
+
+    # Expect: an integer between 0 and 255.
+    elif isinstance(val, int):
+        float_val = float(val) / 255.0
+
+    # Normalize the result to a ratio between 0.0 and 1.0.
+    float_val = max(float_val, 0.0)
+    return min(float_val, 1.0)

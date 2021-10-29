@@ -7,6 +7,9 @@ svgen - Common interfaces for rgb colors. See also:
 # built-in
 from typing import NamedTuple
 
+# internal
+from svgen.color.alpha import Alpha, DEFAULT
+
 
 class RgbPrimitive(int):
     """An integer type for rgb values."""
@@ -36,6 +39,7 @@ class Rgb(NamedTuple):
     red: RgbPrimitive
     green: RgbPrimitive
     blue: RgbPrimitive
+    alpha: Alpha = DEFAULT
 
     def __str__(self) -> str:
         """Get this color as a hex string."""
@@ -48,17 +52,35 @@ class Rgb(NamedTuple):
 
         return f"rgb({int(self.red)}, {int(self.green)}, {int(self.blue)})"
 
+    @property
+    def rgba(self) -> str:
+        """Get this color as an 'rgba' constructor."""
+
+        return (
+            f"rgba({int(self.red)}, {int(self.green)}, "
+            f"{int(self.blue)}, {self.alpha})"
+        )
+
     @staticmethod
     def from_hex(value: str) -> "Rgb":
         """Get an rgb color from a hex string."""
 
-        value = value.replace("#", "")
         value = value.strip()
-        assert len(value) == 6
+        if value.startswith("#"):
+            value = value[1:]
+
+        assert len(value) == 6 or len(value) == 8
+
+        # Parse the alpha value if present.
+        alpha = DEFAULT
+        if len(value) == 8:
+            alpha = Alpha(value[6:8])
+
         return Rgb(
             RgbPrimitive(int(value[0:2], 16)),
             RgbPrimitive(int(value[2:4], 16)),
             RgbPrimitive(int(value[4:6], 16)),
+            alpha,
         )
 
     @staticmethod
@@ -66,16 +88,30 @@ class Rgb(NamedTuple):
         """Get an rgb color from a constructor string."""
 
         value = value.strip()
-        if value.startswith("rgb("):
-            value = value.replace("rgb(", "")
+
+        if value.startswith("rgb"):
+            value = value[3:]
+            if value.startswith("a"):
+                value = value[1:]
+
+        if value.startswith("("):
+            value = value[1:]
         if value.endswith(")"):
-            value = value.replace(")", "")
+            value = value[:-1]
+
         colors = [x.strip() for x in value.split(",")]
-        assert len(colors) == 3
+        assert len(colors) == 3 or len(colors) == 4
+
+        # Parse the alpha value if present.
+        alpha = DEFAULT
+        if len(colors) == 4:
+            alpha = Alpha(colors[3])
+
         return Rgb(
             RgbPrimitive(int(colors[0])),
             RgbPrimitive(int(colors[1])),
             RgbPrimitive(int(colors[2])),
+            alpha,
         )
 
 
@@ -83,3 +119,14 @@ def rgb(red: int, green: int, blue: int) -> Rgb:
     """Create a new RGB color."""
 
     return Rgb(RgbPrimitive(red), RgbPrimitive(green), RgbPrimitive(blue))
+
+
+def rgba(red: int, green: int, blue: int, alpha: float) -> Rgb:
+    """Create a new RGB color with a transparency value."""
+
+    return Rgb(
+        RgbPrimitive(red),
+        RgbPrimitive(green),
+        RgbPrimitive(blue),
+        Alpha(alpha),
+    )
