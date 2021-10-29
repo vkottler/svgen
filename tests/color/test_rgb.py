@@ -38,5 +38,7 @@ def test_rgba_basic():
     assert color.rgba == "rgba(128, 128, 128, 0.25)"
 
     assert Rgb.from_hex("#80808040") == color
+    assert color.alpha.hex_str == "3F"
+    assert Rgb.from_hex(str(color)) == color
 
     assert isclose(css_number_to_ratio(255), 1.0)

@@ -44,7 +44,12 @@ class Rgb(NamedTuple):
     def __str__(self) -> str:
         """Get this color as a hex string."""
 
-        return f"#{self.red}{self.green}{self.blue}"
+        result = f"#{self.red}{self.green}{self.blue}"
+
+        # Add the alpha contents if relevant.
+        if self.alpha != DEFAULT:
+            result += self.alpha.hex_str
+        return result
 
     @property
     def rgb(self) -> str:

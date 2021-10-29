@@ -25,6 +25,12 @@ class Alpha(float):
 
         return super().__new__(cls, css_number_to_ratio(val))
 
+    @property
+    def hex_str(self) -> str:
+        """Convert this alpha value to a hex string."""
+
+        return f"{int(float(self) * 255.0):X}"
+
 
 # Provide a default that has no transparency.
 DEFAULT = Alpha(1.0)
