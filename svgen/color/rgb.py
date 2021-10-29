@@ -9,6 +9,7 @@ from typing import NamedTuple
 
 # internal
 from svgen.color.alpha import Alpha, DEFAULT
+from svgen.color.numbers import parse_ctor
 
 
 class RgbPrimitive(int):
@@ -92,18 +93,7 @@ class Rgb(NamedTuple):
     def from_ctor(value: str) -> "Rgb":
         """Get an rgb color from a constructor string."""
 
-        value = value.strip()
-        if value.startswith("rgb"):
-            value = value[3:]
-            if value.startswith("a"):
-                value = value[1:]
-
-        if value.startswith("("):
-            value = value[1:]
-        if value.endswith(")"):
-            value = value[:-1]
-
-        colors = [x.strip() for x in value.split(",")]
+        colors = parse_ctor(value, "rgb", "a")
         assert len(colors) == 3 or len(colors) == 4
 
         # Parse the alpha value if present.

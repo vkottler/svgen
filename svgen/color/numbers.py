@@ -3,7 +3,7 @@ svgen - A module for working with number primitives.
 """
 
 # built-in
-from typing import Union
+from typing import Union, List
 
 
 def css_number_to_ratio(val: Union[float, int, str]) -> float:
@@ -38,3 +38,23 @@ def css_number_to_ratio(val: Union[float, int, str]) -> float:
     # Normalize the result to a ratio between 0.0 and 1.0.
     float_val = max(float_val, 0.0)
     return min(float_val, 1.0)
+
+
+def parse_ctor(
+    value: str, prefix: str, suffix: str = None, sep: str = ","
+) -> List[str]:
+    """Parse individual arguments out of some color constructor."""
+
+    value = value.strip()
+    if value.startswith(prefix):
+        value = value[len(prefix) :]
+        if suffix is not None and value.startswith(suffix):
+            value = value[len(suffix) :]
+
+    # Remove braces.
+    if value.startswith("("):
+        value = value[1:]
+    if value.endswith(")"):
+        value = value[:-1]
+
+    return [x.strip() for x in value.split(sep)]

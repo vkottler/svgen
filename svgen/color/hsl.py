@@ -9,6 +9,7 @@ from typing import NamedTuple
 
 # internal
 from svgen.color.alpha import Alpha, DEFAULT
+from svgen.color.numbers import parse_ctor
 
 
 class DegreePrimitive(int):
@@ -66,18 +67,7 @@ class Hsl(NamedTuple):
     def from_ctor(value: str) -> "Hsl":
         """Get an hsl color from a constructor string."""
 
-        value = value.strip()
-        if value.startswith("hsl"):
-            value = value[3:]
-            if value.startswith("a"):
-                value = value[1:]
-
-        if value.startswith("("):
-            value = value[1:]
-        if value.endswith(")"):
-            value = value[:-1]
-
-        colors = [x.strip() for x in value.split(",")]
+        colors = parse_ctor(value, "hsl", "a")
         assert len(colors) == 3 or len(colors) == 4
 
         # Parse the alpha value if present.
