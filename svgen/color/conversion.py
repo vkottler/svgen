@@ -6,8 +6,8 @@ svgen - A module for converting colors from some form to some other.
 from math import isclose
 
 # internal
-from svgen.color.hsl import Hsl, hsl
-from svgen.color.rgb import Rgb, rgb
+from svgen.color.hsl import Hsl, hsla
+from svgen.color.rgb import Rgb, rgba
 
 
 def hsl_to_rgb(color: Hsl) -> Rgb:
@@ -45,10 +45,11 @@ def hsl_to_rgb(color: Hsl) -> Rgb:
         blue = x
     # pylint: enable=invalid-name
 
-    return rgb(
+    return rgba(
         round((red + common) * 255.0),
         round((green + common) * 255.0),
         round((blue + common) * 255.0),
+        float(color.alpha),
     )
 
 
@@ -78,4 +79,4 @@ def rgb_to_hsl(color: Rgb) -> Hsl:
     if not isclose(delta, 0.0):
         saturation = delta / (1.0 - abs(2.0 * light - 1.0))
 
-    return hsl(round(hue), saturation, light)
+    return hsla(round(hue), saturation, light, float(color.alpha))

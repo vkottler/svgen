@@ -8,6 +8,18 @@ from svgen.color.hsl import hsl, Hsl
 from svgen.color.rgb import rgb, Rgb
 
 
+def test_hsla_to_rgba_basic():
+    """Test that the hsla to rgba conversion works."""
+
+    # Arbitrary.
+    assert rgb_to_hsl(Rgb.from_ctor("241, 153, 85, 0.25")) == Hsl.from_ctor(
+        "26, 85%, 64%, 0.25"
+    )
+    assert rgb_to_hsl(Rgb.from_ctor("82, 30, 82")) == Hsl.from_ctor(
+        "300, 46%, 22%"
+    )
+
+
 def test_hsl_to_rgb_basic():
     """Test that the hsl to rgb conversion works."""
 

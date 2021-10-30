@@ -27,6 +27,10 @@ def css_number_to_ratio(val: Union[float, int, str]) -> float:
             val = val.replace("%", "")
             float_val = float(int(val)) / 100.0
 
+        # Assume the value is a float.
+        elif "." in val:
+            float_val = float(val)
+
         # Assume the value is a hex String.
         elif len(val) <= 2:
             float_val = float(int(val, 16)) / 255.0
