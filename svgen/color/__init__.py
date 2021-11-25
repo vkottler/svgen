@@ -3,13 +3,12 @@ svgen - A module for working with colors.
 """
 
 # built-in
-from typing import NamedTuple, Dict
+from typing import Dict, NamedTuple
 
 # internal
-from svgen.color.conversion import rgb_to_hsl, hsl_to_rgb
+from svgen.color.conversion import hsl_to_rgb, rgb_to_hsl
 from svgen.color.hsl import Hsl
 from svgen.color.rgb import Rgb
-
 
 CSS_COLORS: Dict[str, str] = {
     # CSS Level 1

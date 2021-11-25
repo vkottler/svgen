@@ -3,7 +3,7 @@ svgen - A module for working with number primitives.
 """
 
 # built-in
-from typing import Union, List
+from typing import List, Union
 
 
 def css_number_to_ratio(val: Union[float, int, str]) -> float:

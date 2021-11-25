@@ -3,7 +3,7 @@ svgen - Test the 'attribute.style' module.
 """
 
 # module under test
-from svgen.attribute.style import Style, CssProperty
+from svgen.attribute.style import CssProperty, Style
 from svgen.color import Color
 
 

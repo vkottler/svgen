@@ -1,7 +1,7 @@
 # =====================================
 # generator=datazen
-# version=1.9.0
-# hash=bde9e276cefb35a79064f9876f4b239d
+# version=1.9.4
+# hash=a2daeab9d81c0c89ff1f3b5f9397dcc7
 # =====================================
 
 """
@@ -9,11 +9,13 @@ svgen - Package definition for distribution.
 """
 
 # third-party
-from vmklib.setup import setup
+try:
+    from vmklib.setup import setup
+except (ImportError, ModuleNotFoundError):
+    from svgen_bootstrap.setup import setup  # type: ignore
 
 # internal
-from svgen import PKG_NAME, VERSION, DESCRIPTION
-
+from svgen import DESCRIPTION, PKG_NAME, VERSION
 
 author_info = {
     "name": "Vaughn Kottler",
@@ -26,7 +28,6 @@ pkg_info = {
     "version": VERSION,
     "description": DESCRIPTION,
     "versions": [
-        "3.6",
         "3.7",
         "3.8",
         "3.9",

@@ -1,7 +1,7 @@
 # =====================================
 # generator=datazen
-# version=1.9.0
-# hash=4af63c897342640e20843fd00da12b29
+# version=1.9.4
+# hash=bbb256bf54dfa67a8f25ae69c9c056d9
 # =====================================
 
 """
@@ -16,8 +16,8 @@ import sys
 from typing import List
 
 # internal
-from svgen import VERSION, DESCRIPTION
-from svgen.app import entry, add_app_args
+from svgen import DESCRIPTION, VERSION
+from svgen.app import add_app_args, entry
 
 
 def main(argv: List[str] = None) -> int:

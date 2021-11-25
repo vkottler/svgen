@@ -4,8 +4,8 @@ svgen - Test the 'svgen.color.conversion' module.
 
 # module under test
 from svgen.color.conversion import hsl_to_rgb, rgb_to_hsl
-from svgen.color.hsl import hsl, Hsl
-from svgen.color.rgb import rgb, Rgb
+from svgen.color.hsl import Hsl, hsl
+from svgen.color.rgb import Rgb, rgb
 
 
 def test_hsla_to_rgba_basic():

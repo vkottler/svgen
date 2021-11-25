@@ -6,7 +6,7 @@ svgen - A module for the 'svg' element.
 from typing import List
 
 # internal
-from svgen.attribute import Attribute, XMLNS
+from svgen.attribute import XMLNS, Attribute
 from svgen.attribute.viewbox import ViewBox
 from svgen.element import Element
 

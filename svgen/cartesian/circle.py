@@ -10,10 +10,10 @@ from typing import NamedTuple
 from svgen.attribute import SimpleAttribute
 from svgen.cartesian import (
     DEFAULT_CENTER,
-    Point,
-    Translation,
-    PointAttrs,
     UNITY,
+    Point,
+    PointAttrs,
+    Translation,
 )
 
 

@@ -3,8 +3,8 @@ svgen - Test the 'element' module.
 """
 
 # module under test
-from svgen.element import Element
 from svgen.attribute.viewbox import ViewBox
+from svgen.element import Element
 
 
 def test_element_basic():

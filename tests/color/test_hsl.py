@@ -3,7 +3,7 @@ svgen - Test the 'svgen.color.hsl' module.
 """
 
 # module under test
-from svgen.color.hsl import hsl, Hsl, DegreePrimitive, hsla
+from svgen.color.hsl import DegreePrimitive, Hsl, hsl, hsla
 
 
 def test_hsl_basic():

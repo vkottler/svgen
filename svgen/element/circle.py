@@ -8,7 +8,7 @@ from typing import List
 # internal
 from svgen.attribute import Attribute
 from svgen.attribute.viewbox import ViewBox
-from svgen.cartesian import to_center, UNITY, Translation, Point
+from svgen.cartesian import UNITY, Point, Translation, to_center
 from svgen.cartesian.circle import Circle as CartCircle
 from svgen.element import Element
 

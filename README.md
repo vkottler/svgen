@@ -1,8 +1,8 @@
 <!--
     =====================================
     generator=datazen
-    version=1.9.0
-    hash=69da09631af001385f02330cd799759b
+    version=1.9.4
+    hash=22efa71e7669fb4e5ebc5354c8f87b98
     =====================================
 -->
 
@@ -17,7 +17,7 @@
 # Command-line Options
 
 ```
-$ ./venv3.8/bin/svgen -h
+$ ./venv3.7/bin/svgen -h
 
 usage: svgen [-h] [--version] [-v] [-C DIR]
 

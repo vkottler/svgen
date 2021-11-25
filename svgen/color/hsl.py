@@ -8,7 +8,7 @@ svgen - Common interfaces for hsl colors. See also:
 from typing import NamedTuple
 
 # internal
-from svgen.color.alpha import Alpha, DEFAULT
+from svgen.color.alpha import DEFAULT, Alpha
 from svgen.color.numbers import parse_ctor
 
 

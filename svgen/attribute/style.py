@@ -3,7 +3,7 @@ svgen - A module for the 'style' attribute.
 """
 
 # built-in
-from typing import NamedTuple, List
+from typing import List, NamedTuple
 
 # internal
 from svgen.attribute import Attribute

@@ -8,7 +8,7 @@ from typing import NamedTuple
 
 # internal
 from svgen.attribute import SimpleAttribute
-from svgen.cartesian import DEFAULT, Point, Translation, UNITY
+from svgen.cartesian import DEFAULT, UNITY, Point, Translation
 
 
 class DimensionAttrs(NamedTuple):

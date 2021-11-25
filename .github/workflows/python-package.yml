@@ -1,10 +1,11 @@
+---
 name: Python package
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
@@ -13,41 +14,38 @@ jobs:
     strategy:
       matrix:
         python-version:
-        - 3.6
-        - 3.7
-        - 3.8
-        - 3.9
+          - 3.7
+          - 3.8
+          - 3.9
 
     steps:
-    - uses: actions/checkout@master
-    - uses: textbook/git-checkout-submodule-action@master
-    - name: python${{matrix.python-version}} setup
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{matrix.python-version}}
-    - name: install-mk
-      run: |
-        pip${{matrix.python-version}} install vmklib
-    - name: venv
-      run: |
-        mk PYTHON_VERSION=${{matrix.python-version}} venv
-    - name: fixup-mk
-      run: |
-        mk PYTHON_VERSION=${{matrix.python-version}} mk-upgrade
-    - name: lint
-      run: |
-        mk PYTHON_VERSION=${{matrix.python-version}} python-lint
-    - name: sa-types
-      run: |
-        mk PYTHON_VERSION=${{matrix.python-version}} python-sa-types
-    - name: sa
-      run: |
-        mk PYTHON_VERSION=${{matrix.python-version}} python-sa
-    - name: dist
-      run: |
-        mk PYTHON_VERSION=${{matrix.python-version}} python-dist
-    - name: test
-      run: |
-        mk PYTHON_VERSION=${{matrix.python-version}} python-test PYTEST_EXTRA_ARGS="--cov-report=xml"
-    - name: test-upload
-      uses: codecov/codecov-action@v1
+      - uses: actions/checkout@master
+        with:
+          submodules: recursive
+      - name: python${{matrix.python-version}} setup
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{matrix.python-version}}
+      - name: install-mk
+        run: |
+          pip${{matrix.python-version}} install vmklib
+      - name: venv
+        run: |
+          mk PYTHON_VERSION=${{matrix.python-version}} venv
+      - name: lint
+        run: |
+          mk PYTHON_VERSION=${{matrix.python-version}} python-lint
+      - name: sa-types
+        run: |
+          mk PYTHON_VERSION=${{matrix.python-version}} python-sa-types
+      - name: sa
+        run: |
+          mk PYTHON_VERSION=${{matrix.python-version}} python-sa PY_LINT_EXTRA_ARGS="--no-incremental"
+      - name: dist
+        run: |
+          mk PYTHON_VERSION=${{matrix.python-version}} python-dist
+      - name: test
+        run: |
+          mk PYTHON_VERSION=${{matrix.python-version}} python-test PYTEST_EXTRA_ARGS="--cov-report=xml"
+      - name: test-upload
+        uses: codecov/codecov-action@v1
