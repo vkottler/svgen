@@ -3,7 +3,7 @@ default_target: "groups-all"
 
 params:
   project: "svgen"
-  python_version: "3.8"
+  python_version: "$PYTHON_VERSION"
   entry: "svgen"
 
 includes:

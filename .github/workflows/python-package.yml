@@ -14,9 +14,10 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - 3.7
-          - 3.8
-          - 3.9
+          - "3.7"
+          - "3.8"
+          - "3.9"
+          - "3.10"
 
     steps:
       - uses: actions/checkout@master
@@ -34,7 +35,7 @@ jobs:
           mk PYTHON_VERSION=${{matrix.python-version}} venv
       - name: lint
         run: |
-          mk PYTHON_VERSION=${{matrix.python-version}} python-lint
+          mk PYTHON_VERSION=${{matrix.python-version}} python-lint yaml
       - name: sa-types
         run: |
           mk PYTHON_VERSION=${{matrix.python-version}} python-sa-types

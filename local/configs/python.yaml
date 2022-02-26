@@ -3,4 +3,4 @@ author_info:
   name: "Vaughn Kottler"
   email: "vaughnkottler@gmail.com"
   username: "vkottler"
-versions: ["3.7", "3.8", "3.9"]
+versions: ["3.7", "3.8", "3.9", "3.10"]
