@@ -16,10 +16,10 @@ def test_rect_basic():
     """Test the rect interface."""
 
     rect = Rect(Rectangle(Dimensions(100.0, 100.0)), 1.0, 1.0)
-    assert approx(rect.dimensions.attrs.width_val, 100)
-    assert approx(rect.dimensions.attrs.height_val, 100)
-    assert approx(rect.location.attrs.x_val, 0)
-    assert approx(rect.location.attrs.y_val, 0)
+    assert rect.dimensions.attrs.width_val == approx(100)
+    assert rect.dimensions.attrs.height_val == approx(100)
+    assert rect.location.attrs.x_val == approx(0)
+    assert rect.location.attrs.y_val == approx(0)
 
 
 def test_rect_mutate():
@@ -52,6 +52,6 @@ def test_rect_centered():
 
     box = ViewBox(0, 0, 100, 100)
     rect = centered(box, 0.5, 0.5)
-    assert approx(rect.dimensions.width, 50)
-    assert approx(rect.dimensions.height, 50)
+    assert rect.dimensions.width == approx(50)
+    assert rect.dimensions.height == approx(50)
     assert rect.location == Point(25, 25)

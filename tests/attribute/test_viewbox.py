@@ -27,6 +27,6 @@ def test_viewbox_basic():
     assert box.value == val
     assert key in box.encode() and val in box.encode()
 
-    assert approx(distance(box.center), sqrt(2 * 50 * 50))
+    assert distance(box.center) == approx(sqrt(2 * 50 * 50))
 
     assert box.center.__eq__(5) is NotImplemented

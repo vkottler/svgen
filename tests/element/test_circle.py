@@ -16,7 +16,7 @@ def test_circle_basic():
     """Test the circle interface."""
 
     circle = Circle(CartCircle(5.0))
-    assert approx(circle.raw.attrs.radius_val, 5)
+    assert circle.raw.attrs.radius_val == approx(5)
 
 
 def test_circle_centered():
@@ -25,18 +25,18 @@ def test_circle_centered():
     # Test a full-scale circle.
     box = ViewBox(0, 0, 100, 100)
     circle = centered(box)
-    assert approx(circle.raw.radius, 50)
+    assert circle.raw.radius == approx(50)
     assert circle.raw.center == Point(50, 50)
 
     # Test a half-scale circle.
     circle = centered(box, 0.5)
-    assert approx(circle.raw.radius, 25)
+    assert circle.raw.radius == approx(25)
     assert circle.raw.center == Point(50, 50)
 
     # Test a non-square viewBox.
     box = ViewBox(0, 0, 100, 50)
     circle = centered(box)
-    assert approx(circle.raw.radius, 25)
+    assert circle.raw.radius == approx(25)
     assert circle.raw.center == Point(50, 25)
 
 
@@ -45,7 +45,7 @@ def test_circle_mutate():
 
     circle = Circle(CartCircle(5.0))
     assert circle.center == DEFAULT_CENTER
-    assert approx(circle.radius, 5)
+    assert circle.radius == approx(5)
 
     # Scale the circle.
     assert circle.scale(0.5) == Circle(CartCircle(2.5))
