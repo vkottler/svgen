@@ -44,13 +44,11 @@ class CssProperty(NamedTuple):
     @property
     def encoded(self) -> str:
         """Convert this css property to a string."""
-
         return f"{self.key}: {self.value}"
 
     @staticmethod
     def encode(properties: List["CssProperty"]) -> str:
         """Encode a list of css properties to a string."""
-
         return "; ".join(x.encoded for x in properties)
 
 
@@ -84,13 +82,11 @@ class Style(Attribute):
 
     def add_color(self, color: Color, prop: str = "fill") -> None:
         """Set a style property to a color."""
-
         self.properties.append(CssProperty(prop, str(color)))
 
     @property
     def value(self) -> str:
         """Get the string value for this attribute."""
-
         return CssProperty.encode(self.properties)
 
     @staticmethod

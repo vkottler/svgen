@@ -5,7 +5,7 @@ svgen - Common interfaces and assets for SVG elements.
 # built-in
 from io import StringIO
 import os
-from typing import Dict, List
+from typing import Dict, List, TextIO
 
 # internal
 from svgen.attribute import Attribute
@@ -53,7 +53,7 @@ class Element:
 
     def encode(
         self,
-        output: StringIO,
+        output: TextIO,
         quote: str = '"',
         indent: int = 0,
         newlines: bool = True,
@@ -100,6 +100,6 @@ class Element:
     ) -> str:
         """Encode this element to a string."""
 
-        output = StringIO()
-        self.encode(output, quote, indent, newlines)
-        return output.getvalue()
+        with StringIO() as output:
+            self.encode(output, quote, indent, newlines)
+            return output.getvalue()

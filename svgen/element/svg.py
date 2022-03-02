@@ -17,7 +17,8 @@ class Svg(Element):
     def __init__(self, viewbox: ViewBox, document: bool = True) -> None:
         """Construct a new svg element (or document)."""
 
-        attrs: List[Attribute] = [viewbox]
+        self.viewbox = viewbox
+        attrs: List[Attribute] = [self.viewbox]
         if document:
             attrs.append(XMLNS)
         super().__init__(attributes=attrs)

@@ -13,3 +13,4 @@ htmlcov
 *-stubs
 coverage*.xml
 tags
+svgen.svg
