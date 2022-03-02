@@ -2,7 +2,7 @@
     =====================================
     generator=datazen
     version=1.13.3
-    hash=d7b6e8b69a63ccb83dd35cc31c31c068
+    hash=1d6eaca5de237f0a9539ee6cda17ba0b
     =====================================
 -->
 
@@ -19,12 +19,15 @@
 ```
 $ ./venv3.8/bin/svgen -h
 
-usage: svgen [-h] [--version] [-v] [-C DIR] [-c CONFIG] [-o OUTPUT] script
+usage: svgen [-h] [--version] [-v] [-C DIR] [-c CONFIG] [--height HEIGHT]
+             [--width WIDTH] [-o OUTPUT]
+             [scripts [scripts ...]]
 
 A tool for working with scalable vector graphics.
 
 positional arguments:
-  script                script to run for composing the SVG document
+  scripts               scripts to run for composing the SVG document (in
+                        order)
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -34,6 +37,10 @@ optional arguments:
   -c CONFIG, --config CONFIG
                         top-level configuration to load (default:
                         'svgen.json')
+  --height HEIGHT       height of the document, if not specified by
+                        configuration (default: 100)
+  --width WIDTH         width of the document, if not specified by
+                        configuration (default: 100)
   -o OUTPUT, --output OUTPUT
                         file to write SVG output (default: 'svgen.svg')
 

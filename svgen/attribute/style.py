@@ -24,6 +24,11 @@ class CssProperty(NamedTuple):
         return self.key == other.key and self.value == other.value
 
     @staticmethod
+    def color(color: Color, prop: str = "fill") -> "CssProperty":
+        """Get a CSS property for a color."""
+        return CssProperty(prop, str(color))
+
+    @staticmethod
     def decode(value: str) -> List["CssProperty"]:
         """Create css properties from a string."""
 
@@ -82,7 +87,7 @@ class Style(Attribute):
 
     def add_color(self, color: Color, prop: str = "fill") -> None:
         """Set a style property to a color."""
-        self.properties.append(CssProperty(prop, str(color)))
+        self.properties.append(CssProperty.color(color, prop))
 
     @property
     def value(self) -> str:

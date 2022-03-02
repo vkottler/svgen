@@ -38,9 +38,15 @@ class Element:
 
         self.attributes: Dict[str, Attribute] = {}
         for attr in attributes:
-            self.attributes[attr.key] = attr
+            self.add_attribute(attr)
 
         self.children: List[Element] = children
+
+    def add_attribute(self, attr: Attribute) -> "Element":
+        """Add an attribute to this element."""
+        assert attr.key not in self.attributes
+        self.attributes[attr.key] = attr
+        return self
 
     def closing(self, indent: int = 0) -> str:
         """Create a string to close this element."""
@@ -79,9 +85,10 @@ class Element:
             # Write content, if any.
             if newlines:
                 output.write(indent_str + " " * INDENT)
-            output.write(self.content)
-            if newlines:
-                output.write(os.linesep)
+            if self.content:
+                output.write(self.content)
+                if newlines:
+                    output.write(os.linesep)
 
             # Write children.
             for child in self.children:

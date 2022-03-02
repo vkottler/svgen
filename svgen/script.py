@@ -8,10 +8,11 @@ import importlib.util
 from pathlib import Path
 
 # internal
+from svgen.config import Config
 from svgen.element.svg import Svg
 
 
-def invoke_script(script: Path, svg: Svg, config: dict) -> None:
+def invoke_script(script: Path, svg: Svg, config: Config) -> None:
     """Invoke an external script's 'compose' function."""
 
     loader = importlib.machinery.SourceFileLoader("script", str(script))
@@ -21,4 +22,4 @@ def invoke_script(script: Path, svg: Svg, config: dict) -> None:
     loader.exec_module(script_module)
 
     # Compose the document.
-    script_module.compose(svg, config)
+    svg.children.extend(script_module.compose(svg.viewbox, config))

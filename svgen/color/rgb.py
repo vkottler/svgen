@@ -24,13 +24,11 @@ class RgbPrimitive(int):
 
     def __str__(self) -> str:
         """Get this color value as a hex string."""
-
-        return f"{int(self):X}"
+        return f"{int(self):02X}"
 
     @property
     def ratio(self) -> float:
         """Get this color as a ratio between 0 and 1."""
-
         return float(self) / 255.0
 
 
@@ -55,13 +53,11 @@ class Rgb(NamedTuple):
     @property
     def rgb(self) -> str:
         """Get this color as an 'rgb' constructor."""
-
         return f"rgb({int(self.red)}, {int(self.green)}, {int(self.blue)})"
 
     @property
     def rgba(self) -> str:
         """Get this color as an 'rgba' constructor."""
-
         return (
             f"rgba({int(self.red)}, {int(self.green)}, "
             f"{int(self.blue)}, {self.alpha})"
@@ -111,7 +107,6 @@ class Rgb(NamedTuple):
 
 def rgb(red: int, green: int, blue: int) -> Rgb:
     """Create a new RGB color."""
-
     return Rgb(RgbPrimitive(red), RgbPrimitive(green), RgbPrimitive(blue))
 
 

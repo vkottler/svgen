@@ -182,19 +182,16 @@ class Color(NamedTuple):
     @classmethod
     def from_rgb(cls, color: Rgb) -> "Color":
         """Create a color from an rgb object."""
-
         return cls(color, rgb_to_hsl(color))
 
     @classmethod
     def from_hex(cls, value: str) -> "Color":
         """Create a color from a hex value."""
-
         return cls.from_rgb(Rgb.from_hex(value))
 
     @classmethod
     def from_hsl(cls, color: Hsl) -> "Color":
         """Create a color from an hsl object."""
-
         return cls(hsl_to_rgb(color), color)
 
     @classmethod
@@ -210,3 +207,7 @@ class Color(NamedTuple):
         if "rgb" in value:
             return cls.from_rgb(Rgb.from_ctor(value))
         return cls.from_hsl(Hsl.from_ctor(value))
+
+    def __str__(self) -> str:
+        """Convert this color to a hex string."""
+        return str(self.rgb)

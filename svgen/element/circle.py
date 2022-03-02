@@ -30,24 +30,20 @@ class Circle(Element):
 
     def translate(self, move: Translation) -> "Circle":
         """Move this circle by a given translation."""
-
         return Circle(self.raw.translate(move))
 
     def scale(self, scale: float = UNITY) -> "Circle":
         """Scale this circle's radius."""
-
         return Circle(self.raw.scale(scale))
 
     @property
     def radius(self) -> float:
         """Get this circle's radius."""
-
         return self.raw.radius
 
     @property
     def center(self) -> Point:
         """Get this circle's center."""
-
         return self.raw.center
 
     def __eq__(self, other: object) -> bool:
