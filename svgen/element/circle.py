@@ -3,13 +3,14 @@ svgen - A module for the 'circle' element.
 """
 
 # built-in
-from typing import List
+from typing import List, Union
 
 # internal
 from svgen.attribute import Attribute
 from svgen.attribute.viewbox import ViewBox
 from svgen.cartesian import UNITY, Point, Translation, to_center
 from svgen.cartesian.circle import Circle as CartCircle
+from svgen.color import Color
 from svgen.element import Element
 
 
@@ -54,13 +55,23 @@ class Circle(Element):
         return self.raw == other.raw
 
 
-def centered(box: ViewBox, radius_scale: float = UNITY) -> Circle:
+def centered(
+    box: ViewBox,
+    radius_scale: float = UNITY,
+    color: Union[Color, str] = None,
+    prop: str = "fill",
+) -> Circle:
     """
     From a viewBox, create a circle that is centered with an appropriately
     scaled radius.
     """
 
     radius = float(min(box.data.width, box.data.height)) / 2.0
-    return Circle(
+    result = Circle(
         CartCircle(radius, to_center(box.center)).scale(radius_scale)
     )
+
+    if color is not None:
+        result.style.add_color(color, prop)
+
+    return result

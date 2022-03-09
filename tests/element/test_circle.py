@@ -24,7 +24,7 @@ def test_circle_centered():
 
     # Test a full-scale circle.
     box = ViewBox(0, 0, 100, 100)
-    circle = centered(box)
+    circle = centered(box, color="blue")
     assert circle.raw.radius == approx(50)
     assert circle.raw.center == Point(50, 50)
 

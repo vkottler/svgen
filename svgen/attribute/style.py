@@ -3,7 +3,7 @@ svgen - A module for the 'style' attribute.
 """
 
 # built-in
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Union
 
 # internal
 from svgen.attribute import Attribute
@@ -24,8 +24,11 @@ class CssProperty(NamedTuple):
         return self.key == other.key and self.value == other.value
 
     @staticmethod
-    def color(color: Color, prop: str = "fill") -> "CssProperty":
+    def color(color: Union[str, Color], prop: str = "fill") -> "CssProperty":
         """Get a CSS property for a color."""
+
+        if isinstance(color, str):
+            color = Color.from_ctor(color)
         return CssProperty(prop, str(color))
 
     @staticmethod
@@ -85,9 +88,12 @@ class Style(Attribute):
 
         return result
 
-    def add_color(self, color: Color, prop: str = "fill") -> None:
+    def add_color(
+        self, color: Union[str, Color], prop: str = "fill"
+    ) -> "Style":
         """Set a style property to a color."""
         self.properties.append(CssProperty.color(color, prop))
+        return self
 
     @property
     def value(self) -> str:
