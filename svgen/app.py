@@ -6,13 +6,14 @@ svgen - This package's command-line entry-point application.
 import argparse
 from json import load
 from pathlib import Path
+from sys import path
 from typing import cast
 
 # internal
 from svgen import PKG_NAME
 from svgen.attribute.viewbox import ViewBox
 from svgen.config import Config
-from svgen.element.svg import Svg
+from svgen.element.svg import Svg, add_background_grid
 from svgen.script import invoke_script
 
 
@@ -31,9 +32,17 @@ def entry(args: argparse.Namespace) -> int:
     config.set_if_not("height", args.height)
     config.set_if_not("width", args.width)
     config.set_if_not("scripts", [])
+    config.set_if_not("grid", {})
+    config.set_if_not("background", {})
+
+    # Add the specified directory to the import path, so external scripts
+    # can load their own dependencies.
+    path.append(str(args.dir))
+
+    doc = Svg(ViewBox.from_dict(cast(dict, config)))
+    add_background_grid(doc, config["background"], config["grid"])
 
     # Compose the document, via the external script.
-    doc = Svg(ViewBox.from_dict(cast(dict, config)))
     for script in args.scripts + [Path(x) for x in config["scripts"]]:
         invoke_script(script, doc, config)
 

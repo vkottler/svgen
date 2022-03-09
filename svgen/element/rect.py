@@ -4,13 +4,14 @@ svgen - A module for the 'rect' element.
 
 # built-in
 from math import isclose
-from typing import List
+from typing import List, Union
 
 # internal
 from svgen.attribute import Attribute, SimpleAttribute
 from svgen.attribute.viewbox import ViewBox
 from svgen.cartesian import UNITY, Translation
 from svgen.cartesian.rectangle import Rectangle
+from svgen.color import Color
 from svgen.element import Element
 
 
@@ -87,16 +88,24 @@ class Rect(Element):
 
 
 def centered(
-    box: ViewBox, width_scale: float = UNITY, height_scale: float = UNITY
+    box: ViewBox,
+    width_scale: float = UNITY,
+    height_scale: float = UNITY,
+    color: Union[Color, str] = None,
+    prop: str = "fill",
 ) -> Rect:
     """From a viewBox, created a centered-and-scaled rectangle."""
 
     dimensions = box.dimensions.scale(width_scale, height_scale)
     delta_x = (box.dimensions.width - dimensions.width) / 2.0
     delta_y = (box.dimensions.height - dimensions.height) / 2.0
-    Translation(delta_x, delta_y)
-    return Rect(
+
+    result = Rect(
         Rectangle(
             dimensions, box.origin.translate(Translation(delta_x, delta_y))
         )
     )
+
+    if color is not None:
+        result.style.add_color(color, prop)
+    return result

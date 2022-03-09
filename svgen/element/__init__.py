@@ -5,10 +5,11 @@ svgen - Common interfaces and assets for SVG elements.
 # built-in
 from io import StringIO
 import os
-from typing import Dict, List, TextIO
+from typing import Dict, List, TextIO, cast
 
 # internal
 from svgen.attribute import Attribute
+from svgen.attribute.style import Style
 
 INDENT: int = 2
 
@@ -42,6 +43,14 @@ class Element:
 
         self.children: List[Element] = children
 
+    @property
+    def style(self) -> Style:
+        """Get the style attribute for this element."""
+
+        if "style" not in self.attributes:
+            self.add_attribute(Style())
+        return cast(Style, self.attributes["style"])
+
     def add_attribute(self, attr: Attribute) -> "Element":
         """Add an attribute to this element."""
         assert attr.key not in self.attributes
@@ -71,7 +80,8 @@ class Element:
         if newlines:
             output.write(indent_str)
 
-        attrs = " ".join(x.encode(quote) for x in self.attributes.values())
+        attr_strs = [x.encode(quote) for x in self.attributes.values()]
+        attrs = " ".join(x for x in attr_strs if x)
         output.write(f"<{self.name}")
         if attrs:
             output.write(f" {attrs}")

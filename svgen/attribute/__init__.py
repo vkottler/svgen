@@ -31,10 +31,14 @@ class Attribute(ABC):
     def value(self) -> str:
         """Get the string value for this attribute."""
 
-    def encode(self, quote: str = '"') -> str:
+    def encode(self, quote: str = '"', force: bool = False) -> str:
         """Convert this attribute to a string."""
 
-        return f"{self.key}={quote}{self.value}{quote}"
+        result = ""
+        val = self.value
+        if val or force:
+            result = f"{self.key}={quote}{val}{quote}"
+        return result
 
     @staticmethod
     @abstractmethod
