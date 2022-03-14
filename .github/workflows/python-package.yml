@@ -42,9 +42,9 @@ jobs:
       - name: sa
         run: |
           mk PYTHON_VERSION=${{matrix.python-version}} python-sa PY_LINT_EXTRA_ARGS="--no-incremental"
-      - name: dist
+      - name: build
         run: |
-          mk PYTHON_VERSION=${{matrix.python-version}} python-dist
+          mk PYTHON_VERSION=${{matrix.python-version}} python-build
       - name: test
         run: |
           mk PYTHON_VERSION=${{matrix.python-version}} python-test PYTEST_EXTRA_ARGS="--cov-report=xml"
