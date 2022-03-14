@@ -5,3 +5,6 @@ description: "A tool for working with scalable vector graphics."
 entry: {{entry}}
 setup_args:
   - entry_override="{{entry}}"
+dev_requirements:
+  - vmklib
+  - types-setuptools
