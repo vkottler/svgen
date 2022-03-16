@@ -4,6 +4,7 @@ svgen - A module for XML-style attribute interfaces.
 
 # built-in
 from abc import ABC, abstractmethod
+from typing import Dict, List, Union
 
 
 class Attribute(ABC):
@@ -68,6 +69,33 @@ class SimpleAttribute(Attribute):
         """Create this attribute from a string."""
 
         return SimpleAttribute(key, value)
+
+    @staticmethod
+    def from_dict(data: Dict[str, Union[str, int, float]]) -> List[Attribute]:
+        """Get a list of attributes from dictionary data."""
+        return [
+            SimpleAttribute(key, str(value)) for key, value in data.items()
+        ]
+
+
+PossibleAttributes = Union[
+    Dict[str, Union[str, int, float]], List[Attribute], Attribute
+]
+
+
+def attributes(data: PossibleAttributes = None) -> List[Attribute]:
+    """
+    Get attributes from either an existing list of attributes, or dictionary
+    data.
+    """
+
+    if data is None:
+        data = []
+    if isinstance(data, dict):
+        data = SimpleAttribute.from_dict(data)
+    elif not isinstance(data, list):
+        data = [data]
+    return data
 
 
 XMLNS = SimpleAttribute("xmlns", "http://www.w3.org/2000/svg")

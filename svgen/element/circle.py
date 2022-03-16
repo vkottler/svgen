@@ -3,10 +3,10 @@ svgen - A module for the 'circle' element.
 """
 
 # built-in
-from typing import List, Union
+from typing import Union
 
 # internal
-from svgen.attribute import Attribute
+from svgen.attribute import PossibleAttributes, attributes
 from svgen.attribute.viewbox import ViewBox
 from svgen.cartesian import UNITY, Point, Translation, to_center
 from svgen.cartesian.circle import Circle as CartCircle
@@ -17,17 +17,19 @@ from svgen.element import Element
 class Circle(Element):
     """A class for circle elements."""
 
-    def __init__(self, circle: CartCircle) -> None:
+    def __init__(
+        self, circle: CartCircle, attrs: PossibleAttributes = None
+    ) -> None:
         """Construct a new circle element."""
 
         self.raw = circle
         assert self.raw.center.center
 
-        attrs: List[Attribute] = []
-        attrs.append(self.raw.radius_attr)
-        attrs += [*self.raw.center_attrs]
+        real_attrs = attributes(attrs)
+        real_attrs.append(self.raw.radius_attr)
+        real_attrs += [*self.raw.center_attrs]
 
-        super().__init__(attributes=attrs)
+        super().__init__(attributes=real_attrs)
 
     def translate(self, move: Translation) -> "Circle":
         """Move this circle by a given translation."""
@@ -60,6 +62,7 @@ def centered(
     radius_scale: float = UNITY,
     color: Union[Color, str] = None,
     prop: str = "fill",
+    **kwargs,
 ) -> Circle:
     """
     From a viewBox, create a circle that is centered with an appropriately
@@ -68,7 +71,8 @@ def centered(
 
     radius = float(min(box.data.width, box.data.height)) / 2.0
     result = Circle(
-        CartCircle(radius, to_center(box.center)).scale(radius_scale)
+        CartCircle(radius, to_center(box.center)).scale(radius_scale),
+        **kwargs,
     )
 
     if color is not None:

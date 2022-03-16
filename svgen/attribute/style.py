@@ -3,7 +3,7 @@ svgen - A module for the 'style' attribute.
 """
 
 # built-in
-from typing import List, NamedTuple, Union
+from typing import Dict, List, NamedTuple, Union
 
 # internal
 from svgen.attribute import Attribute
@@ -38,8 +38,8 @@ class CssProperty(NamedTuple):
         result: List[CssProperty] = []
 
         value = value.strip()
-        properties = [x.strip() for x in value.split(";")]
-        for prop in properties:
+        props = [x.strip() for x in value.split(";")]
+        for prop in props:
             if prop:
                 tokens = prop.split(":")
                 assert len(tokens) == 2
@@ -55,20 +55,49 @@ class CssProperty(NamedTuple):
         return f"{self.key}: {self.value}"
 
     @staticmethod
-    def encode(properties: List["CssProperty"]) -> str:
+    def encode(props: List["CssProperty"]) -> str:
         """Encode a list of css properties to a string."""
-        return "; ".join(x.encoded for x in properties)
+        return "; ".join(x.encoded for x in props)
+
+    @staticmethod
+    def from_dict(
+        data: Dict[str, Union[str, int, float]]
+    ) -> List["CssProperty"]:
+        """Get a list of attributes from dictionary data."""
+        return [CssProperty(key, str(value)) for key, value in data.items()]
+
+
+PossibleProperties = Union[
+    Dict[str, Union[str, int, float]], List[CssProperty], CssProperty
+]
+
+
+def properties(data: PossibleProperties = None) -> List[CssProperty]:
+    """
+    Get properties from either an existing list of properties, or dictionary
+    data.
+    """
+
+    if data is None:
+        data = []
+    if isinstance(data, dict):
+        data = CssProperty.from_dict(data)
+    elif not isinstance(data, list):
+        data = [data]
+    return data
 
 
 class Style(Attribute):
     """An interface for style attributes."""
 
-    def __init__(self, properties: List[CssProperty] = None) -> None:
+    def __init__(self, props: PossibleProperties = None) -> None:
         """Construct a new style attribute."""
 
-        if properties is None:
-            properties = []
-        self.properties: List[CssProperty] = properties
+        self.properties: List[CssProperty] = properties(props)
+
+    def add(self, props: PossibleProperties) -> None:
+        """Add CSS properties to this style instance."""
+        self.properties.extend(properties(props))
 
     def __eq__(self, other: object) -> bool:
         """Determine if two style attributes are the same."""

@@ -3,6 +3,7 @@ svgen - Test the 'attribute.style' module.
 """
 
 # module under test
+from svgen.attribute import SimpleAttribute, attributes
 from svgen.attribute.style import CssProperty, Style
 from svgen.color import Color
 
@@ -30,3 +31,12 @@ def test_style_basic():
 
     assert Style.decode("style", style.value) == style
     style.add_color(Color.from_ctor("purple"))
+    style.add({"stroke": "red"})
+    style.add(CssProperty("foo", "bar"))
+
+
+def test_attribute_basic():
+    """Test basic functionality of the attribute interfaces."""
+
+    assert attributes({"a": 1})
+    assert attributes(SimpleAttribute("a", 1))
