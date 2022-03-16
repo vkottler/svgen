@@ -93,7 +93,7 @@ class Element:
                 output.write(os.linesep)
 
             # Write content, if any.
-            if newlines:
+            if newlines and self.content:
                 output.write(indent_str + " " * INDENT)
             if self.content:
                 output.write(self.content)
@@ -102,7 +102,8 @@ class Element:
 
             # Write children.
             for child in self.children:
-                child.encode(output, quote, indent + 1, newlines)
+                if child:
+                    child.encode(output, quote, indent + 1, newlines)
 
         # Close this element tag.
         output.write(self.closing(indent))

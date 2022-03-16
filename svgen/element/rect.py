@@ -4,10 +4,10 @@ svgen - A module for the 'rect' element.
 
 # built-in
 from math import isclose
-from typing import List, Union
+from typing import Union
 
 # internal
-from svgen.attribute import Attribute, SimpleAttribute
+from svgen.attribute import PossibleAttributes, SimpleAttribute, attributes
 from svgen.attribute.viewbox import ViewBox
 from svgen.cartesian import UNITY, Translation
 from svgen.cartesian.rectangle import Rectangle
@@ -21,27 +21,28 @@ class Rect(Element):
     def __init__(
         self,
         rect: Rectangle,
-        radius_x: float = float(),
-        radius_y: float = float(),
+        rx: float = float(),
+        ry: float = float(),
+        attrs: PossibleAttributes = None,
     ) -> None:
         """Construct a new rect element."""
 
         self.rect = rect
         self.location = self.rect.location
         self.dimensions = self.rect.dimensions
-        self.radius_x = radius_x
-        self.radius_y = radius_y
+        self.rx = rx
+        self.ry = ry
 
-        attrs: List[Attribute] = []
-        attrs += [*self.location.attrs]
-        attrs += [*self.dimensions.attrs]
+        real_attrs = attributes(attrs)
+        real_attrs += [*self.location.attrs]
+        real_attrs += [*self.dimensions.attrs]
 
-        if self.radius_x != float():
-            attrs.append(SimpleAttribute("rx", str(self.radius_x)))
-        if self.radius_y != float():
-            attrs.append(SimpleAttribute("ry", str(self.radius_y)))
+        if self.rx != float():
+            real_attrs.append(SimpleAttribute("rx", str(self.rx)))
+        if self.ry != float():
+            real_attrs.append(SimpleAttribute("ry", str(self.ry)))
 
-        super().__init__(attributes=attrs)
+        super().__init__(attributes=real_attrs)
 
     @property
     def square(self) -> bool:
@@ -52,12 +53,12 @@ class Rect(Element):
     def to_square(self, scale: float = UNITY) -> "Rect":
         """Convert this rectangle to a square."""
 
-        return Rect(self.rect.to_square(scale), self.radius_x, self.radius_y)
+        return Rect(self.rect.to_square(scale), self.rx, self.ry)
 
     def translate(self, move: Translation) -> "Rect":
         """Move this rectangle by a given translation."""
 
-        return Rect(self.rect.translate(move), self.radius_x, self.radius_y)
+        return Rect(self.rect.translate(move), self.rx, self.ry)
 
     def scale(
         self, width_scale: float = UNITY, height_scale: float = UNITY
@@ -66,8 +67,8 @@ class Rect(Element):
 
         return Rect(
             self.rect.scale(width_scale, height_scale),
-            self.radius_x,
-            self.radius_y,
+            self.rx,
+            self.ry,
         )
 
     def scale_whole(self, scalar: float = UNITY) -> "Rect":
@@ -82,8 +83,8 @@ class Rect(Element):
             return NotImplemented
         return (
             self.rect == other.rect
-            and isclose(self.radius_x, other.radius_x)
-            and isclose(self.radius_y, other.radius_y)
+            and isclose(self.rx, other.rx)
+            and isclose(self.ry, other.ry)
         )
 
 
@@ -93,6 +94,7 @@ def centered(
     height_scale: float = UNITY,
     color: Union[Color, str] = None,
     prop: str = "fill",
+    **kwargs,
 ) -> Rect:
     """From a viewBox, created a centered-and-scaled rectangle."""
 
@@ -103,7 +105,8 @@ def centered(
     result = Rect(
         Rectangle(
             dimensions, box.origin.translate(Translation(delta_x, delta_y))
-        )
+        ),
+        **kwargs,
     )
 
     if color is not None:
