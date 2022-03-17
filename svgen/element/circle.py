@@ -18,7 +18,7 @@ class Circle(Element):
     """A class for circle elements."""
 
     def __init__(
-        self, circle: CartCircle, attrs: PossibleAttributes = None
+        self, circle: CartCircle, attrs: PossibleAttributes = None, **extra
     ) -> None:
         """Construct a new circle element."""
 
@@ -29,7 +29,7 @@ class Circle(Element):
         real_attrs.append(self.raw.radius_attr)
         real_attrs += [*self.raw.center_attrs]
 
-        super().__init__(attributes=real_attrs)
+        super().__init__(attrib=real_attrs, **extra)
 
     def translate(self, move: Translation) -> "Circle":
         """Move this circle by a given translation."""

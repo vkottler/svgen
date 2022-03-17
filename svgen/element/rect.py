@@ -24,6 +24,7 @@ class Rect(Element):
         rx: float = float(),
         ry: float = float(),
         attrs: PossibleAttributes = None,
+        **extra,
     ) -> None:
         """Construct a new rect element."""
 
@@ -42,7 +43,7 @@ class Rect(Element):
         if self.ry != float():
             real_attrs.append(SimpleAttribute("ry", str(self.ry)))
 
-        super().__init__(attributes=real_attrs)
+        super().__init__(attrib=real_attrs, **extra)
 
     @property
     def square(self) -> bool:

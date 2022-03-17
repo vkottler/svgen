@@ -15,14 +15,16 @@ from svgen.element.rect import centered
 class Svg(Element):
     """A class for svg elements."""
 
-    def __init__(self, viewbox: ViewBox, document: bool = True) -> None:
+    def __init__(
+        self, viewbox: ViewBox, document: bool = True, **extra
+    ) -> None:
         """Construct a new svg element (or document)."""
 
         self.viewbox = viewbox
         attrs: List[Attribute] = [self.viewbox]
         if document:
             attrs.append(XMLNS)
-        super().__init__(attributes=attrs)
+        super().__init__(attrib=attrs, **extra)
 
 
 def add_background_grid(svg: Svg, background: dict, grid: dict) -> None:

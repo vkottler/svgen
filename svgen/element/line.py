@@ -12,7 +12,7 @@ class Line(Element):
     """A definition of a line."""
 
     def __init__(
-        self, p1: Point, p2: Point, attrs: PossibleAttributes = None
+        self, p1: Point, p2: Point, attrs: PossibleAttributes = None, **extra
     ) -> None:
         """Initialize this line."""
 
@@ -28,7 +28,7 @@ class Line(Element):
                 self.p2.y_attr,
             ]
         )
-        super().__init__(attributes=real_attrs)
+        super().__init__(attrib=real_attrs, **extra)
 
     def translate(self, move: Translation) -> "Line":
         """Move a rectangle by a given translation."""
@@ -41,6 +41,7 @@ def line(
     x1: float = float(),
     y1: float = float(),
     attrs: PossibleAttributes = None,
+    **extra,
 ) -> Line:
     """Create a line."""
-    return Line(Point(x1, y1), Point(x2, y2), attrs)
+    return Line(Point(x1, y1), Point(x2, y2), attrs, **extra)

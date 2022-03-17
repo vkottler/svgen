@@ -2,9 +2,13 @@
 svgen - Test the 'element' module.
 """
 
+# built-in
+from xml.etree import ElementTree as et
+
 # module under test
 from svgen.attribute.viewbox import ViewBox
 from svgen.element import Element
+from svgen.element.svg import Svg
 
 
 def test_element_basic():
@@ -28,12 +32,23 @@ def test_element_basic():
     )
 
     # Test an element with children.
-    elem.children.append(Element("svg"))
+    elem.children.append(Element("svg", a="b"))
     assert (
         elem.encode_str(newlines=False)
-        == '<svg viewBox="0 0 100 100">test<svg /></svg>'
+        == '<svg viewBox="0 0 100 100">test<svg a="b" /></svg>'
     )
     assert (
         elem.encode_str()
-        == '<svg viewBox="0 0 100 100">\n  test\n  <svg />\n</svg>\n'
+        == '<svg viewBox="0 0 100 100">\n  test\n  <svg a="b" />\n</svg>\n'
+    )
+
+
+def test_element_xml():
+    """Test that we can get XML elements from elements in this package."""
+
+    elem = Svg(ViewBox.decode("viewBox", "0 0 100 100"))
+    elem.children.append(Element("rect"))
+    assert et.tostring(elem.xml, encoding="unicode") == (
+        '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'
+        "<rect /></svg>"
     )

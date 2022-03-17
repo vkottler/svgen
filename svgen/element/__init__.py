@@ -6,9 +6,10 @@ svgen - Common interfaces and assets for SVG elements.
 from io import StringIO
 import os
 from typing import Dict, List, TextIO, cast
+from xml.etree import ElementTree as et
 
 # internal
-from svgen.attribute import Attribute
+from svgen.attribute import Attribute, attributes
 from svgen.attribute.style import Style
 
 INDENT: int = 2
@@ -19,29 +20,43 @@ class Element:
 
     def __init__(
         self,
-        name: str = None,
-        content: str = "",
-        attributes: List[Attribute] = None,
+        tag: str = None,
+        text: str = "",
+        attrib: List[Attribute] = None,
         children: List["Element"] = None,
+        **extra,
     ) -> None:
         """Construct a new SVG element."""
 
-        if name is None:
-            name = type(self).__name__
-            name = name[0].lower() + name[1:]
-        if attributes is None:
-            attributes = []
+        if tag is None:
+            tag = type(self).__name__
+            tag = tag[0].lower() + tag[1:]
+        if attrib is None:
+            attrib = []
         if children is None:
             children = []
 
-        self.name = name
-        self.content = content
+        self.tag = tag
+        self.text = text
 
         self.attributes: Dict[str, Attribute] = {}
-        for attr in attributes:
+        for attr in attrib + attributes(extra):
             self.add_attribute(attr)
 
         self.children: List[Element] = children
+
+    @property
+    def xml(self) -> et.Element:
+        """Get this element as an xml element."""
+
+        elem = et.Element(
+            self.tag, {x.key: x.value for x in self.attributes.values()}
+        )
+        elem.text = self.text
+
+        # Add children.
+        elem.extend(child.xml for child in self.children)
+        return elem
 
     @property
     def style(self) -> Style:
@@ -53,18 +68,20 @@ class Element:
 
     def add_attribute(self, attr: Attribute) -> "Element":
         """Add an attribute to this element."""
-        assert attr.key not in self.attributes
+        assert (
+            attr.key not in self.attributes
+        ), f"This '{self.tag}' element already has attribute '{attr.key}'!"
         self.attributes[attr.key] = attr
         return self
 
     def closing(self, indent: int = 0) -> str:
         """Create a string to close this element."""
 
-        if not self.content and not self.children:
+        if not self.text and not self.children:
             return " />"
 
         indent_str = " " * (indent * INDENT)
-        return f"{indent_str}</{self.name}>"
+        return f"{indent_str}</{self.tag}>"
 
     def encode(
         self,
@@ -82,21 +99,21 @@ class Element:
 
         attr_strs = [x.encode(quote) for x in self.attributes.values()]
         attrs = " ".join(x for x in attr_strs if x)
-        output.write(f"<{self.name}")
+        output.write(f"<{self.tag}")
         if attrs:
             output.write(f" {attrs}")
 
-        if self.content or self.children:
+        if self.text or self.children:
             # Close the opening tag.
             output.write(">")
             if newlines:
                 output.write(os.linesep)
 
             # Write content, if any.
-            if newlines and self.content:
+            if newlines and self.text:
                 output.write(indent_str + " " * INDENT)
-            if self.content:
-                output.write(self.content)
+            if self.text:
+                output.write(self.text)
                 if newlines:
                     output.write(os.linesep)
 

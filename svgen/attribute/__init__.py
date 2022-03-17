@@ -61,13 +61,11 @@ class SimpleAttribute(Attribute):
     @property
     def value(self) -> str:
         """Get the string value for this attribute."""
-
         return self._value
 
     @staticmethod
     def decode(key: str, value: str) -> Attribute:
         """Create this attribute from a string."""
-
         return SimpleAttribute(key, value)
 
     @staticmethod
