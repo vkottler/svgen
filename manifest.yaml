@@ -9,7 +9,6 @@ params:
 includes:
   - "config/includes/python.yaml"
   - "config/includes/license.yaml"
-  - "config/includes/help.yaml"
 
 configs:
   - "local/configs"
