@@ -1,7 +1,7 @@
 # =====================================
 # generator=datazen
 # version=1.14.0
-# hash=0eaca1a85df987f120d8c2563f0faada
+# hash=6af3ab9d06118b80cbaa21b85e0424b7
 # =====================================
 
 """
@@ -37,5 +37,4 @@ pkg_info = {
 setup(
     pkg_info,
     author_info,
-    entry_override="svgen",
 )

@@ -1,5 +1,5 @@
 [build-system]
-requires = ["vmklib", "wheel"]
+requires = ["vmklib", "wheel", "trove-classifiers"]
 
 [project]
 name = "svgen"
