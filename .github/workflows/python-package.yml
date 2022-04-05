@@ -1,11 +1,14 @@
 ---
-name: Python package
+name: Python Package
 
 on:
   push:
     branches: [master]
   pull_request:
     branches: [master]
+
+env:
+  SECRETHUB_CREDENTIAL: ${{secrets.SECRETHUB_CREDENTIAL}}
 
 jobs:
   build:
@@ -18,35 +21,49 @@ jobs:
           - "3.8"
           - "3.9"
           - "3.10"
-
+    env:
+      PYTHON_VERSION: ${{matrix.python-version}}
     steps:
       - uses: actions/checkout@master
         with:
           submodules: recursive
+
       - name: python${{matrix.python-version}} setup
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@main
         with:
           python-version: ${{matrix.python-version}}
-      - name: install-mk
-        run: |
-          pip${{matrix.python-version}} install vmklib
-      - name: venv
-        run: |
-          mk PYTHON_VERSION=${{matrix.python-version}} venv
-      - name: lint
-        run: |
-          mk PYTHON_VERSION=${{matrix.python-version}} python-lint yaml
-      - name: sa-types
-        run: |
-          mk PYTHON_VERSION=${{matrix.python-version}} python-sa-types
-      - name: sa
-        run: |
-          mk PYTHON_VERSION=${{matrix.python-version}} python-sa PY_LINT_EXTRA_ARGS="--no-incremental"
-      - name: build
-        run: |
-          mk PYTHON_VERSION=${{matrix.python-version}} python-build
-      - name: test
-        run: |
-          mk PYTHON_VERSION=${{matrix.python-version}} python-test PYTEST_EXTRA_ARGS="--cov-report=xml"
-      - name: test-upload
-        uses: codecov/codecov-action@v1
+          cache: pip
+
+      - run: pip${{matrix.python-version}} install vmklib
+
+      - run: mk venv
+      - run: mk python-sa-types
+
+      - name: lint and build
+        run: mk -- -j python-lint yaml python-build-once
+
+      - run: mk python-sa
+        env:
+          PY_LINT_EXTRA_ARGS: --no-incremental
+
+      - run: mk python-test
+        env:
+          PYTEST_EXTRA_ARGS: --cov-report=xml
+
+      - uses: codecov/codecov-action@master
+
+      - uses: secrethub/actions/env-export@master
+        env:
+          TWINE_PASSWORD: secrethub://vkottler/pypi/api-keys/personal-upload
+        if: |
+          matrix.python-version == '3.8'
+          && env.SECRETHUB_CREDENTIAL != ''
+          && github.ref_name == 'master'
+
+      - run: mk pypi-upload-ci
+        env:
+          TWINE_USERNAME: __token__
+        if: |
+          matrix.python-version == '3.8'
+          && env.SECRETHUB_CREDENTIAL != ''
+          && github.ref_name == 'master'

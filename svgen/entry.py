@@ -1,11 +1,11 @@
 # =====================================
 # generator=datazen
-# version=1.14.0
-# hash=34b59a40723c32dcac438bc72349c615
+# version=2.0.0
+# hash=96af07678b95bf575ba8a788470d11fd
 # =====================================
 
 """
-svgen - This package's command-line entry-point (boilerplate).
+This package's command-line entry-point (boilerplate).
 """
 
 # built-in
