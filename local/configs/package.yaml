@@ -1,5 +1,5 @@
 ---
-name: "svgen"
+name: svgen
 version: "{{major}}.{{minor}}.{{patch}}"
 description: "A tool for working with scalable vector graphics."
 entry: {{entry}}

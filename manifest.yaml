@@ -1,38 +1,39 @@
 ---
-default_target: "groups-all"
+default_target: groups-all
 
 params:
-  project: "svgen"
+  project: svgen
   python_version: "$PYTHON_VERSION"
-  entry: "svgen"
+  entry: svgen
 
 includes:
-  - "config/includes/python.yaml"
-  - "config/includes/license.yaml"
+  - config/includes/python.yaml
+  - config/includes/license.yaml
 
 configs:
-  - "local/configs"
+  - local/configs
 
 variables:
-  - "local/variables"
+  - local/variables
 
 templates:
-  - "local/templates"
+  - local/templates
 
 compiles:
-  - name: "local"
+  - name: local
 
 renders:
-  - name: "README.md"
+  - name: README.md
     output_dir: "."
     dependencies:
-      - "compiles-local"
-      - "commands-help"
-      - "renders-python_readme_header.md"
+      - compiles-local
+      - commands-help
+      - renders-python_readme_header.md
+      - renders-python_readme_dep_graph.md
 
 groups:
-  - name: "all"
+  - name: all
     dependencies:
       - groups-python
       - groups-license
-      - "renders-README.md"
+      - renders-README.md

@@ -1,8 +1,8 @@
 <!--
     =====================================
     generator=datazen
-    version=2.0.0
-    hash=7d541f23a7ac543a2ea714f416e44e11
+    version=2.1.0
+    hash=06a542379a60e60b9af80ae8f0f1de96
     =====================================
 -->
 
@@ -45,3 +45,12 @@ optional arguments:
                         file to write SVG output (default: 'svgen.svg')
 
 ```
+
+# Internal Dependency Graph
+
+A coarse view of the internal structure and scale of
+`svgen`'s source.
+Generated using [pydeps](https://github.com/thebjorn/pydeps) (via
+`mk python-deps`).
+
+![svgen's Dependency Graph](im/pydeps.svg)
