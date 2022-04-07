@@ -2,14 +2,14 @@
     =====================================
     generator=datazen
     version=2.1.0
-    hash=06a542379a60e60b9af80ae8f0f1de96
+    hash=54be108b7f57c40867020e70ff237c2c
     =====================================
 -->
 
-# svgen ([0.2.2](https://pypi.org/project/svgen/))
+# svgen ([0.2.3](https://pypi.org/project/svgen/))
 
 [![python](https://img.shields.io/pypi/pyversions/svgen.svg)](https://pypi.org/project/svgen/)
-![Build Status](https://github.com/vkottler/svgen/workflows/Python%20package/badge.svg)
+![Build Status](https://github.com/vkottler/svgen/workflows/Python%20Package/badge.svg)
 [![codecov](https://codecov.io/gh/vkottler/svgen/branch/master/graphs/badge.svg?branch=master)](https://codecov.io/github/vkottler/svgen)
 
 *A tool for working with scalable vector graphics.*

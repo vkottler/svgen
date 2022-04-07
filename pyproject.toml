@@ -1,9 +1,9 @@
 [build-system]
-requires = ["vmklib", "wheel", "trove-classifiers"]
+requires = ["setuptools-wrapper", "trove-classifiers"]
 
 [project]
 name = "svgen"
-version = "0.2.2"
+version = "0.2.3"
 description = "A tool for working with scalable vector graphics."
 readme = "README.md"
 requires-python = ">=3.7"
@@ -23,8 +23,7 @@ classifiers = [
 
 [project.optional-dependencies]
 test = [
-  "vmklib",
-  "types-setuptools",
+  "setuptools-wrapper",
   "pylint",
   "flake8",
   "pytest",

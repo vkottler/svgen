@@ -1,7 +1,7 @@
 # =====================================
 # generator=datazen
 # version=2.1.0
-# hash=6af3ab9d06118b80cbaa21b85e0424b7
+# hash=bbbd5f1cee4de27bd7d92313e1977869
 # =====================================
 
 """
@@ -10,7 +10,7 @@ svgen - Package definition for distribution.
 
 # third-party
 try:
-    from vmklib.setup import setup
+    from setuptools_wrapper.setup import setup
 except (ImportError, ModuleNotFoundError):
     from svgen_bootstrap.setup import setup  # type: ignore
 
