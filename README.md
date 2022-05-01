@@ -2,7 +2,7 @@
     =====================================
     generator=datazen
     version=2.1.0
-    hash=54be108b7f57c40867020e70ff237c2c
+    hash=c7c7f107196cafc61a3d53cbe16f04a4
     =====================================
 -->
 
@@ -13,6 +13,9 @@
 [![codecov](https://codecov.io/gh/vkottler/svgen/branch/master/graphs/badge.svg?branch=master)](https://codecov.io/github/vkottler/svgen)
 
 *A tool for working with scalable vector graphics.*
+
+See also: [generated documentation](https://vkottler.github.io/python/pydoc/svgen.html)
+(created with [`pydoc`](https://docs.python.org/3/library/pydoc.html)).
 
 # Command-line Options
 
