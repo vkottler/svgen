@@ -3,6 +3,7 @@ svgen - Test the 'element' module.
 """
 
 # built-in
+from os import linesep
 from xml.etree import ElementTree as et
 
 # module under test
@@ -21,7 +22,7 @@ def test_element_basic():
     # Test an element with some content.
     elem = Element("svg", "test")
     assert elem.encode_str(newlines=False) == "<svg>test</svg>"
-    assert elem.encode_str() == "<svg>\n  test\n</svg>\n"
+    assert elem.encode_str() == f"<svg>{linesep}  test{linesep}</svg>{linesep}"
 
     # Test an element with an attribute.
     box = ViewBox.decode("viewBox", "0 0 100 100")
@@ -37,9 +38,9 @@ def test_element_basic():
         elem.encode_str(newlines=False)
         == '<svg viewBox="0 0 100 100">test<svg a="b" /></svg>'
     )
-    assert (
-        elem.encode_str()
-        == '<svg viewBox="0 0 100 100">\n  test\n  <svg a="b" />\n</svg>\n'
+    assert elem.encode_str() == (
+        f'<svg viewBox="0 0 100 100">{linesep}  '
+        f'test{linesep}  <svg a="b" />{linesep}</svg>{linesep}'
     )
 
 

@@ -2,20 +2,43 @@
     =====================================
     generator=datazen
     version=2.1.0
-    hash=c7c7f107196cafc61a3d53cbe16f04a4
+    hash=63e3e790b9f788ebb25e305c42466e7f
     =====================================
 -->
 
-# svgen ([0.2.3](https://pypi.org/project/svgen/))
+# svgen ([0.2.4](https://pypi.org/project/svgen/))
 
 [![python](https://img.shields.io/pypi/pyversions/svgen.svg)](https://pypi.org/project/svgen/)
 ![Build Status](https://github.com/vkottler/svgen/workflows/Python%20Package/badge.svg)
 [![codecov](https://codecov.io/gh/vkottler/svgen/branch/master/graphs/badge.svg?branch=master)](https://codecov.io/github/vkottler/svgen)
+![PyPI - Status](https://img.shields.io/pypi/status/svgen)
+![Dependents (via libraries.io)](https://img.shields.io/librariesio/dependents/pypi/svgen)
 
 *A tool for working with scalable vector graphics.*
 
 See also: [generated documentation](https://vkottler.github.io/python/pydoc/svgen.html)
 (created with [`pydoc`](https://docs.python.org/3/library/pydoc.html)).
+
+## Python Version Support
+
+This package is tested with the following Python minor versions:
+
+* [`python3.7`](https://docs.python.org/3.7/)
+* [`python3.8`](https://docs.python.org/3.8/)
+* [`python3.9`](https://docs.python.org/3.9/)
+* [`python3.10`](https://docs.python.org/3.10/)
+
+## Platform Support
+
+This package is tested on the following platforms:
+
+* `macos-latest`
+* `windows-latest`
+* `ubuntu-latest`
+
+# Introduction
+
+This utility provides a means to work on graphics with a programmatic workflow.
 
 # Command-line Options
 

@@ -55,5 +55,6 @@ def test_circle_mutate():
         CartCircle(5.0, to_center(Point(1.0, 1.0)))
     )
 
+    # pylint: disable=unnecessary-dunder-call
     assert circle.raw.__eq__(5) is NotImplemented
     assert circle.__eq__(5) is NotImplemented
