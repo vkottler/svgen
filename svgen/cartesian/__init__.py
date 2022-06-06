@@ -4,7 +4,7 @@ svgen - A module for Cartesian-coordinate interfaces.
 
 # built-in
 from math import isclose, sqrt
-from typing import NamedTuple
+from typing import NamedTuple, Union
 
 # internal
 from svgen.attribute import SimpleAttribute
@@ -42,8 +42,13 @@ class Point(NamedTuple):
     center: bool = False
     idx: int = -1
 
-    def translate(self, move: Translation) -> "Point":
+    def translate(self, move: Union[Translation, float], *args) -> "Point":
         """Move a point by a given translation."""
+        move = (
+            Translation(move, *args)
+            if not isinstance(move, Translation)
+            else move
+        )
         return Point(self.x + move.dx, self.y + move.dy, self.center, self.idx)
 
     def with_index(self, idx: int) -> "Point":
