@@ -3,7 +3,7 @@ name: svgen
 version: "{{major}}.{{minor}}.{{patch}}"
 description: "A tool for working with scalable vector graphics."
 entry: {{entry}}
-requirements: []
+requirements:
+  - vcorelib
 dev_requirements:
   - setuptools-wrapper
-  - vcorelib

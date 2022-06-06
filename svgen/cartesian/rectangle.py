@@ -100,6 +100,16 @@ class Rectangle(NamedTuple):
         )
 
     @property
+    def width(self) -> float:
+        """Get the width of this rectangle."""
+        return self.dimensions.width
+
+    @property
+    def height(self) -> float:
+        """Get the height of this rectangle.."""
+        return self.dimensions.height
+
+    @property
     def square(self) -> bool:
         """Determine if this rectangle is square."""
 
