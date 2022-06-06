@@ -35,9 +35,13 @@ def test_rect_mutate():
 
     assert full_rect.to_square() == full_rect
     assert half_rect.to_square() == half_rect
+
+    # pylint: disable=unnecessary-dunder-call
     assert full_rect.__eq__(5) is NotImplemented
     assert full_rect.rect.__eq__(5) is NotImplemented
     assert full_rect.rect.dimensions.__eq__(5) is NotImplemented
+    # pylint: enable=unnecessary-dunder-call
+
     assert full_rect.square
 
     assert full_rect.translate(Translation(2.0, 2.0)) == Rect(

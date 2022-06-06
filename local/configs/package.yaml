@@ -6,3 +6,4 @@ entry: {{entry}}
 requirements: []
 dev_requirements:
   - setuptools-wrapper
+  - vcorelib

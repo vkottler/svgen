@@ -31,7 +31,10 @@ def test_rgba_basic():
     assert rgba(255, 255, 255, "50%").alpha == 0.5
 
     color = rgba(128, 128, 128, 0.25)
+
+    # pylint: disable=unnecessary-dunder-call
     assert color.alpha.__eq__(5) is NotImplemented
+    # pylint: enable=unnecessary-dunder-call
 
     assert Rgb.from_ctor("rgba(128, 128, 128, 25%)") == color
     assert Rgb.from_ctor("rgba(128, 128, 128, 26%)") != color
