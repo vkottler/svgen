@@ -95,11 +95,13 @@ def centered(
     height_scale: float = UNITY,
     color: Union[Color, str] = None,
     prop: str = "fill",
+    square: bool = False,
     **kwargs,
 ) -> Rect:
     """From a viewBox, created a centered-and-scaled rectangle."""
 
-    dimensions = box.dimensions.scale(width_scale, height_scale)
+    rect = box.box if not square else box.box.to_square()
+    dimensions = rect.dimensions.scale(width_scale, height_scale)
     delta_x = (box.dimensions.width - dimensions.width) / 2.0
     delta_y = (box.dimensions.height - dimensions.height) / 2.0
 
