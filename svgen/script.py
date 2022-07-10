@@ -6,10 +6,10 @@ svgen - A module for working with external scripts.
 from pathlib import Path
 
 # third-party
+from vcorelib.dict.config import Config
 from vcorelib.script import invoke_script as script
 
 # internal
-from svgen.config import Config
 from svgen.element.svg import Svg
 
 

@@ -56,26 +56,26 @@ class Circle(Element):
             return NotImplemented
         return self.raw == other.raw
 
-
-def centered(
-    box: ViewBox,
-    radius_scale: float = UNITY,
-    color: Union[Color, str] = None,
-    prop: str = "fill",
-    **kwargs,
-) -> Circle:
-    """
-    From a viewBox, create a circle that is centered with an appropriately
-    scaled radius.
-    """
-
-    radius = float(min(box.data.width, box.data.height)) / 2.0
-    result = Circle(
-        CartCircle(radius, to_center(box.center)).scale(radius_scale),
+    @staticmethod
+    def centered(
+        box: ViewBox,
+        radius_scale: float = UNITY,
+        color: Union[Color, str] = None,
+        prop: str = "fill",
         **kwargs,
-    )
+    ) -> "Circle":
+        """
+        From a viewBox, create a circle that is centered with an appropriately
+        scaled radius.
+        """
 
-    if color is not None:
-        result.style.add_color(color, prop)
+        radius = float(min(box.data.width, box.data.height)) / 2.0
+        result = Circle(
+            CartCircle(radius, to_center(box.center)).scale(radius_scale),
+            **kwargs,
+        )
 
-    return result
+        if color is not None:
+            result.style.add_color(color, prop)
+
+        return result
