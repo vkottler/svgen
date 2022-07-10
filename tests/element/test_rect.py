@@ -9,7 +9,7 @@ from pytest import approx
 from svgen.attribute.viewbox import ViewBox
 from svgen.cartesian import Point, Translation
 from svgen.cartesian.rectangle import Dimensions, Rectangle
-from svgen.element.rect import Rect, centered
+from svgen.element.rect import Rect
 
 
 def test_rect_basic():
@@ -20,6 +20,8 @@ def test_rect_basic():
     assert rect.dimensions.attrs.height_val == approx(100)
     assert rect.location.attrs.x_val == approx(0)
     assert rect.location.attrs.y_val == approx(0)
+    assert rect.width == approx(100)
+    assert rect.height == approx(100)
 
 
 def test_rect_mutate():
@@ -55,7 +57,7 @@ def test_rect_centered():
     """Test that a rectangle centered in a viewBox is created correctly."""
 
     box = ViewBox(0, 0, 100, 100)
-    rect = centered(box, 0.5, 0.5)
+    rect = Rect.centered(box, 0.5, 0.5)
     assert rect.dimensions.width == approx(50)
     assert rect.dimensions.height == approx(50)
     assert rect.location == Point(25, 25)

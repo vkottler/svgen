@@ -9,7 +9,7 @@ from pytest import approx
 from svgen.attribute.viewbox import ViewBox
 from svgen.cartesian import DEFAULT_CENTER, Point, Translation, to_center
 from svgen.cartesian.circle import Circle as CartCircle
-from svgen.element.circle import Circle, centered
+from svgen.element.circle import Circle
 
 
 def test_circle_basic():
@@ -24,18 +24,18 @@ def test_circle_centered():
 
     # Test a full-scale circle.
     box = ViewBox(0, 0, 100, 100)
-    circle = centered(box, color="blue")
+    circle = Circle.centered(box, color="blue")
     assert circle.raw.radius == approx(50)
     assert circle.raw.center == Point(50, 50)
 
     # Test a half-scale circle.
-    circle = centered(box, 0.5)
+    circle = Circle.centered(box, 0.5)
     assert circle.raw.radius == approx(25)
     assert circle.raw.center == Point(50, 50)
 
     # Test a non-square viewBox.
     box = ViewBox(0, 0, 100, 50)
-    circle = centered(box)
+    circle = Circle.centered(box)
     assert circle.raw.radius == approx(25)
     assert circle.raw.center == Point(50, 25)
 

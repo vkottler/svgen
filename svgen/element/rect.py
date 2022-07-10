@@ -46,6 +46,16 @@ class Rect(Element):
         super().__init__(attrib=real_attrs, **extra)
 
     @property
+    def width(self) -> float:
+        """Get the width of this rectangle element."""
+        return self.rect.width
+
+    @property
+    def height(self) -> float:
+        """Get the height of this rectangle element."""
+        return self.rect.height
+
+    @property
     def square(self) -> bool:
         """Determine if this rectangle is square."""
 
@@ -88,30 +98,30 @@ class Rect(Element):
             and isclose(self.ry, other.ry)
         )
 
-
-def centered(
-    box: ViewBox,
-    width_scale: float = UNITY,
-    height_scale: float = UNITY,
-    color: Union[Color, str] = None,
-    prop: str = "fill",
-    square: bool = False,
-    **kwargs,
-) -> Rect:
-    """From a viewBox, created a centered-and-scaled rectangle."""
-
-    rect = box.box if not square else box.box.to_square()
-    dimensions = rect.dimensions.scale(width_scale, height_scale)
-    delta_x = (box.dimensions.width - dimensions.width) / 2.0
-    delta_y = (box.dimensions.height - dimensions.height) / 2.0
-
-    result = Rect(
-        Rectangle(
-            dimensions, box.origin.translate(Translation(delta_x, delta_y))
-        ),
+    @staticmethod
+    def centered(
+        box: ViewBox,
+        width_scale: float = UNITY,
+        height_scale: float = UNITY,
+        color: Union[Color, str] = None,
+        prop: str = "fill",
+        square: bool = False,
         **kwargs,
-    )
+    ) -> "Rect":
+        """From a viewBox, created a centered-and-scaled rectangle."""
 
-    if color is not None:
-        result.style.add_color(color, prop)
-    return result
+        rect = box.box if not square else box.box.to_square()
+        dimensions = rect.dimensions.scale(width_scale, height_scale)
+        delta_x = (box.dimensions.width - dimensions.width) / 2.0
+        delta_y = (box.dimensions.height - dimensions.height) / 2.0
+
+        result = Rect(
+            Rectangle(
+                dimensions, box.origin.translate(Translation(delta_x, delta_y))
+            ),
+            **kwargs,
+        )
+
+        if color is not None:
+            result.style.add_color(color, prop)
+        return result

@@ -4,52 +4,70 @@ svgen - This package's command-line entry-point application.
 
 # built-in
 import argparse
-from json import load
 from pathlib import Path
 from sys import path
-from typing import cast
+from typing import List, cast
+
+# third-party
+from vcorelib.dict.config import Config
 
 # internal
 from svgen import PKG_NAME
 from svgen.attribute.viewbox import ViewBox
-from svgen.config import Config
 from svgen.element.svg import Svg, add_background_grid
 from svgen.script import invoke_script
 
 
-def entry(args: argparse.Namespace) -> int:
-    """Execute the requested task."""
+def generate(
+    config_path: Path,
+    output: Path,
+    cwd: Path,
+    scripts: List[Path],
+    default_height: int,
+    default_width: int,
+) -> None:
+    """Generate a single SVG document."""
 
-    # Load the top-level configuration.
     try:
-        with args.config.open(encoding="utf-8") as config_fd:
-            config = Config(load(config_fd))
-
-    # Use a default configuration, if we can't find one,
-    except FileNotFoundError:
+        config = Config.from_path(config_path)
+    except AssertionError:
         config = Config()
 
-    config.set_if_not("height", args.height)
-    config.set_if_not("width", args.width)
+    config.set_if_not("height", default_height)
+    config.set_if_not("width", default_width)
     config.set_if_not("scripts", [])
     config.set_if_not("grid", {})
     config.set_if_not("background", {})
 
     # Add the specified directory to the import path, so external scripts
     # can load their own dependencies.
-    path.append(str(args.dir))
+    cwd_str = str(cwd)
+    if cwd_str not in path:
+        path.append(cwd_str)
 
     doc = Svg(ViewBox.from_dict(cast(dict, config)))
     add_background_grid(doc, config["background"], config["grid"])
 
     # Compose the document, via the external script.
-    for script in args.scripts + [Path(x) for x in config["scripts"]]:
+    for script in scripts + [Path(x) for x in config["scripts"]]:
         invoke_script(script, doc, config)
 
     # Write the composed document to the output file.
-    with args.output.open("w", encoding="utf-8") as output_fd:
+    with output.open("w", encoding="utf-8") as output_fd:
         doc.encode(output_fd)
 
+
+def entry(args: argparse.Namespace) -> int:
+    """Execute the requested task."""
+
+    generate(
+        args.config,
+        args.output,
+        args.dir,
+        args.scripts,
+        args.height,
+        args.width,
+    )
     return 0
 
 

@@ -9,7 +9,7 @@ from typing import List
 from svgen.attribute import XMLNS, Attribute
 from svgen.attribute.viewbox import ViewBox
 from svgen.element import Element
-from svgen.element.rect import centered
+from svgen.element.rect import Rect
 
 
 class Svg(Element):
@@ -38,7 +38,7 @@ def add_background_grid(svg: Svg, background: dict, grid: dict) -> None:
     # Add a colored background rectangle, if at least 'color' is specified.
     if "color" in background:
         to_add.append(
-            centered(
+            Rect.centered(
                 svg.viewbox,
                 color=background["color"],
                 prop=background.get("property", "fill"),
