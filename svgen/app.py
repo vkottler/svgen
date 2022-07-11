@@ -6,7 +6,7 @@ svgen - This package's command-line entry-point application.
 import argparse
 from pathlib import Path
 from sys import path
-from typing import List, cast
+from typing import Iterable, cast
 
 # third-party
 from vcorelib.dict.config import Config
@@ -19,25 +19,12 @@ from svgen.script import invoke_script
 
 
 def generate(
-    config_path: Path,
+    config: Config,
     output: Path,
     cwd: Path,
-    scripts: List[Path],
-    default_height: int,
-    default_width: int,
+    scripts: Iterable[Path],
 ) -> None:
     """Generate a single SVG document."""
-
-    try:
-        config = Config.from_path(config_path)
-    except AssertionError:
-        config = Config()
-
-    config.set_if_not("height", default_height)
-    config.set_if_not("width", default_width)
-    config.set_if_not("scripts", [])
-    config.set_if_not("grid", {})
-    config.set_if_not("background", {})
 
     # Add the specified directory to the import path, so external scripts
     # can load their own dependencies.
@@ -49,7 +36,7 @@ def generate(
     add_background_grid(doc, config["background"], config["grid"])
 
     # Compose the document, via the external script.
-    for script in scripts + [Path(x) for x in config["scripts"]]:
+    for script in list(scripts) + [Path(x) for x in config["scripts"]]:
         invoke_script(script, doc, config)
 
     # Write the composed document to the output file.
@@ -57,17 +44,51 @@ def generate(
         doc.encode(output_fd)
 
 
+def initialize_config(
+    config: Config, default_height: int, default_width: int
+) -> None:
+    """TODO."""
+
+    config.set_if_not("height", default_height)
+    config.set_if_not("width", default_width)
+    config.set_if_not("scripts", [])
+    config.set_if_not("grid", {})
+    config.set_if_not("background", {})
+
+
 def entry(args: argparse.Namespace) -> int:
     """Execute the requested task."""
 
-    generate(
-        args.config,
-        args.output,
-        args.dir,
-        args.scripts,
-        args.height,
-        args.width,
-    )
+    try:
+        config = Config.from_path(args.config)
+    except AssertionError:
+        config = Config()
+
+    initialize_config(config, args.height, args.width)
+
+    # Save the initial configuration data.
+    original = config.data.copy()
+
+    scripts = set(x.resolve() for x in args.scripts)
+
+    # Generate the main document.
+    generate(config, args.output, args.dir, scripts)
+
+    # Generate any document variants.
+    for variant in config["variants"]:
+        # Load the variant's data.
+        config = Config(variant.get("data", {}))
+        config.merge(original.copy())
+        initialize_config(config, args.height, args.width)
+
+        generate(
+            config,
+            args.output,
+            args.dir,
+            scripts
+            | set(Path(x).resolve() for x in variant.get("scripts", [])),
+        )
+
     return 0
 
 
