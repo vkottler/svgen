@@ -138,3 +138,10 @@ class Rectangle(NamedTuple):
         """Convert this rectangle to a square."""
 
         return Rectangle(self.dimensions.to_square(scale), self.location)
+
+    @staticmethod
+    def create(
+        width: float, height: float, point: Point = DEFAULT
+    ) -> "Rectangle":
+        """Create a rectangle from simple parameters."""
+        return Rectangle(Dimensions(width, height), point)

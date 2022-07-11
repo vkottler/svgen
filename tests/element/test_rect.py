@@ -22,6 +22,7 @@ def test_rect_basic():
     assert rect.location.attrs.y_val == approx(0)
     assert rect.width == approx(100)
     assert rect.height == approx(100)
+    assert Rect.create(100.0, 100.0)
 
 
 def test_rect_mutate():

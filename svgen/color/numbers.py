@@ -11,7 +11,7 @@ def css_number_to_ratio(val: Union[float, int, str]) -> float:
     Given a few possible types of input, return a ratio between 0.0 and 1.0.
     """
 
-    float_val = float()
+    float_val = 0.0
 
     # Expect: a ratio between 0.0 and 1.0.
     if isinstance(val, float):

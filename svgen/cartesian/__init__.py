@@ -30,15 +30,15 @@ class PointAttrs(NamedTuple):
 class Translation(NamedTuple):
     """A definition of a translation in a Cartesian coordinate system."""
 
-    dx: float = float()
-    dy: float = float()
+    dx: float = 0.0
+    dy: float = 0.0
 
 
 class Point(NamedTuple):
     """A definition of a point in a Cartesian coordinate system."""
 
-    x: float = float()
-    y: float = float()
+    x: float = 0.0
+    y: float = 0.0
     center: bool = False
     idx: int = -1
 

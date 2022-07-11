@@ -38,8 +38,8 @@ class Line(Element):
 def line(
     x2: float,
     y2: float,
-    x1: float = float(),
-    y1: float = float(),
+    x1: float = 0.0,
+    y1: float = 0.0,
     attrs: PossibleAttributes = None,
     **extra,
 ) -> Line:
