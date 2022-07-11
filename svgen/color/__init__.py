@@ -203,10 +203,13 @@ class Color(NamedTuple):
         if lower in CSS_COLORS:
             return cls.from_hex(CSS_COLORS[lower])
 
-        assert "rgb" in value or "hsl" in value
         if "rgb" in value:
             return cls.from_rgb(Rgb.from_ctor(value))
-        return cls.from_hsl(Hsl.from_ctor(value))
+        if "hsl" in value:
+            return cls.from_hsl(Hsl.from_ctor(value))
+
+        # Treat the value as a hex color as a final option.
+        return cls.from_hex(value)
 
     def __str__(self) -> str:
         """Convert this color to a hex string."""

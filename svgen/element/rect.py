@@ -9,7 +9,7 @@ from typing import Union
 # internal
 from svgen.attribute import PossibleAttributes, SimpleAttribute, attributes
 from svgen.attribute.viewbox import ViewBox
-from svgen.cartesian import UNITY, Translation
+from svgen.cartesian import DEFAULT, UNITY, Point, Translation
 from svgen.cartesian.rectangle import Rectangle
 from svgen.color import Color
 from svgen.element import Element
@@ -21,8 +21,8 @@ class Rect(Element):
     def __init__(
         self,
         rect: Rectangle,
-        rx: float = float(),
-        ry: float = float(),
+        rx: float = 0.0,
+        ry: float = 0.0,
         attrs: PossibleAttributes = None,
         **extra,
     ) -> None:
@@ -38,12 +38,19 @@ class Rect(Element):
         real_attrs += [*self.location.attrs]
         real_attrs += [*self.dimensions.attrs]
 
-        if self.rx != float():
+        if not isclose(self.rx, 0.0):
             real_attrs.append(SimpleAttribute("rx", str(self.rx)))
-        if self.ry != float():
+        if not isclose(self.ry, 0.0):
             real_attrs.append(SimpleAttribute("ry", str(self.ry)))
 
         super().__init__(attrib=real_attrs, **extra)
+
+    @staticmethod
+    def create(
+        width: float, height: float, point: Point = DEFAULT, **kwargs
+    ) -> "Rect":
+        """Create a rectangle element."""
+        return Rect(Rectangle.create(width, height, point), **kwargs)
 
     @property
     def width(self) -> float:
