@@ -45,7 +45,5 @@ def add_background_grid(svg: Svg, background: dict, grid: dict) -> None:
             )
         )
 
-    print(grid)
-
     # Add any new children to the beginning of the document.
     svg.children = to_add + svg.children
