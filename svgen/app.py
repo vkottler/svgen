@@ -43,11 +43,13 @@ def generate(
     with output.open("w", encoding="utf-8") as output_fd:
         doc.encode(output_fd)
 
+    print(f"Generated '{output}'.")
+
 
 def initialize_config(
     config: Config, default_height: int, default_width: int
 ) -> None:
-    """TODO."""
+    """Set initial values for SVG document configurations."""
 
     config.set_if_not("height", default_height)
     config.set_if_not("width", default_width)
@@ -75,15 +77,21 @@ def entry(args: argparse.Namespace) -> int:
     generate(config, args.output, args.dir, scripts)
 
     # Generate any document variants.
-    for variant in config["variants"]:
+    for idx, variant in enumerate(config.get("variants", [])):
         # Load the variant's data.
-        config = Config(variant.get("data", {}))
-        config.merge(original.copy())
+        config = Config(original.copy())
+        config.update(variant.get("data", {}))
         initialize_config(config, args.height, args.width)
+
+        # Set the output name for this variant.
+        name = args.output.with_suffix("").name
+        output = args.output.with_name(
+            f"{name}-{variant.get('name', idx)}.svg"
+        )
 
         generate(
             config,
-            args.output,
+            output,
             args.dir,
             scripts
             | set(Path(x).resolve() for x in variant.get("scripts", [])),
