@@ -10,7 +10,7 @@ from typing import Union
 from svgen.attribute import PossibleAttributes, SimpleAttribute, attributes
 from svgen.attribute.viewbox import ViewBox
 from svgen.cartesian import DEFAULT, UNITY, Point, Translation
-from svgen.cartesian.rectangle import Rectangle
+from svgen.cartesian.rectangle import Rectangle, RectangleCorner
 from svgen.color import Color
 from svgen.element import Element
 
@@ -44,6 +44,30 @@ class Rect(Element):
             real_attrs.append(SimpleAttribute("ry", str(self.ry)))
 
         super().__init__(attrib=real_attrs, **extra)
+
+    def corner(self, corner: RectangleCorner) -> Point:
+        """Get a specific corner of a rectangle."""
+        return self.rect.corner(corner)
+
+    @property
+    def top_left(self) -> Point:
+        """Get the top left corner point."""
+        return self.rect.top_left
+
+    @property
+    def top_right(self) -> Point:
+        """Get the top right corner point."""
+        return self.rect.top_right
+
+    @property
+    def bottom_left(self) -> Point:
+        """Get the bottom left corner point."""
+        return self.rect.bottom_left
+
+    @property
+    def bottom_right(self) -> Point:
+        """Get the bottom right corner point."""
+        return self.rect.bottom_right
 
     @staticmethod
     def create(
