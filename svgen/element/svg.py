@@ -33,6 +33,8 @@ def add_background_grid(svg: Svg, background: dict, grid: dict) -> None:
     in their respective configurations.
     """
 
+    del grid
+
     to_add: List[Element] = []
 
     # Add a colored background rectangle, if at least 'color' is specified.
