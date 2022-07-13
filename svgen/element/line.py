@@ -4,7 +4,8 @@ svgen - A module for the 'line' element.
 
 # internal
 from svgen.attribute import PossibleAttributes, attributes
-from svgen.cartesian import Point, Translation
+from svgen.cartesian.mutate import Translation
+from svgen.cartesian.point import Point
 from svgen.element import Element
 
 

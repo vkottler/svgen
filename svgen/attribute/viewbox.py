@@ -3,11 +3,13 @@ svgen - A module for the 'viewBox' attribute.
 """
 
 # built-in
-from typing import NamedTuple
+from typing import NamedTuple, Union
 
 # internal
 from svgen.attribute import Attribute
 from svgen.cartesian import Point
+from svgen.cartesian.mutate import Translation
+from svgen.cartesian.plane import Plane, RectangleGrid
 from svgen.cartesian.rectangle import Dimensions, Rectangle
 
 
@@ -18,6 +20,17 @@ class ViewBoxData(NamedTuple):
     min_y: int
     width: int
     height: int
+
+    def translate(self, dx: int, dy: int) -> "ViewBoxData":
+        """Translate this viewBox."""
+        return ViewBoxData(
+            self.min_x + dx, self.min_y + dy, self.width, self.height
+        )
+
+    @property
+    def origin(self) -> Point:
+        """Get the origin for this viewBox."""
+        return Point(float(self.min_x), float(self.min_y))
 
     @property
     def center(self) -> Point:
@@ -45,8 +58,30 @@ class ViewBox(Attribute):
         self, min_x: int, min_y: int, width: int, height: int
     ) -> None:
         """Construct a new viewBox."""
+
         self.data = ViewBoxData(min_x, min_y, width, height)
+        self.plane = Plane(self.data.origin)
         self.box = Rectangle(self.dimensions, self.origin)
+        self.grid = RectangleGrid(self.box, width, height)
+
+    def new_grid(
+        self, rect: Rectangle = None, columns: int = None, rows: int = None
+    ) -> RectangleGrid:
+        """Create a grid from this viewBox."""
+        return self.grid.adjust(columns, rows, rect)
+
+    def translate(
+        self, dx: Union[Translation, float], *args, **kwargs
+    ) -> None:
+        """Apply a translation to this viewBox."""
+
+        move = Translation.normalize(dx, *args, **kwargs)
+
+        # Update instance attributes.
+        self.data = self.data.translate(int(move.dx), int(move.dy))
+        self.box = self.box.translate(move)
+        self.plane.translate(move)
+        self.grid = self.grid.translate(move)
 
     @property
     def dimensions(self) -> Dimensions:
@@ -56,7 +91,7 @@ class ViewBox(Attribute):
     @property
     def origin(self) -> Point:
         """Get this viewBox's origin."""
-        return Point(float(self.data.min_x), float(self.data.min_y))
+        return self.plane.origin
 
     @property
     def key(self) -> str:

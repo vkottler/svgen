@@ -8,13 +8,9 @@ from typing import NamedTuple
 
 # internal
 from svgen.attribute import SimpleAttribute
-from svgen.cartesian import (
-    DEFAULT_CENTER,
-    UNITY,
-    Point,
-    PointAttrs,
-    Translation,
-)
+from svgen.cartesian import UNITY
+from svgen.cartesian.mutate import Translation
+from svgen.cartesian.point import DEFAULT_CENTER, Point, PointAttrs
 
 
 class CircleAttrs(NamedTuple):

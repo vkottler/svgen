@@ -7,8 +7,9 @@ from pytest import approx
 
 # module under test
 from svgen.attribute.viewbox import ViewBox
-from svgen.cartesian import DEFAULT_CENTER, Point, Translation, to_center
 from svgen.cartesian.circle import Circle as CartCircle
+from svgen.cartesian.mutate import Translation
+from svgen.cartesian.point import DEFAULT_CENTER, Point, to_center
 from svgen.element.circle import Circle
 
 

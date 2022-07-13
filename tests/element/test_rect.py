@@ -7,7 +7,8 @@ from pytest import approx
 
 # module under test
 from svgen.attribute.viewbox import ViewBox
-from svgen.cartesian import Point, Translation
+from svgen.cartesian.mutate import Translation
+from svgen.cartesian.point import Point
 from svgen.cartesian.rectangle import CORNERS, Dimensions, Rectangle
 from svgen.element.rect import Rect
 

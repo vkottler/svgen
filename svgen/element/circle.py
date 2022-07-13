@@ -8,8 +8,10 @@ from typing import Union
 # internal
 from svgen.attribute import PossibleAttributes, attributes
 from svgen.attribute.viewbox import ViewBox
-from svgen.cartesian import UNITY, Point, Translation, to_center
+from svgen.cartesian import UNITY
 from svgen.cartesian.circle import Circle as CartCircle
+from svgen.cartesian.mutate import Translation
+from svgen.cartesian.point import Point, to_center
 from svgen.color import Color
 from svgen.element import Element
 

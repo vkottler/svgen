@@ -2,8 +2,10 @@
 svgen - Test the 'element.line' module.
 """
 
+from svgen.cartesian.mutate import Translation
+
 # module under test
-from svgen.cartesian import Point, Translation
+from svgen.cartesian.point import Point
 from svgen.element.line import line
 
 
