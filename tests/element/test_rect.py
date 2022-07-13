@@ -8,7 +8,7 @@ from pytest import approx
 # module under test
 from svgen.attribute.viewbox import ViewBox
 from svgen.cartesian import Point, Translation
-from svgen.cartesian.rectangle import Dimensions, Rectangle
+from svgen.cartesian.rectangle import CORNERS, Dimensions, Rectangle
 from svgen.element.rect import Rect
 
 
@@ -22,6 +22,11 @@ def test_rect_basic():
     assert rect.location.attrs.y_val == approx(0)
     assert rect.width == approx(100)
     assert rect.height == approx(100)
+    assert rect.top_left == Point()
+    assert rect.top_right == Point(100.0, 0.0)
+    assert rect.bottom_left == Point(0.0, 100.0)
+    assert rect.bottom_right == Point(100.0, 100.0)
+    assert rect.corner(CORNERS["tl"]) == Point()
     assert Rect.create(100.0, 100.0)
 
 

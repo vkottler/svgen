@@ -37,6 +37,14 @@ class Dimensions(NamedTuple):
     width: float
     height: float
 
+    def __str__(self) -> str:
+        """Get this instance as a string."""
+        return f"width={self.width}, height={self.height})"
+
+    def __hash__(self) -> int:
+        """Get a suitable hash value for this instance."""
+        return hash(str(self))
+
     def __eq__(self, other: object) -> bool:
         """Determine if these dimensions are equivalent to another set."""
 
@@ -99,6 +107,21 @@ class CornerScalar(NamedTuple):
 
     from_origin: Translation
     vector: Translation
+
+    def __str__(self) -> str:
+        """Get a suitable string for this corner scalar."""
+        return f"from_origin={self.from_origin}, vector={self.vector}"
+
+    def __hash__(self) -> int:
+        """Get a suitable hash for this corner scalar."""
+        return hash(str(self))
+
+    def __eq__(self, other) -> bool:
+        """Determine if this corner scalar is equivalent to another."""
+        return (
+            self.from_origin == other.from_origin
+            and self.vector == other.vector
+        )
 
     @property
     def vertical(self) -> bool:

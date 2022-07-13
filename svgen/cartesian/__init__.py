@@ -59,6 +59,12 @@ class Translation(NamedTuple):
     dx: float = 0.0
     dy: float = 0.0
 
+    def __eq__(self, other) -> bool:
+        """Test if two translations are equivalent."""
+        return isclose(self.dx, other.dx, abs_tol=1e-12) and isclose(
+            self.dy, other.dy, abs_tol=1e-12
+        )
+
     def rotate(self, angle: Angle = ANGLES["quarter"]) -> "Translation":
         """Rotate this translation vector by some angle."""
         return Translation(
