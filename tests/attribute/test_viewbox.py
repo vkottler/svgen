@@ -33,3 +33,12 @@ def test_viewbox_basic():
     # pylint: disable=unnecessary-dunder-call
     assert box.__eq__(5) is NotImplemented
     assert box.center.__eq__(5) is NotImplemented
+
+    grid = box.new_grid(columns=5, rows=5)
+    assert grid(1, 1) == Point(20, 20)
+    assert grid.adjust(columns=10)
+    assert grid.adjust(rows=10)
+
+    box.translate(50, 50)
+    assert box.origin == Point(50, 50)
+    box.plane.add_point("test", 75, 75)

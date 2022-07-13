@@ -5,11 +5,13 @@ svgen - A module for interacting with rectangular entities.
 # built-in
 from enum import Enum
 from math import isclose
-from typing import NamedTuple
+from typing import NamedTuple, Union
 
 # internal
 from svgen.attribute import SimpleAttribute
-from svgen.cartesian import DEFAULT, UNITY, VECTORS, Point, Translation
+from svgen.cartesian import UNITY
+from svgen.cartesian.mutate import VECTORS, Translation
+from svgen.cartesian.point import DEFAULT, Point
 
 
 class DimensionAttrs(NamedTuple):
@@ -21,13 +23,11 @@ class DimensionAttrs(NamedTuple):
     @property
     def width_val(self) -> float:
         """Get this 'width' value for these dimensions."""
-
         return float(self.width.value)
 
     @property
     def height_val(self) -> float:
         """Get the 'height' value for these dimensions."""
-
         return float(self.height.value)
 
 
@@ -67,32 +67,27 @@ class Dimensions(NamedTuple):
     @property
     def width_attr(self) -> SimpleAttribute:
         """Get the 'width' attribute for these dimensions."""
-
         return SimpleAttribute("width", str(self.width))
 
     @property
     def height_attr(self) -> SimpleAttribute:
         """Get the 'height' attribute for these dimensions."""
-
         return SimpleAttribute("height", str(self.height))
 
     @property
     def attrs(self) -> DimensionAttrs:
         """Get the 'width' and 'height' attributes for these dimensions."""
-
         return DimensionAttrs(self.width_attr, self.height_attr)
 
     @property
     def square(self) -> bool:
         """Determine if these dimensions are square."""
-
         return isclose(self.width, self.height)
 
     def scale(
         self, width_scale: float = UNITY, height_scale: float = UNITY
     ) -> "Dimensions":
         """Scale these dimensions."""
-
         return Dimensions(self.width * width_scale, self.height * height_scale)
 
     def to_square(self, scale: float = UNITY) -> "Dimensions":
@@ -249,9 +244,17 @@ class Rectangle(NamedTuple):
         """Determine if this rectangle is square."""
         return self.dimensions.square
 
-    def translate(self, move: Translation) -> "Rectangle":
+    def translate(
+        self, move: Union[Translation, float], *args, **kwargs
+    ) -> "Rectangle":
         """Move a rectangle by a given translation."""
-        return Rectangle(self.dimensions, self.location.translate(move))
+
+        return Rectangle(
+            self.dimensions,
+            self.location.translate(
+                Translation.normalize(move, *args, **kwargs)
+            ),
+        )
 
     def scale(
         self, width_scale: float = UNITY, height_scale: float = UNITY
@@ -284,6 +287,11 @@ class Rectangle(NamedTuple):
     def top_left(self) -> Point:
         """Get the top left corner point."""
         return self.corner(RectangleCorner.TOP_LEFT)
+
+    @property
+    def origin(self) -> Point:
+        """Get the origin location for this rectangle."""
+        return self.top_left
 
     @property
     def top_right(self) -> Point:

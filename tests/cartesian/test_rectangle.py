@@ -3,7 +3,8 @@ Test the 'cartesian.rectangle' module.
 """
 
 # module under test
-from svgen.cartesian import Point, Translation
+from svgen.cartesian.mutate import Translation
+from svgen.cartesian.point import Point
 from svgen.cartesian.rectangle import CORNERS, Dimensions, Rectangle
 
 

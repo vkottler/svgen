@@ -9,7 +9,9 @@ from typing import Union
 # internal
 from svgen.attribute import PossibleAttributes, SimpleAttribute, attributes
 from svgen.attribute.viewbox import ViewBox
-from svgen.cartesian import DEFAULT, UNITY, Point, Translation
+from svgen.cartesian import UNITY
+from svgen.cartesian.mutate import Translation
+from svgen.cartesian.point import DEFAULT, Point
 from svgen.cartesian.rectangle import Rectangle, RectangleCorner
 from svgen.color import Color
 from svgen.element import Element
