@@ -25,6 +25,7 @@ def test_rectangle_squaring():
     rect = Rectangle.create(20, 10)
     new_rect = rect.from_center(square=True)
     assert new_rect == Rectangle.create(10, 10, Point(5, 0))
+    assert new_rect.dimensions.to_square() == new_rect.dimensions
 
 
 def test_rectangle_corner_basic():

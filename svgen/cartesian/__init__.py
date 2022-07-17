@@ -109,12 +109,11 @@ class Dimensions(NamedTuple):
         """
 
         length = min(self.width, self.height)
+        dimensions = Dimensions(length, length).scale(scale, scale)
 
         # Determine how much the object needs to move if the caller wants to
         # center the result.
-        dx = abs(self.width - length) / 2.0
-        dy = abs(self.height - length) / 2.0
+        dx = abs(self.width - dimensions.dx) / 2.0
+        dy = abs(self.height - dimensions.dy) / 2.0
 
-        return Dimensions(length, length).scale(scale, scale), Translation(
-            dx, dy
-        )
+        return dimensions, Translation(dx, dy)

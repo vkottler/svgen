@@ -78,7 +78,8 @@ class Rectangle(NamedTuple):
 
     def to_square(self, scale: float = UNITY) -> "Rectangle":
         """Convert this rectangle to a square."""
-        return Rectangle(self.dimensions.to_square(scale), self.location)
+        dimensions, move = self.dimensions.to_centered_square(scale)
+        return Rectangle(dimensions, self.location.translate(move))
 
     @staticmethod
     def create(
