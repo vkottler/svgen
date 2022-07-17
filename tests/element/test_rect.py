@@ -30,6 +30,7 @@ def test_rect_basic():
     assert rect.bottom_right == Point(100.0, 100.0)
     assert rect.corner(CORNERS["tl"]) == Point()
     assert Rect.create(100.0, 100.0)
+    assert rect.grid(10, 10)
 
 
 def test_rect_mutate():

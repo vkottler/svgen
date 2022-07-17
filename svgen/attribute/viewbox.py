@@ -9,8 +9,9 @@ from typing import NamedTuple, Union
 from svgen.attribute import Attribute
 from svgen.cartesian import Point
 from svgen.cartesian.mutate import Translation
-from svgen.cartesian.plane import Plane, RectangleGrid
+from svgen.cartesian.plane import Plane
 from svgen.cartesian.rectangle import Dimensions, Rectangle
+from svgen.cartesian.rectangle.grid import RectangleGrid
 
 
 class ViewBoxData(NamedTuple):

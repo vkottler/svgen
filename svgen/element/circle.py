@@ -60,6 +60,20 @@ class Circle(Element):
         return self.raw == other.raw
 
     @staticmethod
+    def create(
+        center: Point,
+        radius: float,
+        color: Union[Color, str] = None,
+        prop: str = "fill",
+        **kwargs,
+    ) -> "Circle":
+        """Create a circle from a point and radius."""
+        result = Circle(CartCircle(radius, center.to_center()), **kwargs)
+        if color is not None:
+            result.style.add_color(color, prop)
+        return result
+
+    @staticmethod
     def centered(
         box: Union[ViewBox, Rectangle],
         radius_scale: float = UNITY,
