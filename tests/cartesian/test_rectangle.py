@@ -5,7 +5,8 @@ Test the 'cartesian.rectangle' module.
 # module under test
 from svgen.cartesian.mutate import Translation
 from svgen.cartesian.point import Point
-from svgen.cartesian.rectangle import CORNERS, Dimensions, Rectangle
+from svgen.cartesian.rectangle import Dimensions, Rectangle
+from svgen.cartesian.rectangle.corner import CORNERS
 
 
 def test_dimensions_basic():
