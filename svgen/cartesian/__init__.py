@@ -4,10 +4,11 @@ svgen - A module for Cartesian-coordinate interfaces.
 
 # built-in
 from math import isclose
-from typing import NamedTuple
+from typing import NamedTuple, Tuple
 
 # internal
 from svgen.attribute import SimpleAttribute
+from svgen.cartesian.mutate import Translation
 from svgen.cartesian.point import DEFAULT, Point
 
 UNITY: float = 1.0
@@ -97,6 +98,23 @@ class Dimensions(NamedTuple):
 
     def to_square(self, scale: float = UNITY) -> "Dimensions":
         """Convert these dimensions to a scaled square."""
+        return self.to_centered_square(scale)[0]
+
+    def to_centered_square(
+        self, scale: float = UNITY
+    ) -> Tuple["Dimensions", Translation]:
+        """
+        Make dimensions square and determine the resulting translation that
+        would be needed to logically center the new object.
+        """
 
         length = min(self.width, self.height)
-        return Dimensions(length, length).scale(scale, scale)
+
+        # Determine how much the object needs to move if the caller wants to
+        # center the result.
+        dx = abs(self.width - length) / 2.0
+        dy = abs(self.height - length) / 2.0
+
+        return Dimensions(length, length).scale(scale, scale), Translation(
+            dx, dy
+        )

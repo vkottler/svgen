@@ -148,15 +148,8 @@ class Rect(Element):
         if isinstance(box, ViewBox):
             box = box.box
 
-        rect = box if not square else box.to_square()
-        dimensions = rect.dimensions.scale(width_scale, height_scale)
-        delta_x = (box.dimensions.width - dimensions.width) / 2.0
-        delta_y = (box.dimensions.height - dimensions.height) / 2.0
-
         result = Rect(
-            Rectangle(
-                dimensions, box.origin.translate(Translation(delta_x, delta_y))
-            ),
+            Rectangle.centered(box, width_scale, height_scale, square),
             **kwargs,
         )
 
