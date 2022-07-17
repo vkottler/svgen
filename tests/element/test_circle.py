@@ -18,6 +18,7 @@ def test_circle_basic():
 
     circle = Circle(CartCircle(5.0))
     assert circle.raw.attrs.radius_val == approx(5)
+    assert Circle.create(Point(), 5.0, color="blue") == circle
 
 
 def test_circle_centered():

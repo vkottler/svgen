@@ -13,6 +13,7 @@ from svgen.cartesian import UNITY
 from svgen.cartesian.mutate import Translation
 from svgen.cartesian.point import DEFAULT, Point
 from svgen.cartesian.rectangle import Rectangle, RectangleCorner
+from svgen.cartesian.rectangle.grid import RectangleGrid
 from svgen.color import Color
 from svgen.element import Element
 
@@ -162,3 +163,7 @@ class Rect(Element):
         if color is not None:
             result.style.add_color(color, prop)
         return result
+
+    def grid(self, columns: int, rows: int) -> RectangleGrid:
+        """Create a grid from this rectangle."""
+        return RectangleGrid(self.rect, columns, rows)
