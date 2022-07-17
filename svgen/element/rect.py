@@ -133,7 +133,7 @@ class Rect(Element):
 
     @staticmethod
     def centered(
-        box: ViewBox,
+        box: Union[ViewBox, Rectangle],
         width_scale: float = UNITY,
         height_scale: float = UNITY,
         color: Union[Color, str] = None,
@@ -143,7 +143,11 @@ class Rect(Element):
     ) -> "Rect":
         """From a viewBox, created a centered-and-scaled rectangle."""
 
-        rect = box.box if not square else box.box.to_square()
+        # Compute everything from an actual rectangle instance.
+        if isinstance(box, ViewBox):
+            box = box.box
+
+        rect = box if not square else box.to_square()
         dimensions = rect.dimensions.scale(width_scale, height_scale)
         delta_x = (box.dimensions.width - dimensions.width) / 2.0
         delta_y = (box.dimensions.height - dimensions.height) / 2.0
