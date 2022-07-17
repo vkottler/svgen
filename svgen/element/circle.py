@@ -12,6 +12,7 @@ from svgen.cartesian import UNITY
 from svgen.cartesian.circle import Circle as CartCircle
 from svgen.cartesian.mutate import Translation
 from svgen.cartesian.point import Point, to_center
+from svgen.cartesian.rectangle import Rectangle
 from svgen.color import Color
 from svgen.element import Element
 
@@ -60,7 +61,7 @@ class Circle(Element):
 
     @staticmethod
     def centered(
-        box: ViewBox,
+        box: Union[ViewBox, Rectangle],
         radius_scale: float = UNITY,
         color: Union[Color, str] = None,
         prop: str = "fill",
@@ -71,7 +72,11 @@ class Circle(Element):
         scaled radius.
         """
 
-        radius = float(min(box.data.width, box.data.height)) / 2.0
+        # Compute everything from an actual rectangle instance.
+        if isinstance(box, ViewBox):
+            box = box.box
+
+        radius = float(min(box.width, box.height)) / 2.0
         result = Circle(
             CartCircle(radius, to_center(box.center)).scale(radius_scale),
             **kwargs,

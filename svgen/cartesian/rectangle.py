@@ -244,6 +244,15 @@ class Rectangle(NamedTuple):
         """Determine if this rectangle is square."""
         return self.dimensions.square
 
+    @property
+    def center(self) -> Point:
+        """Get the center location of this rectangle."""
+        return Point(
+            self.location.x + (self.width / 2.0),
+            self.location.y + (self.height / 2.0),
+            True,
+        )
+
     def translate(
         self, move: Union[Translation, float], *args, **kwargs
     ) -> "Rectangle":

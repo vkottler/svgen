@@ -38,6 +38,7 @@ class ViewBoxData(NamedTuple):
         return Point(
             self.min_x + (float(self.width) / 2.0),
             self.min_y + (float(self.height) / 2.0),
+            True,
         )
 
     @staticmethod
