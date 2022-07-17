@@ -3,7 +3,7 @@ A module for working with two-dimensional planes.
 """
 
 # built-in
-from typing import NamedTuple, Union
+from typing import Iterable, NamedTuple, Union
 
 # internal
 from svgen.cartesian.mutate import Translation
@@ -35,6 +35,24 @@ class RectangleGrid(NamedTuple):
         assert x < self.columns
         assert y < self.rows
         return self.rect.origin.translate(x * self.x_scale, y * self.y_scale)
+
+    @property
+    def points(self) -> Iterable[Point]:
+        """Iterate over points in the grid."""
+        for row in range(self.rows):
+            for col in range(self.columns):
+                yield self(col, row)
+
+    def box(self, x: float, y: float) -> Rectangle:
+        """Get a rectangle object from provided coordinates."""
+        return Rectangle.create(self.x_scale, self.y_scale, self(x, y))
+
+    @property
+    def boxes(self) -> Iterable[Rectangle]:
+        """Iterate over boxes belonging to this grid."""
+        for row in range(self.rows):
+            for col in range(self.columns):
+                yield self.box(col, row)
 
     def adjust(
         self, columns: int = None, rows: int = None, rect: Rectangle = None
