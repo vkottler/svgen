@@ -3,12 +3,19 @@ A module implementing grid interfaces for rectangles.
 """
 
 # built-in
-from typing import Iterable, NamedTuple, Union
+from typing import Iterable, NamedTuple, Tuple, Union
 
 # internal
 from svgen.cartesian.mutate import Translation
 from svgen.cartesian.point import Point
 from svgen.cartesian.rectangle import Rectangle
+
+
+class RectangleIndex(NamedTuple):
+    """An index into a rectangle grid."""
+
+    column: int
+    row: int
 
 
 class RectangleGrid(NamedTuple):
@@ -53,6 +60,13 @@ class RectangleGrid(NamedTuple):
         for row in range(self.rows):
             for col in range(self.columns):
                 yield self.box(col, row)
+
+    @property
+    def enumerate_boxes(self) -> Iterable[Tuple[RectangleIndex, Rectangle]]:
+        """Iterate over boxes belonging to this grid."""
+        for row in range(self.rows):
+            for col in range(self.columns):
+                yield RectangleIndex(col, row), self.box(col, row)
 
     def adjust(
         self, columns: int = None, rows: int = None, rect: Rectangle = None
