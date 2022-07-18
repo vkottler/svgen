@@ -22,3 +22,4 @@ def test_cartesian_plane_grid_boxes():
     assert points[1] == Point(10.0, 0.0)
     assert points[-1] == Point(100.0, 100.0)
     assert len(list(grid.boxes)) == 100
+    assert len(list(grid.enumerate_boxes)) == 100
