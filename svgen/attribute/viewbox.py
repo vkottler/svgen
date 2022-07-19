@@ -66,6 +66,16 @@ class ViewBox(Attribute):
         self.box = Rectangle(self.dimensions, self.origin)
         self.grid = RectangleGrid(self.box, width, height)
 
+    @property
+    def width(self) -> int:
+        """Get the width of this viewbox."""
+        return self.data.width
+
+    @property
+    def height(self) -> int:
+        """Get the height of this viewbox."""
+        return self.data.height
+
     def new_grid(
         self, rect: Rectangle = None, columns: int = None, rows: int = None
     ) -> RectangleGrid:
