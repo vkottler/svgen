@@ -40,7 +40,7 @@ def base_args(
     """Get base arguments to invoke this package's command-line entry."""
 
     with TemporaryDirectory() as tmpdir:
-        args = [PKG_NAME, "-C", tmpdir]
+        args = [PKG_NAME, "-C", tmpdir, "--images"]
         if include_config:
             args.extend(["-c", str(get_config(name))])
         args.append(str(get_script(name)))
