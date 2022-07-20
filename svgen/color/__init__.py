@@ -3,7 +3,7 @@ svgen - A module for working with colors.
 """
 
 # built-in
-from typing import Dict, NamedTuple
+from typing import Dict, NamedTuple, Union
 
 # internal
 from svgen.color.conversion import hsl_to_rgb, rgb_to_hsl
@@ -165,6 +165,8 @@ CSS_COLORS["lightslategrey"] = CSS_COLORS["lightslategray"]
 CSS_COLORS["magenta"] = CSS_COLORS["fuchsia"]
 CSS_COLORS["slategrey"] = CSS_COLORS["slategray"]
 
+Colorlike = Union[str, Hsl, Rgb, "Color"]
+
 
 class Color(NamedTuple):
     """A definition of a color."""
@@ -210,6 +212,17 @@ class Color(NamedTuple):
 
         # Treat the value as a hex color as a final option.
         return cls.from_hex(value)
+
+    @classmethod
+    def create(cls, value: Colorlike) -> "Color":
+        """Create a color from a variety of possible sources."""
+        if isinstance(value, Color):
+            return value
+        if isinstance(value, Hsl):
+            return cls.from_hsl(value)
+        if isinstance(value, Rgb):
+            return cls.from_rgb(value)
+        return cls.from_ctor(value)
 
     def __str__(self) -> str:
         """Convert this color to a hex string."""
