@@ -16,10 +16,10 @@ import pkg_resources
 from svgen import PKG_NAME
 
 
-def get_resource(resource_name: str, pkg: str = __name__) -> Path:
+def get_resource(resource_name: str, *names: str, pkg: str = __name__) -> Path:
     """Locate the path to a test resource."""
 
-    resource_path = os.path.join("data", resource_name)
+    resource_path = os.path.join("data", resource_name, *names)
     return Path(pkg_resources.resource_filename(pkg, resource_path))
 
 

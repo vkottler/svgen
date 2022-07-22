@@ -14,7 +14,7 @@ from svgen.cartesian.mutate import Translation
 from svgen.cartesian.point import DEFAULT, Point
 from svgen.cartesian.rectangle import Rectangle, RectangleCorner
 from svgen.cartesian.rectangle.grid import RectangleGrid
-from svgen.color import Color
+from svgen.color import Colorlike
 from svgen.element import Element
 
 
@@ -137,7 +137,7 @@ class Rect(Element):
         box: Union[ViewBox, Rectangle],
         width_scale: float = UNITY,
         height_scale: float = UNITY,
-        color: Union[Color, str] = None,
+        color: Colorlike = None,
         prop: str = "fill",
         square: bool = False,
         **kwargs,

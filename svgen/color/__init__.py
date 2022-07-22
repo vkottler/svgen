@@ -174,11 +174,9 @@ class Color(NamedTuple):
     rgb: Rgb
     hsl: Hsl
 
-    def __eq__(self, other: object) -> bool:
+    def __eq__(self, other) -> bool:
         """Determine if two colors are equal."""
-
-        if not isinstance(other, Color):
-            return NotImplemented
+        other = Color.create(other)
         return self.rgb == other.rgb or self.hsl == other.hsl
 
     @classmethod
