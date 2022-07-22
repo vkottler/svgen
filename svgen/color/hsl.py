@@ -19,7 +19,6 @@ class DegreePrimitive(int):
 
     def __new__(cls, val: int) -> "DegreePrimitive":
         """Construct a new degree value."""
-
         return super().__new__(cls, val % 360)
 
 
@@ -28,20 +27,17 @@ class PercentPrimitive(int):
 
     def __new__(cls, val: int) -> "PercentPrimitive":
         """Create a new percentage value."""
-
         val = max(val, 0)
         val = min(val, 100)
         return super().__new__(cls, val)
 
     def __str__(self) -> str:
         """Get this percentage as a string."""
-
         return f"{int(self)}%"
 
     @property
     def ratio(self) -> float:
         """Get this percentage as a ratio between 0 and 1."""
-
         return float(self) / 100.0
 
 

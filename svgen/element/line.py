@@ -2,6 +2,9 @@
 svgen - A module for the 'line' element.
 """
 
+# built-in
+from typing import Union
+
 # internal
 from svgen.attribute import PossibleAttributes, attributes
 from svgen.cartesian.mutate import Translation
@@ -31,9 +34,24 @@ class Line(Element):
         )
         super().__init__(attrib=real_attrs, **extra)
 
-    def translate(self, move: Translation) -> "Line":
+    def translate(
+        self, move: Union[Translation, float], *args, **kwargs
+    ) -> "Line":
         """Move a rectangle by a given translation."""
+        move = Translation.normalize(move, *args, **kwargs)
         return Line(self.p1.translate(move), self.p2.translate(move))
+
+    @staticmethod
+    def create(
+        x2: float,
+        y2: float,
+        x1: float = 0.0,
+        y1: float = 0.0,
+        attrs: PossibleAttributes = None,
+        **extra,
+    ) -> "Line":
+        """Create a line."""
+        return Line(Point(x1, y1), Point(x2, y2), attrs, **extra)
 
 
 def line(
@@ -45,4 +63,4 @@ def line(
     **extra,
 ) -> Line:
     """Create a line."""
-    return Line(Point(x1, y1), Point(x2, y2), attrs, **extra)
+    return Line.create(x2, y2, x1, y1, attrs, **extra)

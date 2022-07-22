@@ -7,7 +7,8 @@ from typing import Dict, List, NamedTuple, Union
 
 # internal
 from svgen.attribute import Attribute
-from svgen.color import Color
+from svgen.color import Colorlike
+from svgen.color.resolve import get_color
 
 
 class CssProperty(NamedTuple):
@@ -24,12 +25,9 @@ class CssProperty(NamedTuple):
         return self.key == other.key and self.value == other.value
 
     @staticmethod
-    def color(color: Union[str, Color], prop: str = "fill") -> "CssProperty":
+    def color(color: Colorlike, prop: str = "fill", **kwargs) -> "CssProperty":
         """Get a CSS property for a color."""
-
-        if isinstance(color, str):
-            color = Color.from_ctor(color)
-        return CssProperty(prop, str(color))
+        return CssProperty(prop, str(get_color(color, **kwargs)))
 
     @staticmethod
     def decode(value: str) -> List["CssProperty"]:
@@ -118,10 +116,13 @@ class Style(Attribute):
         return result
 
     def add_color(
-        self, color: Union[str, Color], prop: str = "fill"
+        self,
+        color: Colorlike,
+        prop: str = "fill",
+        **kwargs,
     ) -> "Style":
         """Set a style property to a color."""
-        self.properties.append(CssProperty.color(color, prop))
+        self.properties.append(CssProperty.color(color, prop=prop, **kwargs))
         return self
 
     @property

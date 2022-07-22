@@ -16,10 +16,10 @@ import pkg_resources
 from svgen import PKG_NAME
 
 
-def get_resource(resource_name: str, pkg: str = __name__) -> Path:
+def get_resource(resource_name: str, *names: str, pkg: str = __name__) -> Path:
     """Locate the path to a test resource."""
 
-    resource_path = os.path.join("data", resource_name)
+    resource_path = os.path.join("data", resource_name, *names)
     return Path(pkg_resources.resource_filename(pkg, resource_path))
 
 
@@ -40,7 +40,7 @@ def base_args(
     """Get base arguments to invoke this package's command-line entry."""
 
     with TemporaryDirectory() as tmpdir:
-        args = [PKG_NAME, "-C", tmpdir]
+        args = [PKG_NAME, "-C", tmpdir, "--images"]
         if include_config:
             args.extend(["-c", str(get_config(name))])
         args.append(str(get_script(name)))

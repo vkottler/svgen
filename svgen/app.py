@@ -15,6 +15,7 @@ from vcorelib.dict.config import Config
 from svgen import PKG_NAME
 from svgen.attribute.viewbox import ViewBox
 from svgen.element.svg import Svg, add_background_grid
+from svgen.generation.images import generate_images
 from svgen.script import invoke_script
 
 
@@ -23,6 +24,7 @@ def generate(
     output: Path,
     cwd: Path,
     scripts: Iterable[Path],
+    images: bool = True,
 ) -> None:
     """Generate a single SVG document."""
 
@@ -44,6 +46,10 @@ def generate(
         doc.encode(output_fd)
 
     print(f"Generated '{output}'.")
+
+    # Generate image outputs.
+    if images:
+        generate_images(doc, output)
 
 
 def initialize_config(
@@ -95,6 +101,7 @@ def entry(args: argparse.Namespace) -> int:
             args.dir,
             scripts
             | set(Path(x).resolve() for x in variant.get("scripts", [])),
+            images=args.images,
         )
 
     return 0
@@ -129,6 +136,10 @@ def add_app_args(parser: argparse.ArgumentParser) -> None:
             "width of the document, if not specified by "
             "configuration (default: %(default)s)"
         ),
+    )
+
+    parser.add_argument(
+        "--images", action="store_true", help="generate output images"
     )
 
     parser.add_argument(

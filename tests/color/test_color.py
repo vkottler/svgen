@@ -4,6 +4,8 @@ svgen - Test the 'svgen.color' module.
 
 # module under test
 from svgen.color import Color
+from svgen.color.hsl import Hsl
+from svgen.color.rgb import Rgb
 
 
 def test_color_basic():
@@ -12,5 +14,6 @@ def test_color_basic():
     assert Color.from_ctor("rgb(0, 0, 0)") == Color.from_ctor("hsl(0, 0%, 0%)")
     assert Color.from_ctor("aliceblue") == Color.from_hex("#f0f8ff")
     assert Color.from_ctor("#f0f8ff") == Color.from_hex("#f0f8ff")
-    # pylint: disable=unnecessary-dunder-call
-    assert Color.from_hex("#FFFFFF").__eq__(5) is NotImplemented
+
+    assert Color.create(Hsl.from_ctor("hsl(0, 0%, 0%)")) == "#000000"
+    assert Color.create(Rgb.from_ctor("rgb(0, 0, 0)")) == "#000000"

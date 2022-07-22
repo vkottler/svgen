@@ -13,7 +13,8 @@ from svgen.cartesian import UNITY
 from svgen.cartesian.mutate import Translation
 from svgen.cartesian.point import DEFAULT, Point
 from svgen.cartesian.rectangle import Rectangle, RectangleCorner
-from svgen.color import Color
+from svgen.cartesian.rectangle.grid import RectangleGrid
+from svgen.color import Colorlike
 from svgen.element import Element
 
 
@@ -136,7 +137,7 @@ class Rect(Element):
         box: Union[ViewBox, Rectangle],
         width_scale: float = UNITY,
         height_scale: float = UNITY,
-        color: Union[Color, str] = None,
+        color: Colorlike = None,
         prop: str = "fill",
         square: bool = False,
         **kwargs,
@@ -147,18 +148,15 @@ class Rect(Element):
         if isinstance(box, ViewBox):
             box = box.box
 
-        rect = box if not square else box.to_square()
-        dimensions = rect.dimensions.scale(width_scale, height_scale)
-        delta_x = (box.dimensions.width - dimensions.width) / 2.0
-        delta_y = (box.dimensions.height - dimensions.height) / 2.0
-
         result = Rect(
-            Rectangle(
-                dimensions, box.origin.translate(Translation(delta_x, delta_y))
-            ),
+            Rectangle.centered(box, width_scale, height_scale, square),
             **kwargs,
         )
 
         if color is not None:
             result.style.add_color(color, prop)
         return result
+
+    def grid(self, columns: int, rows: int) -> RectangleGrid:
+        """Create a grid from this rectangle."""
+        return RectangleGrid(self.rect, columns, rows)

@@ -9,8 +9,9 @@ from typing import NamedTuple, Union
 from svgen.attribute import Attribute
 from svgen.cartesian import Point
 from svgen.cartesian.mutate import Translation
-from svgen.cartesian.plane import Plane, RectangleGrid
+from svgen.cartesian.plane import Plane
 from svgen.cartesian.rectangle import Dimensions, Rectangle
+from svgen.cartesian.rectangle.grid import RectangleGrid
 
 
 class ViewBoxData(NamedTuple):
@@ -64,6 +65,16 @@ class ViewBox(Attribute):
         self.plane = Plane(self.data.origin)
         self.box = Rectangle(self.dimensions, self.origin)
         self.grid = RectangleGrid(self.box, width, height)
+
+    @property
+    def width(self) -> int:
+        """Get the width of this viewbox."""
+        return self.data.width
+
+    @property
+    def height(self) -> int:
+        """Get the height of this viewbox."""
+        return self.data.height
 
     def new_grid(
         self, rect: Rectangle = None, columns: int = None, rows: int = None

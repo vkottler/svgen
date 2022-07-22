@@ -78,7 +78,8 @@ class Rectangle(NamedTuple):
 
     def to_square(self, scale: float = UNITY) -> "Rectangle":
         """Convert this rectangle to a square."""
-        return Rectangle(self.dimensions.to_square(scale), self.location)
+        dimensions, move = self.dimensions.to_centered_square(scale)
+        return Rectangle(dimensions, self.location.translate(move))
 
     @staticmethod
     def create(
@@ -86,6 +87,37 @@ class Rectangle(NamedTuple):
     ) -> "Rectangle":
         """Create a rectangle from simple parameters."""
         return Rectangle(Dimensions(width, height), point)
+
+    @staticmethod
+    def centered(
+        source: "Rectangle",
+        width_scale: float = UNITY,
+        height_scale: float = UNITY,
+        square: bool = False,
+    ) -> "Rectangle":
+        """Create a centered rectangle from another rectangle."""
+
+        # Convert the source rectangle to a square, first.
+        if square:
+            dimensions, move = source.dimensions.to_centered_square()
+            source = Rectangle(dimensions, source.location)
+            source = source.translate(move)
+
+        dimensions = source.dimensions.scale(width_scale, height_scale)
+        delta_x = (source.dimensions.width - dimensions.width) / 2.0
+        delta_y = (source.dimensions.height - dimensions.height) / 2.0
+        return Rectangle(
+            dimensions, source.origin.translate(Translation(delta_x, delta_y))
+        )
+
+    def from_center(
+        self,
+        width_scale: float = UNITY,
+        height_scale: float = UNITY,
+        square: bool = False,
+    ) -> "Rectangle":
+        """Create a new rectangle from this instance's center."""
+        return Rectangle.centered(self, width_scale, height_scale, square)
 
     def corner(self, corner: RectangleCorner) -> Point:
         """Get a specific corner of a rectangle."""
