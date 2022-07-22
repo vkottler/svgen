@@ -13,7 +13,7 @@ from svgen.cartesian.circle import Circle as CartCircle
 from svgen.cartesian.mutate import Translation
 from svgen.cartesian.point import Point, to_center
 from svgen.cartesian.rectangle import Rectangle
-from svgen.color import Color
+from svgen.color import Colorlike
 from svgen.element import Element
 
 
@@ -63,7 +63,7 @@ class Circle(Element):
     def create(
         center: Point,
         radius: float,
-        color: Union[Color, str] = None,
+        color: Colorlike = None,
         prop: str = "fill",
         **kwargs,
     ) -> "Circle":
@@ -77,7 +77,7 @@ class Circle(Element):
     def centered(
         box: Union[ViewBox, Rectangle],
         radius_scale: float = UNITY,
-        color: Union[Color, str] = None,
+        color: Colorlike = None,
         prop: str = "fill",
         **kwargs,
     ) -> "Circle":

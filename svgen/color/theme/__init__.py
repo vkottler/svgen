@@ -24,9 +24,20 @@ class ColorToken(NamedTuple):
     token: str
     color: Color
 
+    def __eq__(self, other) -> bool:
+        """Determine if a color token is equivalent to something else."""
+        if hasattr(other, "color"):
+            other = other.color
+        return self.color == other
+
     def __str__(self) -> str:
         """Get this token as a color string."""
         return str(self.color)
+
+    @staticmethod
+    def create(key: Colorlike) -> "ColorToken":
+        """Create a color token from a color."""
+        return ColorToken(str(key), Color.create(key))
 
 
 class ColorTheme(UserDict, NamespaceMixin):
@@ -68,14 +79,19 @@ class ColorTheme(UserDict, NamespaceMixin):
         # Always check the current namespace first.
         namespaced = self.namespace(key)
         if namespaced in self.data:
-            result = self[namespaced]
+            result = self.data[namespaced]
             token = namespaced
 
         # Check the global namespace.
         elif key in self.data:
-            result = self[key]
+            result = self.data[key]
 
         return token, result
+
+    def __getitem__(self, key: str) -> Color:
+        """Get a color from this theme."""
+        key, _ = self.lookup(key)
+        return self.data[key]
 
     def resolve(self, key: str, strict: bool = False) -> ColorToken:
         """Attempt to resolve a color key as a theme color."""
@@ -105,18 +121,19 @@ class ColorTheme(UserDict, NamespaceMixin):
         namespaced = self.namespace(key)
         color = self.create(color)
         if namespaced in self:
-            assert self[namespaced] == color, (
+            assert self.data[namespaced] == color, (
                 f"Can't add over color '{namespaced}'! "
-                f"{self[namespaced]} != {color}"
+                f"{self.data[namespaced]} != {color}"
             )
         else:
-            self[namespaced] = color
+            self.data[namespaced] = color
         return ColorToken(namespaced, color)
 
     def add_mapping(self, data: Mapping) -> None:
         """Add a mapping of tokens and colors to this theme."""
 
         for key, val in data.items():
+            key = str(key)
             # Ensure that we recurse into dictionaries.
             if isinstance(val, Mapping):
                 with self.names_pushed(key):
@@ -136,3 +153,8 @@ class ColorTheme(UserDict, NamespaceMixin):
         theme = ColorTheme(path.with_suffix("").name)
         theme.add_mapping(ARBITER.decode(path, require_success=True).data)
         return theme
+
+    @property
+    def size(self) -> int:
+        """Get the number of colors in this theme."""
+        return len(self.data.keys())
