@@ -19,7 +19,7 @@ class InkscapeTask(SubprocessExecStreamed):
 
     async def invoke(self, *cli_args, entry: str = DEFAULT_ENTRY) -> bool:
         """Invoke inkscape."""
-        return await self.run({}, {}, "-z", *cli_args, args="", program=entry)
+        return await self.run({}, {}, *cli_args, args="", program=entry)
 
 
 INKSCAPE = InkscapeTask(DEFAULT_ENTRY)
