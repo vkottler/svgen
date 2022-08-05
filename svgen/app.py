@@ -80,7 +80,7 @@ def entry(args: argparse.Namespace) -> int:
     scripts = set(x.resolve() for x in args.scripts)
 
     # Generate the main document.
-    generate(config, args.output, args.dir, scripts)
+    generate(config, args.output, args.dir, scripts, images=args.images)
 
     # Generate any document variants.
     for idx, variant in enumerate(config.get("variants", [])):
