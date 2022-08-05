@@ -41,7 +41,6 @@ def generate_images(
     dir_name = output.with_suffix("")
     dir_name.mkdir(parents=True, exist_ok=True)
 
-    args = [str(output), "-e"]
     arg_sets = []
 
     out_name_base = dir_name.name
@@ -52,7 +51,7 @@ def generate_images(
         )
 
         # Gather sets of arguments for inkscape.
-        arg_sets.append(args + [str(out_path), *ratio.args])
+        arg_sets.append(["-o", str(out_path), *ratio.args, str(output)])
 
     # Run inkscape to generate outputs.
     result = run(invoke_multiple(arg_sets, entry=cli_entry))
