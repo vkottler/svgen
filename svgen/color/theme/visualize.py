@@ -3,7 +3,7 @@ A module for visualizing color themes.
 """
 
 # built-in
-from typing import Iterator
+from typing import Iterator, Union
 
 # internal
 from svgen.cartesian.rectangle import Rectangle
@@ -13,12 +13,19 @@ from svgen.color.theme.manager import THEMES, ColorThemeManager
 from svgen.element.rect import Rect
 
 
-def visualize_theme(theme: ColorTheme, rect: Rectangle) -> Iterator[Rect]:
+def visualize_theme(
+    theme: Union[ColorTheme, str], rect: Rectangle
+) -> Iterator[Rect]:
     """
     Create filled rectangle elements for this theme inside another
     rectangle.
     """
 
+    # Allow a theme to be specified as a string name.
+    if isinstance(theme, str):
+        theme = THEMES.data[theme]
+
+    assert isinstance(theme, ColorTheme)
     for box, color in zip(
         RectangleGrid(rect, theme.size, 1).boxes,
         theme.data.values(),
@@ -39,4 +46,5 @@ def visualize(
     for box, theme in zip(
         RectangleGrid(rect, 1, manager.size).boxes, manager.data.values()
     ):
-        yield from visualize_theme(theme, box)
+        if theme is not None:
+            yield from visualize_theme(theme, box)

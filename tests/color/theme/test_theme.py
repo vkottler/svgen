@@ -31,3 +31,7 @@ def test_color_theme_basic():
     assert theme["gray.primary.40"] == "#0f0f0f0f"
 
     assert visualize_theme(theme, Rectangle.create(100.0, 100.0))
+
+    theme.add_mapping(
+        {"a": {"a": "black"}, "b": {"b": "black"}, "c": {"c": "black"}}
+    )

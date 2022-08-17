@@ -2,15 +2,19 @@
 A module implementing a color-theme manager.
 """
 
-# built-in
 from collections import UserDict
+
+# built-in
+from os.path import join
 from typing import Dict
 
 # third-party
+from pkg_resources import resource_filename
 from vcorelib.logging import LoggerMixin
 from vcorelib.paths import Pathlike, normalize
 
 # internal
+from svgen import PKG_NAME
 from svgen.color import Colorlike
 from svgen.color.theme import ColorTheme, ColorToken
 
@@ -23,14 +27,14 @@ class ColorThemeManager(UserDict, LoggerMixin):
     ) -> None:
         """Initialize this theme manager."""
 
-        UserDict.__init__(self, initialdata=initialdata)
+        UserDict.__init__(self, initialdata if initialdata is not None else {})
         LoggerMixin.__init__(self)
         self.theme: str = theme
 
     def __getitem__(self, key: Colorlike) -> ColorToken:
         """Attempt to get a color token based on a color key."""
         if self.theme and self.theme in self.data:
-            return self.data[self.theme].create(key)
+            key = self.data[self.theme].create(key)
         return ColorToken.create(key)
 
     @property
@@ -61,3 +65,7 @@ class ColorThemeManager(UserDict, LoggerMixin):
 
 
 THEMES = ColorThemeManager()
+THEMES.load_directory(resource_filename(PKG_NAME, join("data", "themes")))
+
+# Set a default theme.
+THEMES.theme = "gray"

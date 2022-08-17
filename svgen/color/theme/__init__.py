@@ -138,10 +138,9 @@ class ColorTheme(UserDict, NamespaceMixin):
             if isinstance(val, Mapping):
                 with self.names_pushed(key):
                     self.add_mapping(val)
-                continue
-
-            # Add leaf nodes as actual colors.
-            self.add(key, val)
+            else:
+                # Add leaf nodes as actual colors.
+                self.add(key, val)
 
     @staticmethod
     def from_path(path: Pathlike) -> "ColorTheme":
