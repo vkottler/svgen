@@ -54,7 +54,9 @@ def generate_images(
         arg_sets.append(["-o", str(out_path), *ratio.args, str(output)])
 
     # Run inkscape to generate outputs.
-    result = run(invoke_multiple(arg_sets, entry=cli_entry))
+    result = False
+    with suppress(FileNotFoundError):
+        result = run(invoke_multiple(arg_sets, entry=cli_entry))
 
     # Also generate an icon for square documents.
     if result and doc_ratio.square:
