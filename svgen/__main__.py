@@ -1,7 +1,7 @@
 # =====================================
 # generator=datazen
-# version=2.1.0
-# hash=c899afd4b2308889f0dc1260eede4d46
+# version=3.0.8
+# hash=d7721d3e4e7fae6161d538f1104cee4b
 # =====================================
 """
 svgen - Package's default entry-point.

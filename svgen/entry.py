@@ -1,7 +1,7 @@
 # =====================================
 # generator=datazen
-# version=2.1.0
-# hash=96af07678b95bf575ba8a788470d11fd
+# version=3.0.8
+# hash=f2f8adaaa3e69e38b7e265b9e5bb7a5e
 # =====================================
 
 """
