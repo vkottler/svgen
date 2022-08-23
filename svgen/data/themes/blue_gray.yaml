@@ -10,3 +10,11 @@ primary:
   700: "#455a64"
   800: "#37474f"
   900: "#263238"
+
+# https://color.adobe.com/Winkni%20-%205%20Shades%20of%20Blue%20Grey-color-theme-8915268
+adobe:
+  1: "#eceff1"
+  2: "#cfd8dc"
+  3: "#b0bec5"
+  4: "#90a4ae"
+  5: "#607d8b"
