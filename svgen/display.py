@@ -48,7 +48,7 @@ class AspectRatio(NamedTuple):
 
     def rotate(self) -> "AspectRatio":
         """Get this aspect ratio rotated."""
-        return AspectRatio(self.height, self.width)
+        return AspectRatio(self.height, self.width, self.final)
 
     @property
     def over_height(self) -> float:
@@ -100,6 +100,14 @@ COMMON_SIZES = {
         AspectRatio(1920, 1920, True),
     ],
     "4:1": [AspectRatio(17280, 4320, True)],
+    # Twitter banner.
+    "3:1": [AspectRatio(1500, 500, True)],
+    # 14-inch Macbook Pro monitor.
+    "189:124": [AspectRatio(3024, 1984, True)],
+    # Facebook banner.
+    "205:78": [AspectRatio(820, 312, True)],
+    # Buy me a Coffee banner.
+    "2560:423": [AspectRatio(2560, 423, True)],
 }
 COMMON_SIZES["1:1"].extend(AspectRatio(x, x, True) for x in ICON_SIZES)
 
@@ -116,6 +124,12 @@ def common_sizes(
 
     # Look for a ratio equivalent to a known one and iterate over sizes.
     for common, sizes in COMMON_SIZES.items():
-        if AspectRatio.create(common) == ratio:
+        candidate = AspectRatio.create(common)
+        if candidate == ratio:
             for size in sizes:
                 yield size
+
+        # Check if this is a rotated version of this common ratio.
+        elif candidate.rotate() == ratio:
+            for size in sizes:
+                yield size.rotate()

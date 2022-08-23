@@ -68,4 +68,5 @@ THEMES = ColorThemeManager()
 THEMES.load_directory(resource_filename(PKG_NAME, join("data", "themes")))
 
 # Set a default theme.
-THEMES.theme = "gray"
+DEFAULT_THEME = "gray"
+THEMES.theme = DEFAULT_THEME

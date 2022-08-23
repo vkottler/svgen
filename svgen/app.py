@@ -14,6 +14,7 @@ from vcorelib.dict.config import Config
 # internal
 from svgen import PKG_NAME
 from svgen.attribute.viewbox import ViewBox
+from svgen.color.theme.manager import DEFAULT_THEME, THEMES
 from svgen.element.svg import Svg, add_background_grid
 from svgen.generation.images import generate_images
 from svgen.script import invoke_script
@@ -62,6 +63,7 @@ def initialize_config(
     config.set_if_not("scripts", [])
     config.set_if_not("grid", {})
     config.set_if_not("background", {})
+    config.set_if_not("theme", DEFAULT_THEME)
 
 
 def entry(args: argparse.Namespace) -> int:
@@ -88,6 +90,9 @@ def entry(args: argparse.Namespace) -> int:
         config = Config(original.copy())
         config.update(variant.get("data", {}))
         initialize_config(config, args.height, args.width)
+
+        # Set a theme for this variant.
+        THEMES.theme = config["theme"]
 
         # Set the output name for this variant.
         name = args.output.with_suffix("").name
