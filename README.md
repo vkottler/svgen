@@ -1,8 +1,8 @@
 <!--
     =====================================
     generator=datazen
-    version=3.0.8
-    hash=8eda4aa9836b7bb3795111cd24b0d6a5
+    version=3.0.9
+    hash=0244f1e313a9655a3f61168bfdb60e31
     =====================================
 -->
 
@@ -43,11 +43,11 @@ This utility provides a means to work on graphics with a programmatic workflow.
 # Command-line Options
 
 ```
-$ ./venv3.9/bin/svgen -h
+$ ./venv3.8/bin/svgen -h
 
 usage: svgen [-h] [--version] [-v] [-C DIR] [-c CONFIG] [--height HEIGHT]
              [--width WIDTH] [--images] [-o OUTPUT]
-             [scripts ...]
+             [scripts [scripts ...]]
 
 A tool for working with scalable vector graphics.
 
