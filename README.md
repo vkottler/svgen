@@ -1,8 +1,8 @@
 <!--
     =====================================
     generator=datazen
-    version=3.0.9
-    hash=0244f1e313a9655a3f61168bfdb60e31
+    version=3.1.0
+    hash=4602d1cd4e757de8dcc3ea2e1df74a85
     =====================================
 -->
 
@@ -32,9 +32,9 @@ This package is tested with the following Python minor versions:
 
 This package is tested on the following platforms:
 
+* `ubuntu-latest`
 * `macos-latest`
 * `windows-latest`
-* `ubuntu-latest`
 
 # Introduction
 

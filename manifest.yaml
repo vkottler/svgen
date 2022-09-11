@@ -9,19 +9,17 @@ params:
 includes:
   - config/includes/python.yaml
   - config/includes/license.yaml
-
-configs:
-  - local/configs
-
-variables:
-  - local/variables
+  - config/includes/funding.yaml
 
 templates:
   - local/templates
-  - config/templates
 
 compiles:
   - name: local
+    configs:
+      - local/configs
+    variables:
+      - local/variables
 
 renders:
   - name: README.md
@@ -32,15 +30,11 @@ renders:
       - renders-python_readme_header.md
       - renders-python_readme_dep_graph.md
 
-  - name: FUNDING.yml
-    output_dir: ".github"
-    dependencies:
-      - compiles-local
-
 groups:
   - name: all
     dependencies:
       - groups-python
       - groups-license
+      - groups-funding
       - renders-README.md
       - renders-FUNDING.yml
