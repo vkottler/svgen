@@ -29,7 +29,7 @@ def generate_icon(output_dir: Path) -> None:
 
     # Add output argument.
     args += ["-o", str(output_dir.joinpath(f"{out_name_base}.ico"))]
-    with suppress(subprocess.CalledProcessError):
+    with suppress(subprocess.CalledProcessError, FileNotFoundError):
         subprocess.run(args, check=True)
 
 
