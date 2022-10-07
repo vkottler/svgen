@@ -9,6 +9,8 @@ from typing import Union
 # internal
 from svgen.color.numbers import css_number_to_ratio
 
+Alphalike = Union[float, int, str]
+
 
 class Alpha(float):
     """A class describing the transparency of a color."""
@@ -20,7 +22,7 @@ class Alpha(float):
             return NotImplemented
         return isclose(float(self), float(other), rel_tol=1e-4, abs_tol=0.005)
 
-    def __new__(cls, val: Union[float, int, str]) -> "Alpha":
+    def __new__(cls, val: Alphalike) -> "Alpha":
         """From the provided value, get a ratio between 0.0 and 1.0."""
 
         return super().__new__(cls, css_number_to_ratio(val))

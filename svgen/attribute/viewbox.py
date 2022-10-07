@@ -3,14 +3,18 @@ svgen - A module for the 'viewBox' attribute.
 """
 
 # built-in
-from typing import NamedTuple, Union
+from typing import NamedTuple, Type, Union
+
+# third-party
+from vcorelib.dict import GenericStrDict
 
 # internal
 from svgen.attribute import Attribute
-from svgen.cartesian import Point
+from svgen.cartesian import Dimensions
 from svgen.cartesian.mutate import Translation
 from svgen.cartesian.plane import Plane
-from svgen.cartesian.rectangle import Dimensions, Rectangle
+from svgen.cartesian.point import Point
+from svgen.cartesian.rectangle import Rectangle
 from svgen.cartesian.rectangle.grid import RectangleGrid
 
 
@@ -43,7 +47,7 @@ class ViewBoxData(NamedTuple):
         )
 
     @staticmethod
-    def from_dict(data: dict) -> "ViewBoxData":
+    def from_dict(data: GenericStrDict) -> "ViewBoxData":
         """Create viewBox data from a dictionary."""
         return ViewBoxData(
             data.get("min_x", 0),
@@ -123,16 +127,16 @@ class ViewBox(Attribute):
         """Get the center point for this viewBox."""
         return self.data.center
 
-    @staticmethod
-    def decode(key: str, value: str) -> Attribute:
+    @classmethod
+    def decode(cls: Type["ViewBox"], key: str, value: str) -> "ViewBox":
         """Create this attribute from a string."""
 
         assert key == "viewBox"
         args = [int(x) for x in value.split()]
         assert len(args) == 4
-        return ViewBox(*args)
+        return cls(*args)
 
     @staticmethod
-    def from_dict(data: dict) -> "ViewBox":
+    def from_dict(data: GenericStrDict) -> "ViewBox":
         """Create a viewBox from dictionary data."""
         return ViewBox(*ViewBoxData.from_dict(data))

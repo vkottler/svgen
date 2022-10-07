@@ -4,7 +4,9 @@ svgen - A module for XML-style attribute interfaces.
 
 # built-in
 from abc import ABC, abstractmethod
-from typing import Dict, List, Union
+from typing import Dict, List, Type, TypeVar, Union
+
+T = TypeVar("T", bound="Attribute")
 
 
 class Attribute(ABC):
@@ -22,7 +24,7 @@ class Attribute(ABC):
         """Get the string key for this attribute."""
 
         if hasattr(self, "name"):
-            return getattr(self, "name")
+            return str(getattr(self, "name"))
 
         key = type(self).__name__
         return key[0].lower() + key[1:]
@@ -41,32 +43,34 @@ class Attribute(ABC):
             result = f"{self.key}={quote}{val}{quote}"
         return result
 
-    @staticmethod
+    @classmethod
     @abstractmethod
-    def decode(key: str, value: str) -> "Attribute":
+    def decode(cls: Type[T], key: str, value: str) -> T:
         """Create this attribute from a string."""
 
 
 class SimpleAttribute(Attribute):
     """A simple, concrete implementation for attribute."""
 
-    def __init__(self, name: str, value: str) -> None:
+    def __init__(self, name: str, value: Union[str, int]) -> None:
         """
         Construct a simple attribute, one with just a key (name) and value.
         """
 
         self.name = name
-        self._value = value
+        self._value = str(value)
 
     @property
     def value(self) -> str:
         """Get the string value for this attribute."""
         return self._value
 
-    @staticmethod
-    def decode(key: str, value: str) -> Attribute:
+    @classmethod
+    def decode(
+        cls: Type["SimpleAttribute"], key: str, value: str
+    ) -> "SimpleAttribute":
         """Create this attribute from a string."""
-        return SimpleAttribute(key, value)
+        return cls(key, value)
 
     @staticmethod
     def from_dict(data: Dict[str, Union[str, int, float]]) -> List[Attribute]:

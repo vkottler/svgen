@@ -3,7 +3,7 @@ svgen - A module for the 'style' attribute.
 """
 
 # built-in
-from typing import Dict, List, NamedTuple, Union
+from typing import Dict, List, NamedTuple, Type, Union
 
 # internal
 from svgen.attribute import Attribute
@@ -130,9 +130,9 @@ class Style(Attribute):
         """Get the string value for this attribute."""
         return CssProperty.encode(self.properties)
 
-    @staticmethod
-    def decode(key: str, value: str) -> Attribute:
+    @classmethod
+    def decode(cls: Type["Style"], key: str, value: str) -> "Style":
         """Create this attribute from a string."""
 
         assert key == "style"
-        return Style(CssProperty.decode(value))
+        return cls(CssProperty.decode(value))

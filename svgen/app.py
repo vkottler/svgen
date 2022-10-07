@@ -9,6 +9,7 @@ from sys import path
 from typing import Iterable, cast
 
 # third-party
+from vcorelib.dict import GenericStrDict
 from vcorelib.dict.config import Config
 
 # internal
@@ -35,7 +36,7 @@ def generate(
     if cwd_str not in path:
         path.append(cwd_str)
 
-    doc = Svg(ViewBox.from_dict(cast(dict, config)))
+    doc = Svg(ViewBox.from_dict(cast(GenericStrDict, config)))
     add_background_grid(doc, config["background"], config["grid"])
 
     # Compose the document, via the external script.

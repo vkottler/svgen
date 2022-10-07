@@ -5,6 +5,9 @@ svgen - A module for the 'svg' element.
 # built-in
 from typing import List
 
+# third-party
+from vcorelib.dict import GenericStrDict
+
 # internal
 from svgen.attribute import XMLNS, Attribute
 from svgen.attribute.viewbox import ViewBox
@@ -27,7 +30,9 @@ class Svg(Element):
         super().__init__(attrib=attrs, **extra)
 
 
-def add_background_grid(svg: Svg, background: dict, grid: dict) -> None:
+def add_background_grid(
+    svg: Svg, background: GenericStrDict, grid: GenericStrDict
+) -> None:
     """
     Add background and grid objects to an svg element, if they're specified
     in their respective configurations.

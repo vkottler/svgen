@@ -60,7 +60,7 @@ jobs:
           matrix.python-version != '3.7'
           || matrix.system != 'windows-latest'
 
-      - uses: codecov/codecov-action@master
+      - uses: codecov/codecov-action@main
         if: |
           matrix.python-version != '3.7'
           || matrix.system != 'windows-latest'
