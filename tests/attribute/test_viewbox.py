@@ -10,7 +10,8 @@ from pytest import approx
 
 # module under test
 from svgen.attribute.viewbox import ViewBox
-from svgen.cartesian import Point, distance
+from svgen.cartesian import distance
+from svgen.cartesian.point import Point
 
 
 def test_viewbox_basic():

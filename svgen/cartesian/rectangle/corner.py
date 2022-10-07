@@ -29,7 +29,7 @@ class CornerScalar(NamedTuple):
 
     def __eq__(self, other) -> bool:
         """Determine if this corner scalar is equivalent to another."""
-        return (
+        return bool(
             self.from_origin == other.from_origin
             and self.vector == other.vector
         )

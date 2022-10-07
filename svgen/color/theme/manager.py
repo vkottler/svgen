@@ -6,7 +6,7 @@ from collections import UserDict
 
 # built-in
 from os.path import join
-from typing import Dict
+from typing import Dict, MutableMapping
 
 # third-party
 from pkg_resources import resource_filename
@@ -19,7 +19,11 @@ from svgen.color import Colorlike
 from svgen.color.theme import ColorTheme, ColorToken
 
 
-class ColorThemeManager(UserDict, LoggerMixin):
+class ColorThemeManager(
+    UserDict,  # type: ignore
+    LoggerMixin,
+    MutableMapping[str, ColorTheme],
+):
     """A class for managing color themes."""
 
     def __init__(

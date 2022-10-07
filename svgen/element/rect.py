@@ -12,7 +12,8 @@ from svgen.attribute.viewbox import ViewBox
 from svgen.cartesian import UNITY
 from svgen.cartesian.mutate import Translation
 from svgen.cartesian.point import DEFAULT, Point
-from svgen.cartesian.rectangle import Rectangle, RectangleCorner
+from svgen.cartesian.rectangle import Rectangle
+from svgen.cartesian.rectangle.corner import RectangleCorner
 from svgen.cartesian.rectangle.grid import RectangleGrid
 from svgen.color import Colorlike
 from svgen.element import Element

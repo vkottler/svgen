@@ -5,9 +5,10 @@ A module for working with color themes.
 # built-in
 from collections import UserDict
 from collections.abc import Mapping
-from typing import Dict, NamedTuple, Optional, Tuple
+from typing import Dict, MutableMapping, NamedTuple, Optional, Tuple, cast
 
 # third-party
+from vcorelib.dict import GenericStrDict
 from vcorelib.io import ARBITER
 from vcorelib.namespace import Namespace, NamespaceMixin
 from vcorelib.paths import Pathlike, normalize
@@ -28,7 +29,7 @@ class ColorToken(NamedTuple):
         """Determine if a color token is equivalent to something else."""
         if hasattr(other, "color"):
             other = other.color
-        return self.color == other
+        return bool(self.color == other)
 
     def __str__(self) -> str:
         """Get this token as a color string."""
@@ -40,7 +41,11 @@ class ColorToken(NamedTuple):
         return ColorToken(str(key), Color.create(key))
 
 
-class ColorTheme(UserDict, NamespaceMixin):
+class ColorTheme(
+    UserDict,  # type: ignore
+    NamespaceMixin,
+    MutableMapping[str, Color],
+):
     """A class implementing a theme color interface."""
 
     data: ColorTokens
@@ -129,7 +134,7 @@ class ColorTheme(UserDict, NamespaceMixin):
             self.data[namespaced] = color
         return ColorToken(namespaced, color)
 
-    def add_mapping(self, data: Mapping) -> None:
+    def add_mapping(self, data: GenericStrDict) -> None:
         """Add a mapping of tokens and colors to this theme."""
 
         for key, val in data.items():
@@ -137,7 +142,7 @@ class ColorTheme(UserDict, NamespaceMixin):
             # Ensure that we recurse into dictionaries.
             if isinstance(val, Mapping):
                 with self.names_pushed(key):
-                    self.add_mapping(val)
+                    self.add_mapping(cast(GenericStrDict, val))
             else:
                 # Add leaf nodes as actual colors.
                 self.add(key, val)

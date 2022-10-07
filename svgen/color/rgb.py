@@ -8,7 +8,7 @@ svgen - Common interfaces for rgb colors. See also:
 from typing import NamedTuple
 
 # internal
-from svgen.color.alpha import DEFAULT, Alpha
+from svgen.color.alpha import DEFAULT, Alpha, Alphalike
 from svgen.color.numbers import parse_ctor
 
 
@@ -110,7 +110,7 @@ def rgb(red: int, green: int, blue: int) -> Rgb:
     return Rgb(RgbPrimitive(red), RgbPrimitive(green), RgbPrimitive(blue))
 
 
-def rgba(red: int, green: int, blue: int, alpha: float) -> Rgb:
+def rgba(red: int, green: int, blue: int, alpha: Alphalike) -> Rgb:
     """Create a new RGB color with a transparency value."""
 
     return Rgb(

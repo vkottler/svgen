@@ -177,7 +177,7 @@ class Color(NamedTuple):
     def __eq__(self, other) -> bool:
         """Determine if two colors are equal."""
         other = Color.create(other)
-        return self.rgb == other.rgb or self.hsl == other.hsl
+        return bool(self.rgb == other.rgb or self.hsl == other.hsl)
 
     @classmethod
     def from_rgb(cls, color: Rgb) -> "Color":
