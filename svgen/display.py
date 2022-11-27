@@ -90,6 +90,7 @@ COMMON_SIZES = {
         AspectRatio(1366, 768, True),
         AspectRatio(1920, 1080, True),
         AspectRatio(2560, 1440, True),
+        AspectRatio(3840, 2160, True),
     ],
     "17:9": [AspectRatio(4096, 2160, True)],
     "21:9": [AspectRatio(2560, 1080, True), AspectRatio(3440, 1440, True)],
@@ -108,6 +109,8 @@ COMMON_SIZES = {
     "205:78": [AspectRatio(820, 312, True)],
     # Buy me a Coffee banner.
     "2560:423": [AspectRatio(2560, 423, True)],
+    # Discord profile banner.
+    "680:240": [AspectRatio(680, 240, True)],
 }
 COMMON_SIZES["1:1"].extend(AspectRatio(x, x, True) for x in ICON_SIZES)
 
