@@ -8,7 +8,7 @@ on:
     branches: [master]
 
 env:
-  SECRETHUB_CREDENTIAL: ${{secrets.SECRETHUB_CREDENTIAL}}
+  TWINE_PASSWORD: ${{secrets.TWINE_PASSWORD}}
 
 jobs:
   build:
@@ -65,20 +65,11 @@ jobs:
           matrix.python-version != '3.7'
           || matrix.system != 'windows-latest'
 
-      - uses: secrethub/actions/env-export@master
-        env:
-          TWINE_PASSWORD: secrethub://vkottler/pypi/api-keys/personal-upload
-        if: |
-          matrix.python-version == '3.8'
-          && matrix.system == 'ubuntu-latest'
-          && env.SECRETHUB_CREDENTIAL != ''
-          && github.ref_name == 'master'
-
       - run: mk pypi-upload-ci
         env:
           TWINE_USERNAME: __token__
         if: |
           matrix.python-version == '3.8'
           && matrix.system == 'ubuntu-latest'
-          && env.SECRETHUB_CREDENTIAL != ''
+          && env.TWINE_PASSWORD != ''
           && github.ref_name == 'master'

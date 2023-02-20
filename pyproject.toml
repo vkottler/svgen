@@ -26,9 +26,7 @@ classifiers = [
   "Development Status :: 5 - Production/Stable",
   "License :: OSI Approved :: MIT License"
 ]
-dependencies = [
-  "vcorelib"
-]
+dynamic = ["dependencies"]
 
 [project.optional-dependencies]
 test = [
