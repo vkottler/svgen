@@ -108,6 +108,8 @@ COMMON_SIZES = {
     "205:78": [AspectRatio(820, 312, True)],
     # Buy me a Coffee banner.
     "2560:423": [AspectRatio(2560, 423, True)],
+    # Twitch banner.
+    "1200:480": [AspectRatio(1200, 480, True)],
 }
 COMMON_SIZES["1:1"].extend(AspectRatio(x, x, True) for x in ICON_SIZES)
 
