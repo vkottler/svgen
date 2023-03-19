@@ -71,7 +71,7 @@ class Rgb(NamedTuple):
         if value.startswith("#"):
             value = value[1:]
 
-        assert len(value) == 6 or len(value) == 8
+        assert len(value) == 6 or len(value) == 8, value
 
         # Parse the alpha value if present.
         alpha = DEFAULT

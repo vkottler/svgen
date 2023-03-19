@@ -6,7 +6,8 @@ from collections import UserDict
 
 # built-in
 from os.path import join
-from typing import Dict, MutableMapping
+from pathlib import Path
+from typing import Dict, MutableMapping, Set
 
 # third-party
 from pkg_resources import resource_filename
@@ -34,6 +35,7 @@ class ColorThemeManager(
         UserDict.__init__(self, initialdata if initialdata is not None else {})
         LoggerMixin.__init__(self)
         self.theme: str = theme
+        self.directories: Set[Path] = set()
 
     def __getitem__(self, key: Colorlike) -> ColorToken:
         """Attempt to get a color token based on a color key."""
@@ -63,9 +65,18 @@ class ColorThemeManager(
 
         path = normalize(path)
         assert path.is_dir(), f"'{path}' is not a directory!"
-        self.add_themes(
-            *[ColorTheme.from_path(x) for x in path.iterdir() if x.is_file()]
-        )
+
+        # Don't load directories twice.
+        path = path.resolve()
+        if path not in self.directories:
+            self.add_themes(
+                *[
+                    ColorTheme.from_path(x)
+                    for x in path.iterdir()
+                    if x.is_file()
+                ]
+            )
+            self.directories.add(path)
 
 
 THEMES = ColorThemeManager()
