@@ -30,6 +30,9 @@ def generate(
 ) -> None:
     """Generate a single SVG document."""
 
+    # Set a theme for this variant.
+    THEMES.theme = config["theme"]
+
     # Add the specified directory to the import path, so external scripts
     # can load their own dependencies.
     cwd_str = str(cwd)
@@ -91,9 +94,6 @@ def entry(args: argparse.Namespace) -> int:
         config = Config(original.copy())
         config.update(variant.get("data", {}))
         initialize_config(config, args.height, args.width)
-
-        # Set a theme for this variant.
-        THEMES.theme = config["theme"]
 
         # Set the output name for this variant.
         name = args.output.with_suffix("").name

@@ -83,6 +83,7 @@ class ColorTheme(
 
         # Always check the current namespace first.
         namespaced = self.namespace(key)
+
         if namespaced in self.data:
             result = self.data[namespaced]
             token = namespaced
