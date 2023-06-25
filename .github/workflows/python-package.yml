@@ -17,10 +17,10 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.7"
           - "3.8"
           - "3.9"
           - "3.10"
+          - "3.11"
         system:
           - ubuntu-latest
           - macos-latest
@@ -38,32 +38,20 @@ jobs:
           python-version: ${{matrix.python-version}}
           cache: pip
 
-      - run: pip${{matrix.python-version}} install vmklib
+      - run: pip${{matrix.python-version}} install vmklib>=1.8.0
 
-      - run: mk venv python-install-yamllint python-sa-types
-        if: |
-          matrix.python-version != '3.7'
-          || matrix.system != 'windows-latest'
+      - run: mk python-sa-types
 
       - name: lint and build
         run: mk python-lint python-sa yaml python-build-once
         env:
           PY_LINT_MYPY_EXTRA_ARGS: --no-incremental
-        if: |
-          matrix.python-version != '3.7'
-          || matrix.system != 'windows-latest'
 
       - run: mk python-test
         env:
           PY_TEST_EXTRA_ARGS: --cov-report=xml
-        if: |
-          matrix.python-version != '3.7'
-          || matrix.system != 'windows-latest'
 
       - uses: codecov/codecov-action@main
-        if: |
-          matrix.python-version != '3.7'
-          || matrix.system != 'windows-latest'
 
       - run: mk pypi-upload-ci
         env:

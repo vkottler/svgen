@@ -1,8 +1,9 @@
 pylint
 flake8
-pytest
-pytest-cov
-mypy
 black
+ruff
+mypy
 isort
+yamllint
 setuptools-wrapper
+pytest

@@ -1,8 +1,8 @@
 <!--
     =====================================
     generator=datazen
-    version=3.1.0
-    hash=bde00c56e321c249355c2d1fc449e235
+    version=3.1.2
+    hash=461ed4493291cfd8ca59437ed6a46b15
     =====================================
 -->
 
@@ -23,10 +23,10 @@ See also: [generated documentation](https://vkottler.github.io/python/pydoc/svge
 
 This package is tested with the following Python minor versions:
 
-* [`python3.7`](https://docs.python.org/3.7/)
 * [`python3.8`](https://docs.python.org/3.8/)
 * [`python3.9`](https://docs.python.org/3.9/)
 * [`python3.10`](https://docs.python.org/3.10/)
+* [`python3.11`](https://docs.python.org/3.11/)
 
 ## Platform Support
 
@@ -43,11 +43,11 @@ This utility provides a means to work on graphics with a programmatic workflow.
 # Command-line Options
 
 ```
-$ ./venv3.8/bin/svgen -h
+$ ./venv3.11/bin/svgen -h
 
 usage: svgen [-h] [--version] [-v] [-C DIR] [-c CONFIG] [--height HEIGHT]
              [--width WIDTH] [--images] [-o OUTPUT]
-             [scripts [scripts ...]]
+             [scripts ...]
 
 A tool for working with scalable vector graphics.
 
@@ -55,7 +55,7 @@ positional arguments:
   scripts               scripts to run for composing the SVG document (in
                         order)
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   --version             show program's version number and exit
   -v, --verbose         set to increase logging verbosity
