@@ -26,14 +26,13 @@ renders:
     output_dir: "."
     dependencies:
       - compiles-local
-      - commands-help
+      - commands-help_custom
       - renders-python_readme_header.md
       - renders-python_readme_dep_graph.md
 
 groups:
   - name: all
     dependencies:
-      - groups-python
       - groups-license
       - groups-funding
       - renders-README.md
