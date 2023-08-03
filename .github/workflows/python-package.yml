@@ -48,6 +48,11 @@ jobs:
         env:
           PY_LINT_MYPY_EXTRA_ARGS: --no-incremental
 
+      - run: mk docs
+        if: |
+          matrix.python-version == '3.11'
+          && matrix.system == 'ubuntu-latest'
+
       - run: mk python-test
         env:
           PY_TEST_EXTRA_ARGS: --cov-report=xml

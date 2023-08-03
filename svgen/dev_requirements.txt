@@ -5,5 +5,7 @@ ruff
 mypy
 isort
 yamllint
+yambs
+vmklib
 setuptools-wrapper
 pytest
