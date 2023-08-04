@@ -2,7 +2,7 @@
     =====================================
     generator=datazen
     version=3.1.2
-    hash=461ed4493291cfd8ca59437ed6a46b15
+    hash=514dafc4dcd0495868a11bfc8a12392a
     =====================================
 -->
 
@@ -16,8 +16,14 @@
 
 *A tool for working with scalable vector graphics.*
 
-See also: [generated documentation](https://vkottler.github.io/python/pydoc/svgen.html)
-(created with [`pydoc`](https://docs.python.org/3/library/pydoc.html)).
+## Documentation
+
+### Generated
+
+* By [sphinx-apidoc](https://vkottler.github.io/python/sphinx/svgen)
+(What's [`sphinx-apidoc`](https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html)?)
+* By [pydoc](https://vkottler.github.io/python/pydoc/svgen.html)
+(What's [`pydoc`](https://docs.python.org/3/library/pydoc.html)?)
 
 ## Python Version Support
 
