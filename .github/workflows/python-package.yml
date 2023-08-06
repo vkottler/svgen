@@ -70,7 +70,7 @@ jobs:
 
       - run: |
           mk python-release owner=vkottler \
-                            repo=svgen version=0.4.5
+                            repo=svgen version=0.4.6
         if: |
           matrix.python-version == '3.11'
           && matrix.system == 'ubuntu-latest'
