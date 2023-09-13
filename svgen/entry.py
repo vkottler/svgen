@@ -1,7 +1,7 @@
 # =====================================
 # generator=datazen
 # version=3.1.2
-# hash=f5f67a32a57018457ae0ec8578a0eda8
+# hash=8374925c88a1f9c88881c5f279be02eb
 # =====================================
 
 """
@@ -10,11 +10,14 @@ This package's command-line entry-point (boilerplate).
 
 # built-in
 import argparse
-import logging
+from logging import getLogger
 import os
 from pathlib import Path
 import sys
 from typing import List
+
+# third-party
+from vcorelib.logging import init_logging, log_time, logging_args
 
 # internal
 from svgen import DESCRIPTION, VERSION
@@ -38,12 +41,7 @@ def main(argv: List[str] = None) -> int:
         action="version",
         version=f"%(prog)s {VERSION}",
     )
-    parser.add_argument(
-        "-v",
-        "--verbose",
-        action="store_true",
-        help="set to increase logging verbosity",
-    )
+    logging_args(parser)
     parser.add_argument(
         "-C",
         "--dir",
@@ -63,17 +61,16 @@ def main(argv: List[str] = None) -> int:
         args.dir = args.dir.resolve()
 
         # initialize logging
-        log_level = logging.DEBUG if args.verbose else logging.INFO
-        logging.basicConfig(
-            level=log_level,
-            format="%(name)-36s - %(levelname)-6s - %(message)s",
+        init_logging(
+            args, default_format="%(name)-36s - %(levelname)-6s - %(message)s"
         )
 
         # change to the specified directory
         os.chdir(args.dir)
 
         # run the application
-        result = entry(args)
+        with log_time(getLogger(__name__), "Command"):
+            result = entry(args)
     except SystemExit as exc:
         result = 1
         if exc.code is not None and isinstance(exc.code, int):

@@ -4,7 +4,7 @@ author_info:
   email: vaughnkottler@gmail.com
   username: vkottler
 
-versions: ["3.8", "3.9", "3.10", "3.11"]
+versions: ["3.10", "3.11"]
 
 systems:
   - macos-latest

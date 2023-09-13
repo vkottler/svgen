@@ -2,11 +2,11 @@
     =====================================
     generator=datazen
     version=3.1.2
-    hash=848c4ceae1ab8dff160beff92e43bef4
+    hash=6fd28996d48d1123b761473ba0d3405f
     =====================================
 -->
 
-# svgen ([0.4.6](https://pypi.org/project/svgen/))
+# svgen ([0.4.7](https://pypi.org/project/svgen/))
 
 [![python](https://img.shields.io/pypi/pyversions/svgen.svg)](https://pypi.org/project/svgen/)
 ![Build Status](https://github.com/vkottler/svgen/workflows/Python%20Package/badge.svg)
@@ -29,8 +29,6 @@
 
 This package is tested with the following Python minor versions:
 
-* [`python3.8`](https://docs.python.org/3.8/)
-* [`python3.9`](https://docs.python.org/3.9/)
 * [`python3.10`](https://docs.python.org/3.10/)
 * [`python3.11`](https://docs.python.org/3.11/)
 
@@ -51,8 +49,9 @@ This utility provides a means to work on graphics with a programmatic workflow.
 ```
 $ ./venv3.11/bin/svgen -h
 
-usage: svgen [-h] [--version] [-v] [-C DIR] [-c CONFIG] [--height HEIGHT]
-             [--width WIDTH] [--images] [-o OUTPUT]
+usage: svgen [-h] [--version] [-v] [-q] [--curses] [--no-uvloop] [-C DIR]
+             [-c CONFIG] [--height HEIGHT] [--width WIDTH] [--images]
+             [-o OUTPUT]
              [scripts ...]
 
 A tool for working with scalable vector graphics.
@@ -65,6 +64,9 @@ options:
   -h, --help            show this help message and exit
   --version             show program's version number and exit
   -v, --verbose         set to increase logging verbosity
+  -q, --quiet           set to reduce output
+  --curses              whether or not to use curses.wrapper when starting
+  --no-uvloop           whether or not to disable uvloop as event loop driver
   -C DIR, --dir DIR     execute from a specific directory
   -c CONFIG, --config CONFIG
                         top-level configuration to load (default:

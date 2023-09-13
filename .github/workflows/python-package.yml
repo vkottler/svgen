@@ -18,8 +18,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.8"
-          - "3.9"
           - "3.10"
           - "3.11"
         system:
@@ -39,7 +37,7 @@ jobs:
           python-version: ${{matrix.python-version}}
           cache: pip
 
-      - run: pip${{matrix.python-version}} install vmklib>=1.8.0
+      - run: pip${{matrix.python-version}} install vmklib
 
       - run: mk python-sa-types
 
@@ -70,7 +68,7 @@ jobs:
 
       - run: |
           mk python-release owner=vkottler \
-                            repo=svgen version=0.4.6
+                            repo=svgen version=0.4.7
         if: |
           matrix.python-version == '3.11'
           && matrix.system == 'ubuntu-latest'
