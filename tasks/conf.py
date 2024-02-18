@@ -1,7 +1,7 @@
 # =====================================
 # generator=datazen
-# version=3.1.2
-# hash=9f62028523c3b5a953733ca89dcc3018
+# version=3.1.4
+# hash=7d378a1752611508007a77d4ca39a5af
 # =====================================
 """
 A module for project-specific task registration.
@@ -20,14 +20,9 @@ def audit_local_tasks() -> None:
     """Ensure that shared task infrastructure is present."""
 
     local = Path(__file__).parent.joinpath("mklocal")
-
-    # Also link a top-level file.
     top_level = local.parent.parent.joinpath("mklocal")
-    if not top_level.is_symlink():
-        assert not top_level.exists()
-        top_level.symlink_to(local)
 
-    if local.is_symlink():
+    if local.is_symlink() and top_level.is_symlink():
         return
 
     # If it's not a symlink, it shouldn't be any other kind of file.
@@ -47,6 +42,11 @@ def audit_local_tasks() -> None:
 
     # Create the link.
     local.symlink_to(vmklib)
+
+    # Also link a top-level file.
+    if not top_level.is_symlink():
+        assert not top_level.exists()
+        top_level.symlink_to(local)
 
 
 def register(
