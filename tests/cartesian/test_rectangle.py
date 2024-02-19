@@ -7,7 +7,7 @@ from svgen.cartesian import Dimensions
 from svgen.cartesian.mutate import Translation
 from svgen.cartesian.point import Point
 from svgen.cartesian.rectangle import Rectangle
-from svgen.cartesian.rectangle.corner import CORNERS
+from svgen.cartesian.rectangle.corner import CORNERS, CornerScalar
 
 
 def test_dimensions_basic():
@@ -48,3 +48,7 @@ def test_rectangle_corner_basic():
 
     assert CORNERS["tl"].vector_dx == 0.0
     assert CORNERS["tl"].vector_dy == 1.0
+
+    assert CornerScalar(Translation(), Translation()) == CornerScalar(
+        Translation(), Translation()
+    )
