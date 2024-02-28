@@ -128,8 +128,7 @@ def common_sizes(
     for common, sizes in COMMON_SIZES.items():
         candidate = AspectRatio.create(common)
         if candidate == ratio:
-            for size in sizes:
-                yield size
+            yield from sizes
 
         # Check if this is a rotated version of this common ratio.
         elif candidate.rotate() == ratio:

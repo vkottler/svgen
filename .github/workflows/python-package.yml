@@ -56,7 +56,7 @@ jobs:
         env:
           PY_TEST_EXTRA_ARGS: --cov-report=xml
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v3.1.5
 
       - run: mk pypi-upload-ci
         env:
@@ -69,7 +69,7 @@ jobs:
 
       - run: |
           mk python-release owner=vkottler \
-                            repo=svgen version=0.5.0
+                            repo=svgen version=0.5.1
         if: |
           matrix.python-version == '3.11'
           && matrix.system == 'ubuntu-latest'
