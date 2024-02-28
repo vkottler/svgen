@@ -83,6 +83,21 @@ class Element:
         indent_str = " " * (indent * INDENT)
         return f"{indent_str}</{self.tag}>"
 
+    def _write_text(
+        self, output: TextIO, indent_str: str, newlines: bool = True
+    ) -> None:
+        """Write the inner-text section of this element."""
+
+        if not newlines:
+            output.write(self.text)
+            return
+
+        # Increase indent one level.
+        indent_str += " " * INDENT
+        for line in self.text.splitlines():
+            output.write(indent_str + line)
+            output.write(os.linesep)
+
     def encode(
         self,
         output: TextIO,
@@ -110,12 +125,8 @@ class Element:
                 output.write(os.linesep)
 
             # Write content, if any.
-            if newlines and self.text:
-                output.write(indent_str + " " * INDENT)
             if self.text:
-                output.write(self.text)
-                if newlines:
-                    output.write(os.linesep)
+                self._write_text(output, indent_str, newlines=newlines)
 
             # Write children.
             for child in self.children:
