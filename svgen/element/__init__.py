@@ -9,7 +9,12 @@ from typing import Dict, List, TextIO, cast
 from xml.etree import ElementTree as et
 
 # internal
-from svgen.attribute import Attribute, attributes
+from svgen.attribute import (
+    Attribute,
+    AttributeValue,
+    SimpleAttribute,
+    attributes,
+)
 from svgen.attribute.style import Style
 
 INDENT: int = 2
@@ -44,6 +49,10 @@ class Element:
             self.add_attribute(attr)
 
         self.children: List[Element] = children
+
+    def __setitem__(self, tag: str, value: AttributeValue) -> None:
+        """Allow adding attributes dict-set style."""
+        self.add_attribute(SimpleAttribute(tag, value))
 
     @property
     def xml(self) -> et.Element:

@@ -43,6 +43,10 @@ def test_element_basic():
         f'test{linesep}  <svg a="b" />{linesep}</svg>{linesep}'
     )
 
+    elem["a"] = 1
+    elem["b"] = 2
+    elem["c"] = 3
+
 
 def test_element_xml():
     """Test that we can get XML elements from elements in this package."""

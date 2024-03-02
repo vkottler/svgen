@@ -49,10 +49,13 @@ class Attribute(ABC):
         """Create this attribute from a string."""
 
 
+AttributeValue = Union[str, int, float, bool]
+
+
 class SimpleAttribute(Attribute):
     """A simple, concrete implementation for attribute."""
 
-    def __init__(self, name: str, value: Union[str, int]) -> None:
+    def __init__(self, name: str, value: AttributeValue) -> None:
         """
         Construct a simple attribute, one with just a key (name) and value.
         """
@@ -81,7 +84,7 @@ class SimpleAttribute(Attribute):
 
 
 PossibleAttributes = Union[
-    Dict[str, Union[str, int, float]], List[Attribute], Attribute
+    Dict[str, AttributeValue], List[Attribute], Attribute
 ]
 
 
