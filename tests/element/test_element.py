@@ -52,8 +52,17 @@ def test_element_xml():
     """Test that we can get XML elements from elements in this package."""
 
     elem = Svg(ViewBox.decode("viewBox", "0 0 100 100"))
-    elem.children.append(Element("rect"))
+
+    rect = Element("rect")
+    elem.children.append(rect)
+
     assert et.tostring(elem.xml, encoding="unicode") == (
         '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'
         "<rect /></svg>"
+    )
+
+    rect.booleans.add("hidden")
+    rect.text = "Hello, world!"
+    assert (
+        rect.encode_str(newlines=False) == "<rect hidden>Hello, world!</rect>"
     )
