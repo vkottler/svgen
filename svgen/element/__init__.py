@@ -45,6 +45,8 @@ class Element:
         self.text = text
 
         self.attributes: Dict[str, Attribute] = {}
+        self.booleans: set[str] = set()
+
         for attr in attrib + attributes(extra):
             self.add_attribute(attr)
 
@@ -121,7 +123,9 @@ class Element:
         if newlines:
             output.write(indent_str)
 
-        attr_strs = [x.encode(quote) for x in self.attributes.values()]
+        attr_strs = [x.encode(quote) for x in self.attributes.values()] + list(
+            self.booleans
+        )
         attrs = " ".join(x for x in attr_strs if x)
         output.write(f"<{self.tag}")
         if attrs:
