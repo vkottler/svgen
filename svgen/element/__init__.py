@@ -54,7 +54,11 @@ class Element:
 
     def __setitem__(self, tag: str, value: AttributeValue) -> None:
         """Allow adding attributes dict-set style."""
-        self.add_attribute(SimpleAttribute(tag, value))
+        self.add_attribute(SimpleAttribute(tag, value), strict=False)
+
+    def __getitem__(self, tag: str) -> str:
+        """Get an attibute as a string."""
+        return self.attributes[tag].value
 
     @property
     def xml(self) -> et.Element:
@@ -77,12 +81,15 @@ class Element:
             self.add_attribute(Style())
         return cast(Style, self.attributes["style"])
 
-    def add_attribute(self, attr: Attribute) -> "Element":
+    def add_attribute(self, attr: Attribute, strict: bool = True) -> "Element":
         """Add an attribute to this element."""
-        assert (
+
+        assert not strict or (
             attr.key not in self.attributes
         ), f"This '{self.tag}' element already has attribute '{attr.key}'!"
+
         self.attributes[attr.key] = attr
+
         return self
 
     def closing(self, indent: int = 0) -> str:
