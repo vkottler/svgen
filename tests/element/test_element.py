@@ -47,6 +47,13 @@ def test_element_basic():
     elem["b"] = 2
     elem["c"] = 3
 
+    assert elem["a"] == "1"
+    assert elem["b"] == "2"
+    assert elem["c"] == "3"
+
+    elem["a"] += "2"
+    assert elem["a"] == "12"
+
 
 def test_element_xml():
     """Test that we can get XML elements from elements in this package."""
