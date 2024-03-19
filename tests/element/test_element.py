@@ -19,6 +19,9 @@ def test_element_basic():
     elem = Element("svg")
     assert elem.encode_str(newlines=False) == "<svg />"
 
+    elem.allow_no_end_tag = False
+    assert elem.encode_str(newlines=False) == "<svg></svg>"
+
     # Test an element with some content.
     elem = Element("svg", "test")
     assert elem.encode_str(newlines=False) == "<svg>test</svg>"

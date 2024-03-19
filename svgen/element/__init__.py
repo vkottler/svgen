@@ -29,6 +29,7 @@ class Element:
         text: str = "",
         attrib: List[Attribute] = None,
         children: List["Element"] = None,
+        allow_no_end_tag: bool = True,
         **extra,
     ) -> None:
         """Construct a new SVG element."""
@@ -43,6 +44,8 @@ class Element:
 
         self.tag = tag
         self.text = text
+
+        self.allow_no_end_tag = allow_no_end_tag
 
         self.attributes: Dict[str, Attribute] = {}
         self.booleans: set[str] = set()
@@ -95,11 +98,12 @@ class Element:
     def closing(self, indent: int = 0) -> str:
         """Create a string to close this element."""
 
-        if not self.text and not self.children:
-            return " />"
+        close_tag = f"</{self.tag}>"
 
-        indent_str = " " * (indent * INDENT)
-        return f"{indent_str}</{self.tag}>"
+        if not self.text and not self.children:
+            return " />" if self.allow_no_end_tag else ">" + close_tag
+
+        return (" " * (indent * INDENT)) + close_tag
 
     def _write_text(
         self, output: TextIO, indent_str: str, newlines: bool = True
