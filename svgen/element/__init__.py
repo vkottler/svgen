@@ -74,6 +74,10 @@ class Element:
 
     def __getitem__(self, tag: str) -> str:
         """Get an attibute as a string."""
+
+        if tag not in self.attributes:
+            self[tag] = ""
+
         return self.attributes[tag].value
 
     @property

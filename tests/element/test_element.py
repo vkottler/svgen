@@ -22,6 +22,9 @@ def test_element_class():
     val = elem["class"]
     assert val in {"test round", "round test"}
 
+    elem = Element(tag="div")
+    assert elem["class"] == ""
+
 
 def test_element_basic():
     """Test the element interface."""
