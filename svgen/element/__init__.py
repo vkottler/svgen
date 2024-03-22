@@ -60,12 +60,13 @@ class Element:
 
         self.children: List[Element] = children
 
-    def add_class(self, data: str) -> None:
+    def add_class(self, *data: str) -> None:
         """Add a class string."""
 
         raw = self["class"]
         classes = set(raw.split())
-        classes.add(data)
+        for item in data:
+            classes.add(item)
         self["class"] = " ".join(classes)
 
     def __setitem__(self, tag: str, value: AttributeValue) -> None:
