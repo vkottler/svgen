@@ -30,6 +30,7 @@ class Element:
         attrib: List[Attribute] = None,
         children: List["Element"] = None,
         allow_no_end_tag: bool = True,
+        class_str: str = None,
         **extra,
     ) -> None:
         """Construct a new SVG element."""
@@ -53,7 +54,19 @@ class Element:
         for attr in attrib + attributes(extra):
             self.add_attribute(attr)
 
+        # Set a 'class' attribute.
+        if class_str:
+            self["class"] = class_str
+
         self.children: List[Element] = children
+
+    def add_class(self, data: str) -> None:
+        """Add a class string."""
+
+        raw = self["class"]
+        classes = set(raw.split())
+        classes.add(data)
+        self["class"] = " ".join(classes)
 
     def __setitem__(self, tag: str, value: AttributeValue) -> None:
         """Allow adding attributes dict-set style."""

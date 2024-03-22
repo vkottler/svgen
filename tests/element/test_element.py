@@ -12,6 +12,17 @@ from svgen.element import Element
 from svgen.element.svg import Svg
 
 
+def test_element_class():
+    """Test interactions with the 'class' element attribute."""
+
+    elem = Element(tag="div", class_str="round")
+    assert elem["class"] == "round"
+
+    elem.add_class("test")
+    val = elem["class"]
+    assert val in {"test round", "round test"}
+
+
 def test_element_basic():
     """Test the element interface."""
 

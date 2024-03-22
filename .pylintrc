@@ -2,4 +2,4 @@
 good-names=p1,p2,x1,x2,y1,y2,rx,ry,cx,cy,dx,dy,x,y
 
 [DESIGN]
-max-args=6
+max-args=7
