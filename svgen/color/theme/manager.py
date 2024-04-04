@@ -2,17 +2,14 @@
 A module implementing a color-theme manager.
 """
 
-from collections import UserDict
-
 # built-in
-from os.path import join
+from collections import UserDict
 from pathlib import Path
 from typing import Dict, MutableMapping, Set
 
 # third-party
-from pkg_resources import resource_filename
 from vcorelib.logging import LoggerMixin
-from vcorelib.paths import Pathlike, normalize
+from vcorelib.paths import Pathlike, find_file, normalize
 
 # internal
 from svgen import PKG_NAME
@@ -80,7 +77,7 @@ class ColorThemeManager(
 
 
 THEMES = ColorThemeManager()
-THEMES.load_directory(resource_filename(PKG_NAME, join("data", "themes")))
+THEMES.load_directory(find_file("themes", package=PKG_NAME, strict=True))
 
 # Set a default theme.
 DEFAULT_THEME = "gray"
