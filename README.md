@@ -2,11 +2,11 @@
     =====================================
     generator=datazen
     version=3.1.4
-    hash=30d78f3303f01ea73226bdd52314b30b
+    hash=43855c2a3e9dcda53e895aecb6a7ae61
     =====================================
 -->
 
-# svgen ([0.6.5](https://pypi.org/project/svgen/))
+# svgen ([0.6.6](https://pypi.org/project/svgen/))
 
 [![python](https://img.shields.io/pypi/pyversions/svgen.svg)](https://pypi.org/project/svgen/)
 ![Build Status](https://github.com/vkottler/svgen/workflows/Python%20Package/badge.svg)
@@ -48,7 +48,7 @@ This utility provides a means to work on graphics with a programmatic workflow.
 # Command-line Options
 
 ```
-$ ./venv3.11/bin/svgen -h
+$ ./venv3.12/bin/svgen -h
 
 usage: svgen [-h] [--version] [-v] [-q] [--curses] [--no-uvloop] [-C DIR]
              [-c CONFIG] [--height HEIGHT] [--width WIDTH] [--images]

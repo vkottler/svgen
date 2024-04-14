@@ -2,6 +2,9 @@
 A module for html-related elements.
 """
 
+# built-in
+from typing import TextIO
+
 # third-party
 from vcorelib import DEFAULT_ENCODING
 
@@ -43,3 +46,25 @@ class Html(Element):
         super().__init__(
             attrib=attributes({"lang": lang}), children=[self.head, self.body]
         )
+
+    def render(self, stream: TextIO) -> None:
+        """Render a full HTML document to the stream."""
+
+        stream.write("<!DOCTYPE html>\n")
+        self.encode(stream)
+
+
+def div(
+    tag: str = "div",
+    parent: Element = None,
+    allow_no_end_tag: bool = False,
+    **kwargs,
+) -> Element:
+    """Get a new 'div' element."""
+
+    result = Element(tag=tag, allow_no_end_tag=allow_no_end_tag, **kwargs)
+
+    if parent is not None:
+        parent.children.append(result)
+
+    return result
