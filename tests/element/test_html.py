@@ -2,8 +2,11 @@
 Test the 'element.html' module.
 """
 
+# built-in
+from io import StringIO
+
 # module under test
-from svgen.element.html import Html
+from svgen.element.html import Html, div
 
 
 def test_html_basic():
@@ -11,3 +14,9 @@ def test_html_basic():
 
     doc = Html("test")
     assert doc.encode_str()
+
+    div(parent=doc.body, text="Hello, world!")
+
+    with StringIO() as stream:
+        doc.render(stream)
+        assert stream.getvalue()

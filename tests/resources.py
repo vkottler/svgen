@@ -4,23 +4,23 @@ svgen - An interface for retrieving and interacting with test data.
 
 # built-in
 from contextlib import contextmanager
-import os
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Iterator, List
-
-# third-party
-import pkg_resources
 
 # internal
 from svgen import PKG_NAME
 
 
-def get_resource(resource_name: str, *names: str, pkg: str = __name__) -> Path:
+def resource(resource_name: str, *parts: str, pkg: str = __name__) -> Path:
     """Locate the path to a test resource."""
 
-    resource_path = os.path.join("data", resource_name, *names)
-    return Path(pkg_resources.resource_filename(pkg, resource_path))
+    # Can't search in other packages.
+    assert pkg == __name__
+    return Path(__file__).parent.joinpath("data", resource_name, *parts)
+
+
+get_resource = resource
 
 
 def get_config(name: str = "sample") -> Path:
