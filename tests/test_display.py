@@ -18,3 +18,5 @@ def test_aspect_ratio_basic():
     assert list(common_sizes("5:4"))
     assert list(common_sizes("4:5"))
     assert list(common_sizes(ViewBox(0, 0, 800, 600)))
+
+    assert list(common_sizes(ViewBox(0, 0, 3440, 1440)))

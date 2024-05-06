@@ -126,11 +126,17 @@ def common_sizes(
 
     # Look for a ratio equivalent to a known one and iterate over sizes.
     for common, sizes in COMMON_SIZES.items():
-        candidate = AspectRatio.create(common)
-        if candidate == ratio:
-            yield from sizes
+        candidates = [AspectRatio.create(common)] + sizes
 
-        # Check if this is a rotated version of this common ratio.
-        elif candidate.rotate() == ratio:
-            for size in sizes:
-                yield size.rotate()
+        # Attempt to match to a common aspect ratio.
+        for candidate in candidates:
+            found = False
+            if candidate == ratio:
+                yield from sizes
+                found = True
+                break
+
+            # Check if this is a rotated version of this common ratio.
+            if not found and candidate.rotate() == ratio:
+                for size in sizes:
+                    yield size.rotate()
