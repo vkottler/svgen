@@ -58,6 +58,7 @@ def div(
     tag: str = "div",
     parent: Element = None,
     allow_no_end_tag: bool = False,
+    front: bool = False,
     **kwargs,
 ) -> Element:
     """Get a new 'div' element."""
@@ -65,6 +66,6 @@ def div(
     result = Element(tag=tag, allow_no_end_tag=allow_no_end_tag, **kwargs)
 
     if parent is not None:
-        parent.children.append(result)
+        parent.children.insert(0 if front else len(parent.children), result)
 
     return result
