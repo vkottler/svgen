@@ -15,7 +15,8 @@ def test_html_basic():
     doc = Html("test")
     assert doc.encode_str()
 
-    div(parent=doc.body, text="Hello, world!")
+    div(parent=doc.body, text="Hello, world! (front)", front=True)
+    div(parent=doc.body, text="Hello, world! (back)")
 
     with StringIO() as stream:
         doc.render(stream)
