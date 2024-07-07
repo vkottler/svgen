@@ -5,7 +5,7 @@ svgen - Common interfaces and assets for SVG elements.
 # built-in
 from io import StringIO
 import os
-from typing import Dict, List, TextIO, cast
+from typing import Dict, List, TextIO, TypeVar, cast
 from xml.etree import ElementTree as et
 
 # internal
@@ -18,6 +18,7 @@ from svgen.attribute import (
 from svgen.attribute.style import Style
 
 INDENT: int = 2
+T = TypeVar("T", bound="Element")
 
 
 class Element:
@@ -60,7 +61,7 @@ class Element:
 
         self.children: List[Element] = children
 
-    def add_class(self, *data: str) -> None:
+    def add_class(self: T, *data: str) -> T:
         """Add a class string."""
 
         raw = self["class"]
@@ -68,6 +69,8 @@ class Element:
         for item in data:
             classes.add(item)
         self["class"] = " ".join(classes)
+
+        return self
 
     def __setitem__(self, tag: str, value: AttributeValue) -> None:
         """Allow adding attributes dict-set style."""
@@ -102,7 +105,7 @@ class Element:
             self.add_attribute(Style())
         return cast(Style, self.attributes["style"])
 
-    def add_attribute(self, attr: Attribute, strict: bool = True) -> "Element":
+    def add_attribute(self: T, attr: Attribute, strict: bool = True) -> T:
         """Add an attribute to this element."""
 
         assert not strict or (
