@@ -194,6 +194,10 @@ class Color(NamedTuple):
         """Create a color from an hsl object."""
         return cls(hsl_to_rgb(color), color)
 
+    def hsl_arc(self, **kwargs) -> "Color":
+        """Get a new color based on some rotation in HSL space."""
+        return self.from_hsl(self.hsl.arc(**kwargs))
+
     @classmethod
     def from_ctor(cls, value: str) -> "Color":
         """Create a color from an hsl or rgb constructor string."""

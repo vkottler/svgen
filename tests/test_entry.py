@@ -10,6 +10,9 @@ from sys import executable
 from typing import Coroutine
 from unittest.mock import patch
 
+# third-party
+from vcorelib.platform import reconcile_platform
+
 # module under test
 from svgen import PKG_NAME
 from svgen.entry import main as svgen_main
@@ -50,3 +53,6 @@ def test_package_entry():
     """Test the command-line entry through the 'python -m' invocation."""
 
     check_output([executable, "-m", PKG_NAME, "-h"])
+
+    prog, args = reconcile_platform("mk", [PKG_NAME])
+    check_output([prog, *args])

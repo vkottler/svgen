@@ -12,3 +12,6 @@ requirements:
 dev_requirements:
   - setuptools-wrapper
   - pytest
+
+ci_local:
+  - "- run: mk python-editable"

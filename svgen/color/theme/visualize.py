@@ -14,7 +14,7 @@ from svgen.element.rect import Rect
 
 
 def visualize_theme(
-    theme: Union[ColorTheme, str], rect: Rectangle
+    theme: Union[ColorTheme, str], rect: Rectangle, columns: bool = True
 ) -> Iterator[Rect]:
     """
     Create filled rectangle elements for this theme inside another
@@ -27,16 +27,18 @@ def visualize_theme(
 
     assert isinstance(theme, ColorTheme)
     for box, color in zip(
-        RectangleGrid(rect, theme.size, 1).boxes,
+        RectangleGrid(
+            rect, theme.size if columns else 1, 1 if columns else theme.size
+        ).boxes,
         theme.data.values(),
     ):
         curr = Rect(box)
-        curr.style.add_color(color, "fill")
+        curr.assign_fill_color(color)
         yield curr
 
 
 def visualize(
-    rect: Rectangle, manager: ColorThemeManager = None
+    rect: Rectangle, manager: ColorThemeManager = None, columns: bool = True
 ) -> Iterator[Rect]:
     """Visualize all managed themes within a provided rectangle."""
 
@@ -47,4 +49,4 @@ def visualize(
         RectangleGrid(rect, 1, manager.size).boxes, manager.data.values()
     ):
         if theme is not None:
-            yield from visualize_theme(theme, box)
+            yield from visualize_theme(theme, box, columns=columns)

@@ -1,4 +1,5 @@
 ---
-a: 1
-b: 2
-c: 3
+theme: null
+variants:
+  - {name: blue_gray, data: {theme: blue_gray}}
+  - {name: gray, data: {theme: gray}}

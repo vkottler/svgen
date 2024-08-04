@@ -7,7 +7,7 @@ from math import isclose
 from typing import Union
 
 # internal
-from svgen.attribute import PossibleAttributes, SimpleAttribute, attributes
+from svgen.attribute import PossibleAttributes, attributes
 from svgen.attribute.viewbox import ViewBox
 from svgen.cartesian import UNITY
 from svgen.cartesian.mutate import Translation
@@ -16,10 +16,14 @@ from svgen.cartesian.rectangle import Rectangle
 from svgen.cartesian.rectangle.corner import RectangleCorner
 from svgen.cartesian.rectangle.grid import RectangleGrid
 from svgen.color import Colorlike
-from svgen.element import Element
+from svgen.element.mixins import (
+    FillColorMixin,
+    RadiusXyMixin,
+    RectangularMixin,
+)
 
 
-class Rect(Element):
+class Rect(FillColorMixin, RectangularMixin, RadiusXyMixin):
     """A class for rect elements."""
 
     def __init__(
@@ -32,22 +36,15 @@ class Rect(Element):
     ) -> None:
         """Construct a new rect element."""
 
-        self.rect = rect
-        self.location = self.rect.location
-        self.dimensions = self.rect.dimensions
-        self.rx = rx
-        self.ry = ry
+        RectangularMixin.__init__(self, rect)
+        RadiusXyMixin.__init__(self, rx=rx, ry=ry)
 
-        real_attrs = attributes(attrs)
-        real_attrs += [*self.location.attrs]
-        real_attrs += [*self.dimensions.attrs]
-
-        if not isclose(self.rx, 0.0):
-            real_attrs.append(SimpleAttribute("rx", str(self.rx)))
-        if not isclose(self.ry, 0.0):
-            real_attrs.append(SimpleAttribute("ry", str(self.ry)))
-
-        super().__init__(attrib=real_attrs, **extra)
+        super().__init__(
+            attrib=attributes(attrs)
+            + list(self.rect_attributes)
+            + list(self.radius_xy_attributes),
+            **extra,
+        )
 
     def corner(self, corner: RectangleCorner) -> Point:
         """Get a specific corner of a rectangle."""
