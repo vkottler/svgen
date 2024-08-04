@@ -6,7 +6,7 @@ mypy
 isort
 yamllint
 yambs
-vmklib
+vmklib>=2.0.3
 sphinx
 sphinx-book-theme
 setuptools-wrapper
