@@ -31,7 +31,7 @@ def generate(
     """Generate a single SVG document."""
 
     # Set a theme for this variant.
-    THEMES.theme = config["theme"]
+    THEMES.theme = config.data["theme"]
 
     # Add the specified directory to the import path, so external scripts
     # can load their own dependencies.

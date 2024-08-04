@@ -1,5 +1,8 @@
 [BASIC]
 good-names=p1,p2,x1,x2,y1,y2,rx,ry,cx,cy,dx,dy,x,y
 
+[MESSAGES CONTROL]
+disable=too-few-public-methods
+
 [DESIGN]
 max-args=7

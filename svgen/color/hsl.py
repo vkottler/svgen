@@ -8,28 +8,17 @@ svgen - Common interfaces for hsl colors. See also:
 from typing import NamedTuple
 
 # internal
+from svgen.cartesian.angle import DegreePrimitive, Rotatable
 from svgen.color.alpha import DEFAULT, Alpha
 from svgen.color.numbers import parse_ctor
 
 
-class DegreePrimitive(int):
-    """
-    A class to manage integer primitives for degrees within a 0 and 360 range.
-    """
-
-    def __new__(cls, val: int) -> "DegreePrimitive":
-        """Construct a new degree value."""
-        return super().__new__(cls, val % 360)
-
-
-class PercentPrimitive(int):
+class PercentPrimitive(int, Rotatable):
     """A class for integer percentages."""
 
     def __new__(cls, val: int) -> "PercentPrimitive":
         """Create a new percentage value."""
-        val = max(val, 0)
-        val = min(val, 100)
-        return super().__new__(cls, val)
+        return super().__new__(cls, min(max(val, 0), 100))
 
     def __str__(self) -> str:
         """Get this percentage as a string."""
@@ -40,6 +29,15 @@ class PercentPrimitive(int):
         """Get this percentage as a ratio between 0 and 1."""
         return float(self) / 100.0
 
+    def arc(self, count: int = 1, divisor: int = 2) -> "PercentPrimitive":
+        """Rotate this angle around the circle."""
+
+        new_val = self + round(count * (100 / divisor))
+        while new_val > 100:
+            new_val -= 100
+
+        return PercentPrimitive(new_val)
+
 
 class Hsl(NamedTuple):
     """A definition of an hsl color."""
@@ -48,6 +46,28 @@ class Hsl(NamedTuple):
     saturation: PercentPrimitive
     lightness: PercentPrimitive
     alpha: Alpha = DEFAULT
+
+    def arc(
+        self,
+        hue_count: int = 1,
+        hue_divisor: int = 1,
+        saturation_count: int = 1,
+        saturation_divisor: int = 1,
+        lightness_count: int = 1,
+        lightness_divisor: int = 1,
+    ) -> "Hsl":
+        """Rotate this angle around the circle."""
+
+        return Hsl(
+            self.hue.arc(count=hue_count, divisor=hue_divisor),
+            self.saturation.arc(
+                count=saturation_count, divisor=saturation_divisor
+            ),
+            self.lightness.arc(
+                count=lightness_count, divisor=lightness_divisor
+            ),
+            self.alpha,
+        )
 
     def __str__(self) -> str:
         """Convert this hsl color to a string."""
