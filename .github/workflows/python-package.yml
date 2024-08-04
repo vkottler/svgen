@@ -39,7 +39,7 @@ jobs:
           python-version: ${{matrix.python-version}}
           cache: pip
 
-      - run: pip${{matrix.python-version}} install vmklib
+      - run: pip${{matrix.python-version}} install vmklib>=2.0.3
 
       - run: mk python-sa-types
 
