@@ -6,3 +6,4 @@ disable=too-few-public-methods
 
 [DESIGN]
 max-args=7
+max-positional-arguments=7

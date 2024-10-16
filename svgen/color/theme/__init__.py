@@ -9,7 +9,7 @@ from typing import Dict, MutableMapping, NamedTuple, Optional, Tuple, cast
 
 # third-party
 from vcorelib.dict import GenericStrDict
-from vcorelib.io import ARBITER
+from vcorelib.io import ARBITER, DEFAULT_INCLUDES_KEY
 from vcorelib.namespace import Namespace, NamespaceMixin
 from vcorelib.paths import Pathlike, normalize
 
@@ -156,7 +156,11 @@ class ColorTheme(
         assert path.is_file(), f"No file '{path}'!"
 
         theme = ColorTheme(path.with_suffix("").name)
-        theme.add_mapping(ARBITER.decode(path, require_success=True).data)
+        theme.add_mapping(
+            ARBITER.decode(
+                path, includes_key=DEFAULT_INCLUDES_KEY, require_success=True
+            ).data
+        )
         return theme
 
     @property
