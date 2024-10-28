@@ -77,7 +77,7 @@ jobs:
 
       - run: |
           mk python-release owner=vkottler \
-                            repo=svgen version=0.7.1
+                            repo=svgen version=0.7.2
         if: |
           matrix.python-version == '3.12'
           && matrix.system == 'ubuntu-latest'
