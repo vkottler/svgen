@@ -1,7 +1,7 @@
 # =====================================
 # generator=datazen
 # version=3.1.4
-# hash=6d153dc423cef1450e9b2cd28628b27c
+# hash=2c50dc726c2b9ac8def8ad8b6a415bc8
 # =====================================
 
 """
@@ -19,7 +19,7 @@ from svgen import DESCRIPTION, PKG_NAME, VERSION
 
 author_info = {
     "name": "Vaughn Kottler",
-    "email": "vaughnkottler@gmail.com",
+    "email": "vaughn@libre-embedded.com",
     "username": "vkottler",
 }
 pkg_info = {
@@ -28,8 +28,8 @@ pkg_info = {
     "version": VERSION,
     "description": DESCRIPTION,
     "versions": [
-        "3.11",
         "3.12",
+        "3.13",
     ],
 }
 setup(
