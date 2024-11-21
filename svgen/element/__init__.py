@@ -32,6 +32,7 @@ class Element:
         children: List["Element"] = None,
         allow_no_end_tag: bool = True,
         class_str: str = None,
+        preformatted: bool = False,
         **extra,
     ) -> None:
         """Construct a new SVG element."""
@@ -51,6 +52,8 @@ class Element:
 
         self.attributes: Dict[str, Attribute] = {}
         self.booleans: set[str] = set()
+
+        self.preformatted = preformatted
 
         for attr in attrib + attributes(extra):
             self.add_attribute(attr)
@@ -124,14 +127,18 @@ class Element:
         if not self.text and not self.children:
             return " />" if self.allow_no_end_tag else ">" + close_tag
 
-        return (" " * (indent * INDENT)) + close_tag
+        return (
+            close_tag
+            if self.preformatted
+            else (" " * (indent * INDENT)) + close_tag
+        )
 
     def _write_text(
         self, output: TextIO, indent_str: str, newlines: bool = True
     ) -> None:
         """Write the inner-text section of this element."""
 
-        if not newlines:
+        if not newlines or self.preformatted:
             output.write(self.text)
             return
 
@@ -152,7 +159,7 @@ class Element:
 
         # Indent will matter if we want lines.
         indent_str = " " * (indent * INDENT)
-        if newlines:
+        if newlines and not self.preformatted:
             output.write(indent_str)
 
         attr_strs = [x.encode(quote) for x in self.attributes.values()] + list(
