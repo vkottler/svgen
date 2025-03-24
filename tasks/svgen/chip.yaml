@@ -7,17 +7,23 @@ symbol: {color: scss.gray-300}
 circle: {color: scss.gray-500}
 
 variants:
-  - name: light
+  - name: light-circle
     data:
       background: {color: scss.light}
       scale: &scale 0.66667
 
   - name: dark
     data:
-      scale: *scale
-      symbol: &dark_symbol {color: scss.gray-400}
+      symbol: &dark_symbol {color: scss.gray-500}
       circle: &dark_circle {color: scss.gray-800}
       background: &dark_background {color: scss.dark}
+
+  - name: dark-circle
+    data:
+      scale: *scale
+      symbol: *dark_symbol
+      circle: *dark_circle
+      background: *dark_background
 
   - name: 16x10
     data:
