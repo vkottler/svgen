@@ -1,0 +1,62 @@
+---
+theme: bootstrap
+
+body: {color: scss.dark}
+pins: {color: scss.gray-700}
+symbol: {color: scss.gray-300}
+circle: {color: scss.gray-500}
+
+variants:
+  - name: light
+    data:
+      background: {color: scss.light}
+      scale: &scale 0.66667
+
+  - name: dark
+    data:
+      scale: *scale
+      symbol: &dark_symbol {color: scss.gray-400}
+      circle: &dark_circle {color: scss.gray-800}
+      background: &dark_background {color: scss.dark}
+
+  - name: 16x10
+    data:
+      width: 1920
+      height: 1200
+      columns: 3
+      rows: 2
+      scale: *scale
+      symbol: *dark_symbol
+      circle: *dark_circle
+      background: *dark_background
+      at_coordinate:
+        "0":
+          "1": {circle: {color: scss.gray-600}}
+        "1":
+          "0": {circle: {color: scss.gray-600}}
+        "2":
+          "1": {circle: {color: scss.gray-600}}
+
+  - name: 21x9
+    data:
+      width: 3440
+      height: 1440
+      columns: 5
+      rows: 3
+      scale: *scale
+      symbol: *dark_symbol
+      circle: *dark_circle
+      background: *dark_background
+      at_coordinate:
+        "0":
+          "1": {circle: {color: scss.gray-600}}
+        "1":
+          "0": {circle: {color: scss.gray-600}}
+          "2": {circle: {color: scss.gray-600}}
+        "2":
+          "1": {circle: {color: scss.gray-600}}
+        "3":
+          "0": {circle: {color: scss.gray-600}}
+          "2": {circle: {color: scss.gray-600}}
+        "4":
+          "1": {circle: {color: scss.gray-600}}
