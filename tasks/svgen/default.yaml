@@ -1,13 +1,14 @@
 ---
 theme: null
 variants:
-  - {name: blue_gray_primary, data: {theme: blue_gray_primary}}
-  - {name: blue_gray_complementary, data: {theme: blue_gray_complementary}}
-  - {name: blue_gray_analogous1, data: {theme: blue_gray_analogous1}}
-  - {name: blue_gray_analogous2, data: {theme: blue_gray_analogous2}}
-  - {name: blue_gray_triadic1, data: {theme: blue_gray_triadic1}}
-  - {name: blue_gray_triadic2, data: {theme: blue_gray_triadic2}}
+  # - {name: blue_gray_primary, data: {theme: blue_gray_primary}}
+  # - {name: blue_gray_complementary, data: {theme: blue_gray_complementary}}
+  # - {name: blue_gray_analogous1, data: {theme: blue_gray_analogous1}}
+  # - {name: blue_gray_analogous2, data: {theme: blue_gray_analogous2}}
+  # - {name: blue_gray_triadic1, data: {theme: blue_gray_triadic1}}
+  # - {name: blue_gray_triadic2, data: {theme: blue_gray_triadic2}}
 
-  - {name: blue_gray, data: {theme: blue_gray}}
+  # - {name: blue_gray, data: {theme: blue_gray}}
 
-  - {name: gray, data: {theme: gray}}
+  # - {name: gray, data: {theme: gray}}
+  - {name: bootstrap, data: {theme: bootstrap}}
