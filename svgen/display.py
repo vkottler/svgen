@@ -119,7 +119,7 @@ COMMON_SIZES["1:1"].extend(AspectRatio(x, x, True) for x in ICON_SIZES)
 
 
 def common_sizes(
-    ratio: Union[str, AspectRatio, ViewBox]
+    ratio: Union[str, AspectRatio, ViewBox],
 ) -> Iterator[AspectRatio]:
     """Iterate over common sizes for a given aspect ratio."""
 

@@ -59,7 +59,7 @@ class CssProperty(NamedTuple):
 
     @staticmethod
     def from_dict(
-        data: Dict[str, Union[str, int, float]]
+        data: Dict[str, Union[str, int, float]],
     ) -> List["CssProperty"]:
         """Get a list of attributes from dictionary data."""
         return [CssProperty(key, str(value)) for key, value in data.items()]
